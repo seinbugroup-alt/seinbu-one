@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="fr">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" />
+    <meta name="theme-color" content="#000A1A" />
+    <meta name="description" content="SEINBU ONE — La super-app de l'Afrique souveraine. Finance, Logistique, Immobilier, Agriculture, Santé, Télécoms et plus — propulsé par Pi Network." />
+
+    <!-- Open Graph / WhatsApp / Telegram -->
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="SEINBU ONE — La super-app africaine" />
+    <meta property="og:description" content="12 modules, 1 app. Finance · Logistique · Immobilier · Agriculture · Pi Network · Zone UEMOA" />
+    <meta property="og:url" content="https://seinbu-one.vercel.app" />
+
+    <!-- Twitter -->
+    <meta name="twitter:card" content="summary" />
+    <meta name="twitter:title" content="SEINBU ONE" />
+    <meta name="twitter:description" content="La super-app de l'Afrique souveraine — propulsée par Pi Network" />
+
+    <!-- Pi Network -->
+    <script src="https://sdk.minepi.com/pi-sdk.js"></script>
+
+    <title>SEINBU ONE</title>
+
+    <style>
+      * { box-sizing: border-box; margin: 0; padding: 0; }
+      body {
+        background: #000A1A;
+        color: #D0DCFF;
+        font-family: 'Sora', -apple-system, BlinkMacSystemFont, sans-serif;
+        overflow-x: hidden;
+        -webkit-tap-highlight-color: transparent;
+      }
+      #root { min-height: 100dvh; }
+      /* Splash screen */
+      #splash {
+        position: fixed; inset: 0;
+        background: #000A1A;
+        display: flex; flex-direction: column;
+        align-items: center; justify-content: center;
+        z-index: 9999;
+        transition: opacity 0.5s ease;
+      }
+      #splash.hide { opacity: 0; pointer-events: none; }
+      #splash-logo {
+        font-size: 32px; font-weight: 900;
+        color: #D4A827; letter-spacing: 2px;
+        margin-bottom: 8px;
+      }
+      #splash-sub {
+        font-size: 11px; color: #2A4080;
+        letter-spacing: 1px;
+      }
+      #splash-bar {
+        width: 120px; height: 2px;
+        background: rgba(212,168,39,0.2);
+        border-radius: 2px; margin-top: 24px;
+        overflow: hidden;
+      }
+      #splash-progress {
+        height: 100%; width: 0%;
+        background: #D4A827;
+        border-radius: 2px;
+        animation: load 1.2s ease forwards;
+      }
+      @keyframes load {
+        0%   { width: 0%; }
+        100% { width: 100%; }
+      }
+    </style>
+  </head>
+  <body>
+    <!-- Splash screen -->
+    <div id="splash">
+      <div id="splash-logo">SEINBU ONE</div>
+      <div id="splash-sub">SEINBU GROUP SA · Abidjan, CI</div>
+      <div id="splash-bar">
+        <div id="splash-progress"></div>
+      </div>
+    </div>
+
+    <div id="root"></div>
+
+    <script>
+      // Hide splash after load
+      window.addEventListener('load', function() {
+        setTimeout(function() {
+          var splash = document.getElementById('splash');
+          if (splash) {
+            splash.classList.add('hide');
+            setTimeout(function() { splash.remove(); }, 600);
+          }
+        }, 1400);
+      });
+    </script>
+  </body>
+</html>
