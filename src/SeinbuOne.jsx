@@ -443,6 +443,7 @@ export default function SeinbuOne() {
   const [curr,   setCurr]   = useState("FCFA");
   const [piOn,   setPiOn]   = useState(false);
   const [piUser, setPiUser] = useState(null);
+  const [piToken, setPiToken] = useState(null);
   const [piDemo, setPiDemo] = useState(false);
   const [showC,  setShowC]  = useState(false);
   const [showL,  setShowL]  = useState(false);
