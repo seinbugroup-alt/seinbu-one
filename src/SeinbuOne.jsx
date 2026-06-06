@@ -517,7 +517,7 @@ export default function SeinbuOne() {
           try {
             await fetch(`${CAPITAL_API}/payments/approve`, {
               method:"POST",
-              headers:{"Content-Type":"application/json","Authorization":`Bearer ${piToken}`},
+              headers:{"Content-Type":"application/json"},
               body: JSON.stringify({ paymentId: pid })
             });
           } catch(e){ console.error("Approve error:", e); }
@@ -527,7 +527,7 @@ export default function SeinbuOne() {
           try {
             await fetch(`${CAPITAL_API}/payments/complete`, {
               method:"POST",
-              headers:{"Content-Type":"application/json","Authorization":`Bearer ${piToken}`},
+              headers:{"Content-Type":"application/json"},
               body: JSON.stringify({ paymentId: pid, txid })
             });
           } catch(e){ console.error("Complete error:", e); }
