@@ -1,3 +1,4 @@
+/* global PublicKeyCredential */
 import { useState, useEffect, useRef } from "react";
 import SeinbuFintech    from "./SEINBU_FINTECH_module";
 import SeinbuTelecom    from "./SEINBU_TELECOM_module";
@@ -145,7 +146,7 @@ const I18N = {
     appName:"SEINBU ONE", tagline:"La super-app de l'Afrique souveraine",
     poweredBy:"par SEINBU TELECOM · Abidjan, CI",
     // Auth
-    welcome:"Bonjour, Pionnier", connectPi:"Connexion Pi", connected:"Pi connecté",
+    welcome:"Bonjour, Pionnier", handlePiConnect:"Connexion Pi", connected:"Pi connecté",
     piDemo:"Mode démo", connectPrompt:"Connectez votre wallet Pi",
     connectSub:"GCV — $314,159/Pi · 200 000+ Pionniers CI",
     // Nav
@@ -230,7 +231,7 @@ const I18N = {
   en:{
     appName:"SEINBU ONE", tagline:"The sovereign African super-app",
     poweredBy:"by SEINBU TELECOM · Abidjan, CI",
-    welcome:"Hello, Pioneer", connectPi:"Pi Login", connected:"Pi connected",
+    welcome:"Hello, Pioneer", handlePiConnect:"Pi Login", connected:"Pi connected",
     piDemo:"Demo mode", connectPrompt:"Connect your Pi wallet",
     connectSub:"GCV — $314,159/Pi · 200,000+ CI Pioneers",
     home:"Home", modules:"Modules", wallet:"Wallet",
@@ -509,8 +510,11 @@ const [showPin,   setShowPin]   = useState(false);
   
   // Détection biométrie WebAuthn
   useEffect(() => {
+    // eslint-disable-next-line no-undef
     if (typeof PublicKeyCredential !== "undefined" &&
+        // eslint-disable-next-line no-undef
         PublicKeyCredential.isUserVerifyingPlatformAuthenticatorAvailable) {
+      // eslint-disable-next-line no-undef
       PublicKeyCredential.isUserVerifyingPlatformAuthenticatorAvailable()
         .then(ok => setBioAvailable(ok))
         .catch(() => setBioAvailable(false));
@@ -714,7 +718,7 @@ const [showPin,   setShowPin]   = useState(false);
               border:`1px solid ${piOn?"rgba(42,157,96,.4)":"rgba(212,168,39,.3)"}`,
               borderRadius:8,padding:"5px 8px",fontSize:9,fontWeight:800,
               color:piOn?"#5DD490":C.gold,display:"flex",alignItems:"center",gap:3}}>
-            π {piOn?i.connected:i.connectPi}
+            π {piOn?i.connected:i.handlePiConnect}
           </div>
           {showC&&<div onClick={e=>e.stopPropagation()} style={{position:"absolute",top:42,right:82,
             background:C.card2,border:`1px solid ${C.border}`,borderRadius:12,padding:6,
@@ -1886,14 +1890,14 @@ const [showPin,   setShowPin]   = useState(false);
             window._seinbuAuthCallback();
             delete window._seinbuAuthCallback;
           } else {
-            await connectPi();
+            await handlePiConnect();
           }
         }
       } else {
         // Vérifier
         const ok = await verifyBiometric();
         if (ok) {
-          await connectPi();
+          await handlePiConnect();
           setShowPin(false);
           setPinInput("");
         }
@@ -1911,7 +1915,7 @@ const [showPin,   setShowPin]   = useState(false);
         localStorage.setItem("seinbu_pin", pinInput);
         setPinStored(pinInput);
         setPinInput(""); setPinError("");
-        await connectPi(); setShowPin(false);
+        await handlePiConnect(); setShowPin(false);
       } else {
         if (pinInput === pinStored) {
           setPinInput(""); setPinError(""); setShowPin(false);
@@ -1919,7 +1923,7 @@ const [showPin,   setShowPin]   = useState(false);
             window._seinbuAuthCallback();
             delete window._seinbuAuthCallback;
           } else {
-            await connectPi();
+            await handlePiConnect();
           }
         } else {
           setPinError(lang==="en"?"Incorrect PIN":"PIN incorrect");
