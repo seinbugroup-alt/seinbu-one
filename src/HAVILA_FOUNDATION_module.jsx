@@ -83,6 +83,7 @@ const fmt = (n, d = 0) =>
   new Intl.NumberFormat("fr-FR", { maximumFractionDigits: d }).format(n);
 
 export default function HavilaFoundation({ lang = "fr" }) {
+  // eslint-disable-next-line no-unused-vars
   const T = useT("havila", lang);
   const [tab, setTab]         = useState("dashboard");
   const [donAmount, setDonAmount] = useState("");

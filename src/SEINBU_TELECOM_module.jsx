@@ -50,6 +50,7 @@ const CALL_PACKS = [
 const fmt = (n, d=0) => new Intl.NumberFormat("fr-FR",{maximumFractionDigits:d}).format(n);
 
 export default function SeinbuTelecom({ lang = "fr" }) {
+  // eslint-disable-next-line no-unused-vars
   const T = useT("telecom", lang);
   const [tab, setTab]         = useState("recharge");
   const [operator, setOp]     = useState("orange");

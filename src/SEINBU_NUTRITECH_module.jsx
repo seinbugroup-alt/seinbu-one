@@ -73,6 +73,7 @@ const fmt = (n, d = 0) =>
 const MARQUES = ["Tout", "Vestige 🪷", "Longrich 🇨🇳", "Arvea 🇫🇷", "AFRICA 🌍"];
 
 export default function SeinbuNutriTech({ lang = "fr" }) {
+  // eslint-disable-next-line no-unused-vars
   const T = useT("nutritech", lang);
   const [tab, setTab]       = useState("dashboard");
   const [filtre, setFiltre] = useState("Tout");

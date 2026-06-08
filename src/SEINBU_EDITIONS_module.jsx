@@ -90,6 +90,7 @@ const ORDERS = [
 ];
 
 export default function SeinbuEditions({ lang = "fr" }) {
+  // eslint-disable-next-line no-unused-vars
   const T = useT("editions", lang);
   const [tab, setTab]       = useState("librairie");
   const [selected, setSel]  = useState(null);

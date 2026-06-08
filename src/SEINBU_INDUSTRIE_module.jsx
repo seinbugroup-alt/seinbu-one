@@ -73,6 +73,7 @@ const ENERGY_PROJECTS = [
 ];
 
 export default function SeinbuIndustrie({ lang = "fr" }) {
+  // eslint-disable-next-line no-unused-vars
   const T = useT("industrie", lang);
   const [tab, setTab]     = useState("overview");
   const [selV, setSelV]   = useState(null);

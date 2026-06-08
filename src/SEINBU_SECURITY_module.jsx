@@ -53,6 +53,7 @@ const CERTS = [
 const fmt = n => new Intl.NumberFormat("fr-FR").format(n);
 
 export default function SeinbuSecurity({ lang = "fr" }) {
+  // eslint-disable-next-line no-unused-vars
   const T = useT("security", lang);
   const [tab, setTab] = useState("kyc");
   const [kycStarted, setKycStarted] = useState(false);

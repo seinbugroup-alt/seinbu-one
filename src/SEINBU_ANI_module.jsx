@@ -61,6 +61,7 @@ const fmt = (n, d = 0) =>
   new Intl.NumberFormat("fr-FR", { maximumFractionDigits: d }).format(n);
 
 export default function SeinbuANI({ lang = "fr" }) {
+  // eslint-disable-next-line no-unused-vars
   const T = useT("ani", lang);
   const [tab, setTab]           = useState("dashboard");
   const [selectedPlt, setSelectedPlt] = useState(null);

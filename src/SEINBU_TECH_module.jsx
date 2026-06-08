@@ -115,6 +115,7 @@ const ENERGY = [
 ];
 
 export default function SeinbuTech({ lang = "fr" }) {
+  // eslint-disable-next-line no-unused-vars
   const T = useT("tech", lang);
   const [tab, setTab]       = useState("rd");
   const [selected, setSel]  = useState(null);
