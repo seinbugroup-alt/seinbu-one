@@ -101,6 +101,7 @@ export default function SeinbuFintech({ lang = "fr" }) {
   const T = useT("fintech", lang);
   const [tab, setTab] = useState("dashboard");
   const [pendingAction, setPendingAction] = useState(null);
+  // eslint-disable-next-line no-unused-vars
   const [authPending,  setAuthPending]  = useState(null); // tx en attente d'auth
   const [convFrom, setConvFrom] = useState("pi");
   const [convAmount, setConvAmount] = useState("");

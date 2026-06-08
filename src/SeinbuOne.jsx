@@ -542,6 +542,7 @@ const [showPin,   setShowPin]   = useState(false);
       }
     };
     return () => { delete window.seinbuAuth; };
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [bioAvailable, bioRegistered, pinStored]);
 
 
