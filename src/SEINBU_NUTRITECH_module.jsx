@@ -18,7 +18,7 @@ const C = {
 
 // ── Données mock ──────────────────────────────────────────────────
 const MOCK = {
-  piGCV:       314159,
+  piGCV: 188495400,
   sbcRate:     10,
   distributeurs: 3840,
   targetDist:    10000,

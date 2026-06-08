@@ -373,10 +373,10 @@ const TIERS = [
   {tier:"PLATINE",color:"#E2E8F0",min:1000,max:null,rate:13},
 ];
 const SUBS = [
-  {name:"STARTER",  pi:"0.00008",fcfa:"25 000", c:5,  h:0,  color:"#5A7BA8"},
-  {name:"PRIME",    pi:"0.00015",fcfa:"45 000", c:15, h:3,  color:"#D4A827",pop:true},
-  {name:"BUSINESS", pi:"0.0003", fcfa:"90 000", c:50, h:-1, color:"#F97316"},
-  {name:"CORPORATE",pi:"0.001",  fcfa:"300 000",c:-1, h:-1, color:"#DC2626"},
+  {name:"STARTER",  pi:"0.000133",fcfa:"25 000", c:5,  h:0,  color:"#5A7BA8"},
+  {name:"PRIME",    pi:"0.000239",fcfa:"45 000", c:15, h:3,  color:"#D4A827",pop:true},
+  {name:"BUSINESS", pi:"0.000477", fcfa:"90 000", c:50, h:-1, color:"#F97316"},
+  {name:"CORPORATE",pi:"0.001592",  fcfa:"300 000",c:-1, h:-1, color:"#DC2626"},
 ];
 const RELAYS = [
   {name:"Angré",            zone:"Cocody",       km:"2.1 km",  hrs:"7h–21h"},

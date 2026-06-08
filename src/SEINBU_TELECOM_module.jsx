@@ -23,28 +23,28 @@ const OPERATORS = [
 ];
 
 const CREDIT_PACKS = [
-  { amount:500,   pi:0.000027, label:"500 FCFA",   popular:false },
-  { amount:1000,  pi:0.000053, label:"1 000 FCFA", popular:false },
-  { amount:2000,  pi:0.000106, label:"2 000 FCFA", popular:true  },
-  { amount:5000,  pi:0.000265, label:"5 000 FCFA", popular:false },
-  { amount:10000, pi:0.000530, label:"10 000 FCFA",popular:false },
-  { amount:20000, pi:0.001060, label:"20 000 FCFA",popular:false },
+  { amount:500,   pi:3e-06, label:"500 FCFA",   popular:false },
+  { amount:1000,  pi:5e-06, label:"1 000 FCFA", popular:false },
+  { amount:2000,  pi:1.1e-05, label:"2 000 FCFA", popular:true  },
+  { amount:5000,  pi:2.7e-05, label:"5 000 FCFA", popular:false },
+  { amount:10000, pi:5.3e-05, label:"10 000 FCFA",popular:false },
+  { amount:20000, pi:0.000106, label:"20 000 FCFA",popular:false },
 ];
 
 const DATA_PACKS = [
-  { id:"d1",  name:"Starter",    data:"500 Mo",  duration:"24h",  price:500,   pi:0.000027, color:"#3B82F6",  icon:"📶", features:["Réseaux sociaux","WhatsApp","Navigation"] },
-  { id:"d2",  name:"Daily",      data:"1 Go",    duration:"24h",  price:1000,  pi:0.000053, color:"#8B5CF6",  icon:"⚡", features:["Streaming SD","Appels VoIP","Email"] },
-  { id:"d3",  name:"Weekly",     data:"5 Go",    duration:"7j",   price:3000,  pi:0.000159, color:"#0891B2",  icon:"📡", features:["Streaming HD","Téléchargements","Gaming"] },
-  { id:"d4",  name:"Monthly",    data:"20 Go",   duration:"30j",  price:8000,  pi:0.000424, color:"#059669",  icon:"🌐", features:["Ultra HD","Cloud backup","Hotspot"] },
-  { id:"d5",  name:"Pro",        data:"50 Go",   duration:"30j",  price:15000, pi:0.000795, color:"#D97706",  icon:"🚀", features:["Illimité réseaux","Hotspot 10 appareils","5G prioritaire"] },
-  { id:"d6",  name:"Infinity",   data:"Illimité",duration:"30j",  price:25000, pi:0.001326, color:"#DC2626",  icon:"♾️", features:["Vraiment illimité","5G max","Roaming UEMOA"] },
+  { id:"d1",  name:"Starter",    data:"500 Mo",  duration:"24h",  price:500,   pi:3e-06, color:"#3B82F6",  icon:"📶", features:["Réseaux sociaux","WhatsApp","Navigation"] },
+  { id:"d2",  name:"Daily",      data:"1 Go",    duration:"24h",  price:1000,  pi:5e-06, color:"#8B5CF6",  icon:"⚡", features:["Streaming SD","Appels VoIP","Email"] },
+  { id:"d3",  name:"Weekly",     data:"5 Go",    duration:"7j",   price:3000,  pi:1.6e-05, color:"#0891B2",  icon:"📡", features:["Streaming HD","Téléchargements","Gaming"] },
+  { id:"d4",  name:"Monthly",    data:"20 Go",   duration:"30j",  price:8000,  pi:4.2e-05, color:"#059669",  icon:"🌐", features:["Ultra HD","Cloud backup","Hotspot"] },
+  { id:"d5",  name:"Pro",        data:"50 Go",   duration:"30j",  price:15000, pi:8e-05, color:"#D97706",  icon:"🚀", features:["Illimité réseaux","Hotspot 10 appareils","5G prioritaire"] },
+  { id:"d6",  name:"Infinity",   data:"Illimité",duration:"30j",  price:25000, pi:0.000133, color:"#DC2626",  icon:"♾️", features:["Vraiment illimité","5G max","Roaming UEMOA"] },
 ];
 
 const CALL_PACKS = [
-  { id:"c1", name:"100 min",  dest:"Tous réseaux CI",  duration:"30j", price:2000,  pi:0.000106, icon:"📞" },
-  { id:"c2", name:"300 min",  dest:"Tous réseaux CI",  duration:"30j", price:5000,  pi:0.000265, icon:"📞" },
-  { id:"c3", name:"Illimité", dest:"Réseau SEINBU",    duration:"30j", price:3000,  pi:0.000159, icon:"🔊" },
-  { id:"c4", name:"Intl 30 min", dest:"UEMOA + France",duration:"30j", price:10000, pi:0.000530, icon:"🌍" },
+  { id:"c1", name:"100 min",  dest:"Tous réseaux CI",  duration:"30j", price:2000,  pi:1.1e-05, icon:"📞" },
+  { id:"c2", name:"300 min",  dest:"Tous réseaux CI",  duration:"30j", price:5000,  pi:2.7e-05, icon:"📞" },
+  { id:"c3", name:"Illimité", dest:"Réseau SEINBU",    duration:"30j", price:3000,  pi:1.6e-05, icon:"🔊" },
+  { id:"c4", name:"Intl 30 min", dest:"UEMOA + France",duration:"30j", price:10000, pi:5.3e-05, icon:"🌍" },
 ];
 
 const fmt = (n, d=0) => new Intl.NumberFormat("fr-FR",{maximumFractionDigits:d}).format(n);

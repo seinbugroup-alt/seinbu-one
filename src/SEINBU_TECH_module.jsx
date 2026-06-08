@@ -70,10 +70,10 @@ const AI_SERVICES = [
 ];
 
 const STARTUPS = [
-  { name:"AgroTech CI",     sector:"AgriTech",    stage:"Seed",     funding:"5M FCFA",  pi:"0.00027", flag:"🌱" },
-  { name:"PayPi Africa",    sector:"FinTech",     stage:"Series A", funding:"50M FCFA", pi:"0.00265", flag:"💳" },
-  { name:"EduPi",           sector:"EdTech",      stage:"Seed",     funding:"8M FCFA",  pi:"0.00042", flag:"📚" },
-  { name:"HealthPi CI",     sector:"HealthTech",  stage:"Idée",     funding:"2M FCFA",  pi:"0.00011", flag:"🏥" },
+  { name:"AgroTech CI",     sector:"AgriTech",    stage:"Seed",     funding:"5M FCFA",  pi:"0.0265", flag:"🌱" },
+  { name:"PayPi Africa",    sector:"FinTech",     stage:"Series A", funding:"50M FCFA", pi:"0.2653", flag:"💳" },
+  { name:"EduPi",           sector:"EdTech",      stage:"Seed",     funding:"8M FCFA",  pi:"0.0424", flag:"📚" },
+  { name:"HealthPi CI",     sector:"HealthTech",  stage:"Idée",     funding:"2M FCFA",  pi:"0.0106", flag:"🏥" },
 ];
 
 const SOLUTIONS = [

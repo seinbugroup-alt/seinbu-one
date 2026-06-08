@@ -18,12 +18,12 @@ const C = {
 
 // ── Données mock ──────────────────────────────────────────────────
 const MOCK = {
-  piGCV:       314159,
+  piGCV: 188495400,
   sbcRate:     10,
 
   ressources2026: 70,   // M FCFA
   beneficiaires:  1240,
-  donsPi:         "4 850 π",
+  donsPi:         "0.3714 π",
   walletPi:       "GBXHK…7M4Q",
 
   repartition: [
