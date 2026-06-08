@@ -20,7 +20,7 @@ const MOCK = {
   sbcBalance:  450,
   piBalance:   1247.83,
   sbcRate:     10,        // FCFA par SBC
-  piGCV:       314159,    // USD par Pi × 600 = FCFA
+  piGCV:      188495400,    // USD par Pi × 600 = FCFA
   txns: [
     { id:"TXN001", type:"buy",   amount:100,  currency:"SBC", date:"06/06/2026", status:"ok" },
     { id:"TXN002", type:"stake", amount:200,  currency:"SBC", date:"05/06/2026", status:"ok" },
@@ -197,7 +197,7 @@ export default function SeinbuFintech({ lang = "fr" }) {
             <div style={{
               display: "flex", gap: 8, marginTop: 16,
             }}>
-              {["Envoyer","Recevoir","Échanger"].map(a => (
+              {[{T.send||"Envoyer"},{T.receive||"Recevoir"},{T.exchange||"Échanger"}].map(a => (
                 <div key={a} style={{
                   flex: 1, background: "rgba(255,255,255,.15)",
                   borderRadius: 8, padding: "6px 4px",
@@ -211,10 +211,10 @@ export default function SeinbuFintech({ lang = "fr" }) {
           {/* Stats */}
           <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 10, marginBottom: 16 }}>
             {[
-              { label:"SBC en staking", value:"200 SBC", sub:"Palier ARGENT", icon:"📈", color:C.primary },
-              { label:"Gains ce mois", value:"+20 SBC", sub:"Rendement 10%", icon:"💰", color:C.green },
-              { label:"Pi disponibles", value:`${fmt(MOCK.piBalance,2)} π`, sub:"≈ 235 Mds FCFA", icon:"π", color:C.gold },
-              { label:"Transactions", value:"4", sub:"Ce mois", icon:"📋", color:C.light },
+              { label:T.stakingLabel||"SBC en staking", value:"200 SBC", sub:"Palier ARGENT", icon:"📈", color:C.primary },
+              { label:T.gainsLabel||"Gains ce mois", value:"+20 SBC", sub:"Rendement 10%", icon:"💰", color:C.green },
+              { label:T.piAvailable||"Pi disponibles", value:`${fmt(MOCK.piBalance,2)} π`, sub:"≈ 235 Mds FCFA", icon:"π", color:C.gold },
+              { label:"Transactions", value:"4", sub:T.thisMonth||"Ce mois", icon:"📋", color:C.light },
             ].map(s => (
               <div key={s.label} style={{
                 background: C.card,
@@ -262,7 +262,7 @@ export default function SeinbuFintech({ lang = "fr" }) {
       {tab === "convert" && (
         <div style={{ padding: "20px 16px" }}>
           <div style={{ fontSize: 16, fontWeight: 800, marginBottom: 16 }}>
-            🔄 Convertir
+            🔄 {T.convertTitle||"Convertir"}
           </div>
 
           {/* Bannière Pioneer Exchange Pool */}
@@ -367,7 +367,7 @@ export default function SeinbuFintech({ lang = "fr" }) {
       {tab === "staking" && (
         <div style={{ padding: "20px 16px" }}>
           <div style={{ fontSize: 16, fontWeight: 800, marginBottom: 4 }}>
-            📈 Staking SBC
+            📈 {T.stakingTitle||"Staking SBC"}
           </div>
           <div style={{ fontSize: 11, color: C.muted, marginBottom: 16 }}>
             Stakez vos SBC et gagnez des rendements jusqu'à 25%/an
