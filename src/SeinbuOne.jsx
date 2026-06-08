@@ -1149,7 +1149,7 @@ export default function SeinbuOne() {
           boxShadow:"0 0 30px rgba(42,157,96,.3)"}}>A</div>
         <div style={{fontSize:16,fontWeight:900}}>{piUser?.username || "Pioneer"}</div>
         <div style={{fontSize:9,color:C.sub,marginTop:2}}>
-          {lang==="fr"?"{piUser?.uid ? `π Pioneer · ${piUser.username}` : "π Pioneer · SEINBU ONE"}":"Founder & CEO · SEINBU GROUP"}
+                {piUser ? `Fondateur & PDG · @${piUser.username}` : "Fondateur & PDG · SEINBU GROUP"}
         </div>
         {piOn&&<div style={{marginTop:8,display:"inline-flex",alignItems:"center",gap:4,
           background:"rgba(42,157,96,.12)",border:"1px solid rgba(42,157,96,.3)",
