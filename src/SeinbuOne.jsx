@@ -1200,7 +1200,7 @@ export default function SeinbuOne() {
       {[["🌍",lang==="fr"?"Langue":"Language",lang.toUpperCase()],
         ["💱",lang==="fr"?"Devise":"Currency",curr],
         ["π","Pi",piOn?`${lang==="fr"?"Connecté":"Connected"} ✓`:`${lang==="fr"?"Non connecté":"Not connected"}`],
-        ["📱",lang==="fr"?"Version":"Version","SEINBU ONE v3.0 · 2026"],
+        ["📱",lang==="fr"?"Version":"Version","SEINBU ONE v3.0.0"],
         ["📋",lang==="fr"?"Filiales":"Subsidiaries","12 modules"],
       ].map(([ico,lbl,val])=>(
         <Cd key={lbl} s={{padding:"11px 14px",marginBottom:7,
@@ -1208,7 +1208,7 @@ export default function SeinbuOne() {
           <div style={{display:"flex",alignItems:"center",gap:8}}>
             <span style={{fontSize:14}}>{ico}</span>
             <span style={{fontSize:11,fontWeight:600}}>{lbl}</span>
-          </div>
+          </div><div style={{fontSize:8,color:"#3A5A8A",marginTop:2}}>{lang==="en"?"Updated: June 8, 2026":"Mis à jour : 08 juin 2026"}</div>
           <span style={{fontSize:11,color:C.gold,fontWeight:700}}>{val}</span>
         </>}/>
       ))}
