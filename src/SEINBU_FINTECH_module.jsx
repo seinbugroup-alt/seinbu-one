@@ -17,15 +17,15 @@ const C = {
 
 // ── Données mock ──────────────────────────────────────────────────
 const MOCK = {
-  sbcBalance:  450,
+  sbcBalance:   25000000,
   piBalance:   1247.83,
   sbcRate:     10,        // FCFA par SBC
   piGCV:      188495400,    // USD par Pi × 600 = FCFA
   txns: [
-    { id:"TXN001", type:"buy",   amount:100,  currency:"SBC", date:"06/06/2026", status:"ok" },
-    { id:"TXN002", type:"stake", amount:200,  currency:"SBC", date:"05/06/2026", status:"ok" },
+    { id:"TXN001", type:"buy",   amount:5000000,  currency:"SBC", date:"06/06/2026", status:"ok" },
+    { id:"TXN002", type:"stake", amount:10000000,  currency:"SBC", date:"05/06/2026", status:"ok" },
     { id:"TXN003", type:"send",  amount:0.5,  currency:"Pi",  date:"04/06/2026", status:"ok" },
-    { id:"TXN004", type:"buy",   amount:150,  currency:"SBC", date:"03/06/2026", status:"pending" },
+    { id:"TXN004", type:"buy",   amount:2500000,  currency:"SBC", date:"03/06/2026", status:"pending" },
   ],
   staking: [
     { tier:"BRONZE",  rate:"5%",  duration:"30j",  minSBC:100,  color:"#CD7F32" },
@@ -242,10 +242,10 @@ export default function SeinbuFintech({ lang = "fr" }) {
           {/* Stats */}
           <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 10, marginBottom: 16 }}>
             {[
-              { label:T.stakingLabel||"SBC en staking", value:"200 SBC", sub:"Palier ARGENT", icon:"📈", color:C.primary },
-              { label:T.gainsLabel||"Gains ce mois", value:"+20 SBC", sub:"Rendement 10%", icon:"💰", color:C.green },
+              { label:T.stakingLabel||"SBC en staking", value:"10 000 000 SBC", sub:lang==="en"?"SILVER tier":lang==="en"?"GOLD tier":"Palier OR", icon:"📈", color:C.primary },
+              { label:T.gainsLabel||"Gains ce mois", value:"+1 200 000 SBC", sub:lang==="en"?"10% yield":"Rendement 12%", icon:"💰", color:C.green },
               { label:T.piAvailable||"Pi disponibles", value:`${fmt(MOCK.piBalance,2)} π`, sub:"≈ 235 Mds FCFA", icon:"π", color:C.gold },
-              { label:"Transactions", value:"4", sub:T.thisMonth||"Ce mois", icon:"📋", color:C.light },
+              { label:"Transactions", value:"4", sub:T.thisMonth||lang==="en"?"This month":"Ce mois", icon:"📋", color:C.light },
             ].map(s => (
               <div key={s.label} style={{
                 background: C.card,
@@ -269,7 +269,7 @@ export default function SeinbuFintech({ lang = "fr" }) {
             borderRadius: 12, padding: 14,
           }}>
             <div style={{ fontSize: 11, color: C.muted, marginBottom: 10, fontWeight: 700 }}>
-              TAUX EN TEMPS RÉEL
+              {lang==="en"?"LIVE RATES":"TAUX EN TEMPS RÉEL"}
             </div>
             {[
               { label:"1 SBC", value:"10 FCFA", color:C.primary },

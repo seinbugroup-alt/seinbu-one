@@ -848,7 +848,7 @@ export default function SeinbuOne() {
               </div>
               <div style={{textAlign:"right"}}>
                 <div style={{fontSize:8,color:C.sub,marginBottom:4}}>{i.sbcBalance}</div>
-                <div style={{fontSize:14,fontWeight:900,color:"#9F7AEA"}}>450 SBC</div>
+                <div style={{fontSize:14,fontWeight:900,color:"#9F7AEA"}}>25 000 000 SBC</div>
                 <div style={{fontSize:9,color:C.sub}}>≈ {fc(4500)}</div>
               </div>
             </div>
@@ -1022,7 +1022,7 @@ export default function SeinbuOne() {
         justifyContent:"space-between",alignItems:"center"}} ch={<>
         <div>
           <div style={{fontSize:8,color:C.sub,letterSpacing:1,marginBottom:4}}>SEINBU COIN (SBC)</div>
-          <div style={{fontSize:20,fontWeight:900,color:"#9F7AEA"}}>450 SBC</div>
+          <div style={{fontSize:20,fontWeight:900,color:"#9F7AEA"}}>25 000 000 SBC</div>
         </div>
         <div style={{textAlign:"right"}}>
           <div style={{fontSize:9,color:C.sub}}>
@@ -1147,9 +1147,9 @@ export default function SeinbuOne() {
           margin:"0 auto 10px",display:"flex",alignItems:"center",
           justifyContent:"center",fontSize:26,fontWeight:900,color:"white",
           boxShadow:"0 0 30px rgba(42,157,96,.3)"}}>A</div>
-        <div style={{fontSize:16,fontWeight:900}}>KOUASSI Alexandre</div>
+        <div style={{fontSize:16,fontWeight:900}}>{piUser?.displayName || piUser?.username || (piDemo?"Pioneer Demo":"SEINBU Pioneer")}</div>
         <div style={{fontSize:9,color:C.sub,marginTop:2}}>
-          {lang==="fr"?"Fondateur & PDG · SEINBU GROUP":"Founder & CEO · SEINBU GROUP"}
+          {lang==="fr"?"{piUser?.uid ? `π Pioneer · ${piUser.username}` : "π Pioneer · SEINBU ONE"}":"Founder & CEO · SEINBU GROUP"}
         </div>
         {piOn&&<div style={{marginTop:8,display:"inline-flex",alignItems:"center",gap:4,
           background:"rgba(42,157,96,.12)",border:"1px solid rgba(42,157,96,.3)",
@@ -1158,12 +1158,30 @@ export default function SeinbuOne() {
         </div>}
       </div>
       <Cd s={{padding:14,marginBottom:12}} ch={<>
-        <div style={{fontSize:10,fontWeight:800,color:C.gold,marginBottom:10}}>
-          ✦ {lang==="fr"?"À propos de SEINBU GROUP":"About SEINBU GROUP"}
-        </div>
+        <div style={{
+              background: C.card,
+              border: `1px solid ${C.border}`,
+              borderRadius: 12, padding: "14px 16px",
+              marginBottom: 10,
+              display: "flex", justifyContent: "space-between",
+              alignItems: "center", cursor: "pointer",
+            }} onClick={() => window.open("https://seinbugroup.com","_blank")}>
+              <div style={{ display:"flex", alignItems:"center", gap:10 }}>
+                <span style={{ fontSize:18 }}>🌐</span>
+                <div>
+                  <div style={{ fontSize:12, fontWeight:700 }}>
+                    {lang==="en"?"About SEINBU GROUP":"À propos de SEINBU GROUP"}
+                  </div>
+                  <div style={{ fontSize:9, color:C.sub }}>
+                    seinbugroup.com
+                  </div>
+                </div>
+              </div>
+              <span style={{ color:C.sub, fontSize:14 }}>›</span>
+            </div>
         <div style={{fontSize:10,color:C.sub,lineHeight:1.6,marginBottom:10}}>
           {lang==="fr"
-            ?"Conglomérat ivoirien à vocation mondiale fondé par KOUASSI Alexandre Désiré Alley et KOUAMÉ Yao Yéboua. Ancré dans la foi biblique, inspiré par les valeurs de famille, de souveraineté africaine et d'innovation technologique."
+            ?"Conglomérat ivoirien à vocation mondiale fondé par {piUser?.displayName || piUser?.username || (piDemo?"Pioneer Demo":"SEINBU Pioneer")} Désiré Alley et KOUAMÉ Yao Yéboua. Ancré dans la foi biblique, inspiré par les valeurs de famille, de souveraineté africaine et d'innovation technologique."
             :"Ivorian conglomerate with global ambition, founded by KOUASSI Alexandre Désiré Alley and KOUAMÉ Yao Yéboua. Rooted in biblical faith, inspired by family values, African sovereignty and technological innovation."}
         </div>
         <div style={{fontSize:9,color:"#5DD490",fontStyle:"italic"}}>
