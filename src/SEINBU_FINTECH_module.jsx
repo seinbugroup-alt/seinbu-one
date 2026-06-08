@@ -1,0 +1,490 @@
+import { useState } from "react";
+
+// ── Couleurs SEINBU FINTECH ───────────────────────────────────────
+const C = {
+  bg:       "#0A0118",
+  card:     "#110228",
+  border:   "#2D1060",
+  primary:  "#7C3AED",
+  light:    "#A855F7",
+  gold:     "#D4A827",
+  green:    "#10B981",
+  red:      "#EF4444",
+  text:     "#E2D9F3",
+  muted:    "#6B4FA0",
+};
+
+// ── Données mock ──────────────────────────────────────────────────
+const MOCK = {
+  sbcBalance:  450,
+  piBalance:   1247.83,
+  sbcRate:     10,        // FCFA par SBC
+  piGCV:       314159,    // USD par Pi × 600 = FCFA
+  txns: [
+    { id:"TXN001", type:"buy",   amount:100,  currency:"SBC", date:"06/06/2026", status:"ok" },
+    { id:"TXN002", type:"stake", amount:200,  currency:"SBC", date:"05/06/2026", status:"ok" },
+    { id:"TXN003", type:"send",  amount:0.5,  currency:"Pi",  date:"04/06/2026", status:"ok" },
+    { id:"TXN004", type:"buy",   amount:150,  currency:"SBC", date:"03/06/2026", status:"pending" },
+  ],
+  staking: [
+    { tier:"BRONZE",  rate:"5%",  duration:"30j",  minSBC:100,  color:"#CD7F32" },
+    { tier:"ARGENT",  rate:"10%", duration:"90j",  minSBC:500,  color:"#A8A9AD" },
+    { tier:"OR",      rate:"15%", duration:"180j", minSBC:1000, color:"#D4A827" },
+    { tier:"DIAMANT", rate:"25%", duration:"730j", minSBC:5000, color:"#B9F2FF" },
+  ],
+};
+
+const fmt = (n, decimals=0) =>
+  new Intl.NumberFormat("fr-FR", { maximumFractionDigits: decimals }).format(n);
+
+export default function SeinbuFintech() {
+  const [tab, setTab] = useState("dashboard");
+  const [convFrom, setConvFrom] = useState("pi");
+  const [convAmount, setConvAmount] = useState("");
+  const [mmMethod, setMmMethod] = useState("orange");
+
+  const sbcFromPi = convFrom === "pi"
+    ? (parseFloat(convAmount)||0) * MOCK.piGCV / MOCK.sbcRate
+    : (parseFloat(convAmount)||0) / MOCK.sbcRate;
+
+  const tabs = [
+    { id:"dashboard", label:"Dashboard", icon:"📊" },
+    { id:"convert",   label:"Convertir", icon:"🔄" },
+    { id:"staking",   label:"Staking",   icon:"📈" },
+    { id:"mobile",    label:"Mobile",    icon:"📱" },
+    { id:"history",   label:"Historique",icon:"📋" },
+  ];
+
+  const mmProviders = [
+    { id:"orange", name:"Orange Money", color:"#FF6B00", icon:"🟠" },
+    { id:"mtn",    name:"MTN MoMo",     color:"#FFCB05", icon:"🟡" },
+    { id:"wave",   name:"Wave",         color:"#009FE3", icon:"🔵" },
+    { id:"moov",   name:"Moov Money",   color:"#00A651", icon:"🟢" },
+  ];
+
+  return (
+    <div style={{
+      background: C.bg,
+      minHeight: "100vh",
+      color: C.text,
+      fontFamily: "'Segoe UI', sans-serif",
+      paddingBottom: 80,
+    }}>
+
+      {/* ── Header ─────────────────────────────────────────── */}
+      <div style={{
+        background: `linear-gradient(135deg, ${C.primary}22, ${C.bg})`,
+        borderBottom: `1px solid ${C.border}`,
+        padding: "16px 20px",
+        display: "flex",
+        alignItems: "center",
+        gap: 12,
+      }}>
+        <div style={{
+          width: 40, height: 40, borderRadius: 10,
+          background: `linear-gradient(135deg, ${C.primary}, ${C.light})`,
+          display: "flex", alignItems: "center", justifyContent: "center",
+          fontSize: 18,
+        }}>💳</div>
+        <div>
+          <div style={{ fontWeight: 800, fontSize: 16, letterSpacing: 1 }}>
+            SEINBU FINTECH
+          </div>
+          <div style={{ fontSize: 10, color: C.muted }}>
+            Finance Numérique · SBC Coin · Mobile Money
+          </div>
+        </div>
+        <div style={{
+          marginLeft: "auto",
+          background: `${C.primary}22`,
+          border: `1px solid ${C.primary}`,
+          borderRadius: 20,
+          padding: "4px 12px",
+          fontSize: 11,
+          color: C.light,
+        }}>Testnet</div>
+      </div>
+
+      {/* ── Dashboard ──────────────────────────────────────── */}
+      {tab === "dashboard" && (
+        <div style={{ padding: "20px 16px" }}>
+
+          {/* Carte SBC */}
+          <div style={{
+            background: `linear-gradient(135deg, ${C.primary}CC, #4C1D95)`,
+            borderRadius: 20,
+            padding: 20,
+            marginBottom: 16,
+            position: "relative",
+            overflow: "hidden",
+          }}>
+            <div style={{
+              position: "absolute", top: -30, right: -30,
+              width: 120, height: 120, borderRadius: "50%",
+              background: "rgba(255,255,255,.05)",
+            }} />
+            <div style={{ fontSize: 11, opacity: .7, marginBottom: 6 }}>
+              SOLDE SBC COIN
+            </div>
+            <div style={{ fontSize: 36, fontWeight: 900, letterSpacing: -1 }}>
+              {fmt(MOCK.sbcBalance)} <span style={{ fontSize: 18 }}>SBC</span>
+            </div>
+            <div style={{ fontSize: 13, opacity: .8, marginTop: 4 }}>
+              ≈ {fmt(MOCK.sbcBalance * MOCK.sbcRate)} FCFA
+            </div>
+            <div style={{
+              display: "flex", gap: 8, marginTop: 16,
+            }}>
+              {["Envoyer","Recevoir","Échanger"].map(a => (
+                <div key={a} style={{
+                  flex: 1, background: "rgba(255,255,255,.15)",
+                  borderRadius: 8, padding: "6px 4px",
+                  textAlign: "center", fontSize: 10, fontWeight: 700,
+                  cursor: "pointer",
+                }}>{a}</div>
+              ))}
+            </div>
+          </div>
+
+          {/* Stats */}
+          <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 10, marginBottom: 16 }}>
+            {[
+              { label:"SBC en staking", value:"200 SBC", sub:"Palier ARGENT", icon:"📈", color:C.primary },
+              { label:"Gains ce mois", value:"+20 SBC", sub:"Rendement 10%", icon:"💰", color:C.green },
+              { label:"Pi disponibles", value:`${fmt(MOCK.piBalance,2)} π`, sub:"≈ 235 Mds FCFA", icon:"π", color:C.gold },
+              { label:"Transactions", value:"4", sub:"Ce mois", icon:"📋", color:C.light },
+            ].map(s => (
+              <div key={s.label} style={{
+                background: C.card,
+                border: `1px solid ${C.border}`,
+                borderRadius: 12,
+                padding: "14px 12px",
+              }}>
+                <div style={{ fontSize: 18, marginBottom: 4 }}>{s.icon}</div>
+                <div style={{ fontSize: 18, fontWeight: 800, color: s.color }}>
+                  {s.value}
+                </div>
+                <div style={{ fontSize: 9, color: C.muted, marginTop: 2 }}>{s.label}</div>
+                <div style={{ fontSize: 9, color: C.muted }}>{s.sub}</div>
+              </div>
+            ))}
+          </div>
+
+          {/* Taux */}
+          <div style={{
+            background: C.card, border: `1px solid ${C.border}`,
+            borderRadius: 12, padding: 14,
+          }}>
+            <div style={{ fontSize: 11, color: C.muted, marginBottom: 10, fontWeight: 700 }}>
+              TAUX EN TEMPS RÉEL
+            </div>
+            {[
+              { label:"1 SBC", value:"10 FCFA", color:C.primary },
+              { label:"1 π",   value:`${fmt(MOCK.piGCV)} FCFA`, color:C.gold },
+              { label:"1 π",   value:`${fmt(MOCK.piGCV/MOCK.sbcRate)} SBC`, color:C.light },
+            ].map(r => (
+              <div key={r.label} style={{
+                display: "flex", justifyContent: "space-between",
+                alignItems: "center", padding: "6px 0",
+                borderBottom: `1px solid ${C.border}`,
+              }}>
+                <span style={{ fontSize: 12, fontWeight: 700 }}>{r.label}</span>
+                <span style={{ fontSize: 12, color: r.color, fontWeight: 700 }}>= {r.value}</span>
+              </div>
+            ))}
+          </div>
+        </div>
+      )}
+
+      {/* ── Convertir ──────────────────────────────────────── */}
+      {tab === "convert" && (
+        <div style={{ padding: "20px 16px" }}>
+          <div style={{ fontSize: 16, fontWeight: 800, marginBottom: 16 }}>
+            🔄 Convertir
+          </div>
+
+          {/* Toggle */}
+          <div style={{
+            display: "flex", background: C.card,
+            border: `1px solid ${C.border}`, borderRadius: 12,
+            padding: 4, marginBottom: 20,
+          }}>
+            {[
+              { id:"pi",   label:"Pi → SBC" },
+              { id:"fcfa", label:"FCFA → SBC" },
+            ].map(t => (
+              <div key={t.id}
+                onClick={() => setConvFrom(t.id)}
+                style={{
+                  flex: 1, textAlign: "center", padding: "8px 0",
+                  borderRadius: 10, fontSize: 13, fontWeight: 700, cursor: "pointer",
+                  background: convFrom === t.id ? C.primary : "transparent",
+                  color: convFrom === t.id ? "#fff" : C.muted,
+                  transition: "all .2s",
+                }}
+              >{t.label}</div>
+            ))}
+          </div>
+
+          {/* Input */}
+          <div style={{
+            background: C.card, border: `1px solid ${C.border}`,
+            borderRadius: 12, padding: 16, marginBottom: 12,
+          }}>
+            <div style={{ fontSize: 10, color: C.muted, marginBottom: 6 }}>
+              MONTANT ({convFrom === "pi" ? "π" : "FCFA"})
+            </div>
+            <input
+              type="number"
+              value={convAmount}
+              onChange={e => setConvAmount(e.target.value)}
+              placeholder="0.00"
+              style={{
+                background: "transparent", border: "none", outline: "none",
+                color: C.text, fontSize: 28, fontWeight: 800,
+                width: "100%", letterSpacing: -1,
+              }}
+            />
+          </div>
+
+          {/* Flèche */}
+          <div style={{ textAlign: "center", fontSize: 20, margin: "8px 0" }}>⬇️</div>
+
+          {/* Résultat */}
+          <div style={{
+            background: `${C.primary}22`,
+            border: `1px solid ${C.primary}`,
+            borderRadius: 12, padding: 16, marginBottom: 20,
+          }}>
+            <div style={{ fontSize: 10, color: C.muted, marginBottom: 6 }}>
+              VOUS RECEVREZ (SBC)
+            </div>
+            <div style={{ fontSize: 28, fontWeight: 800, color: C.light }}>
+              {fmt(sbcFromPi, 2)} <span style={{ fontSize: 16 }}>SBC</span>
+            </div>
+            <div style={{ fontSize: 10, color: C.muted, marginTop: 4 }}>
+              ≈ {fmt(sbcFromPi * MOCK.sbcRate)} FCFA
+            </div>
+          </div>
+
+          <div style={{
+            background: `linear-gradient(135deg, ${C.primary}, ${C.light})`,
+            borderRadius: 12, padding: "14px 0",
+            textAlign: "center", fontSize: 14, fontWeight: 800,
+            cursor: "pointer", letterSpacing: 1,
+          }}>
+            CONVERTIR MAINTENANT
+          </div>
+        </div>
+      )}
+
+      {/* ── Staking ────────────────────────────────────────── */}
+      {tab === "staking" && (
+        <div style={{ padding: "20px 16px" }}>
+          <div style={{ fontSize: 16, fontWeight: 800, marginBottom: 4 }}>
+            📈 Staking SBC
+          </div>
+          <div style={{ fontSize: 11, color: C.muted, marginBottom: 16 }}>
+            Stakez vos SBC et gagnez des rendements jusqu'à 25%/an
+          </div>
+
+          {MOCK.staking.map(s => (
+            <div key={s.tier} style={{
+              background: C.card,
+              border: `1px solid ${C.border}`,
+              borderRadius: 14, padding: 16, marginBottom: 12,
+            }}>
+              <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
+                <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
+                  <div style={{
+                    width: 36, height: 36, borderRadius: 10,
+                    background: `${s.color}33`,
+                    border: `2px solid ${s.color}`,
+                    display: "flex", alignItems: "center", justifyContent: "center",
+                    fontSize: 14, fontWeight: 800, color: s.color,
+                  }}>{s.tier[0]}</div>
+                  <div>
+                    <div style={{ fontWeight: 800, fontSize: 13, color: s.color }}>
+                      {s.tier}
+                    </div>
+                    <div style={{ fontSize: 10, color: C.muted }}>
+                      Min. {fmt(s.minSBC)} SBC · {s.duration}
+                    </div>
+                  </div>
+                </div>
+                <div style={{ textAlign: "right" }}>
+                  <div style={{ fontSize: 20, fontWeight: 900, color: s.color }}>
+                    {s.rate}
+                  </div>
+                  <div style={{ fontSize: 9, color: C.muted }}>/ an</div>
+                </div>
+              </div>
+              <div style={{
+                marginTop: 12,
+                background: `${s.color}22`,
+                border: `1px solid ${s.color}44`,
+                borderRadius: 8, padding: "8px 12px",
+                textAlign: "center", fontSize: 12, fontWeight: 700,
+                color: s.color, cursor: "pointer",
+              }}>
+                Staker maintenant →
+              </div>
+            </div>
+          ))}
+        </div>
+      )}
+
+      {/* ── Mobile Money ───────────────────────────────────── */}
+      {tab === "mobile" && (
+        <div style={{ padding: "20px 16px" }}>
+          <div style={{ fontSize: 16, fontWeight: 800, marginBottom: 4 }}>
+            📱 Mobile Money
+          </div>
+          <div style={{ fontSize: 11, color: C.muted, marginBottom: 16 }}>
+            Rechargez ou retirez via Mobile Money CI
+          </div>
+
+          {/* Providers */}
+          <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 10, marginBottom: 20 }}>
+            {mmProviders.map(p => (
+              <div key={p.id}
+                onClick={() => setMmMethod(p.id)}
+                style={{
+                  background: mmMethod === p.id ? `${p.color}22` : C.card,
+                  border: `2px solid ${mmMethod === p.id ? p.color : C.border}`,
+                  borderRadius: 12, padding: "14px 10px",
+                  textAlign: "center", cursor: "pointer",
+                  transition: "all .2s",
+                }}>
+                <div style={{ fontSize: 24, marginBottom: 4 }}>{p.icon}</div>
+                <div style={{ fontSize: 11, fontWeight: 700 }}>{p.name}</div>
+              </div>
+            ))}
+          </div>
+
+          {/* Formulaire */}
+          <div style={{
+            background: C.card, border: `1px solid ${C.border}`,
+            borderRadius: 12, padding: 16, marginBottom: 12,
+          }}>
+            <div style={{ fontSize: 10, color: C.muted, marginBottom: 6 }}>
+              NUMÉRO {mmProviders.find(p=>p.id===mmMethod)?.name.toUpperCase()}
+            </div>
+            <input
+              placeholder="+225 07 XX XX XX"
+              style={{
+                background: "transparent", border: "none", outline: "none",
+                color: C.text, fontSize: 20, fontWeight: 700, width: "100%",
+              }}
+            />
+          </div>
+
+          <div style={{
+            background: C.card, border: `1px solid ${C.border}`,
+            borderRadius: 12, padding: 16, marginBottom: 20,
+          }}>
+            <div style={{ fontSize: 10, color: C.muted, marginBottom: 6 }}>
+              MONTANT (FCFA)
+            </div>
+            <input
+              type="number"
+              placeholder="5 000"
+              style={{
+                background: "transparent", border: "none", outline: "none",
+                color: C.text, fontSize: 20, fontWeight: 700, width: "100%",
+              }}
+            />
+          </div>
+
+          <div style={{
+            background: `linear-gradient(135deg, ${C.primary}, ${C.light})`,
+            borderRadius: 12, padding: "14px 0",
+            textAlign: "center", fontSize: 14, fontWeight: 800,
+            cursor: "pointer", letterSpacing: 1, marginBottom: 10,
+          }}>
+            RECHARGER EN SBC
+          </div>
+          <div style={{
+            border: `2px solid ${C.primary}`,
+            borderRadius: 12, padding: "12px 0",
+            textAlign: "center", fontSize: 14, fontWeight: 800,
+            cursor: "pointer", letterSpacing: 1, color: C.light,
+          }}>
+            RETIRER EN MOBILE MONEY
+          </div>
+        </div>
+      )}
+
+      {/* ── Historique ─────────────────────────────────────── */}
+      {tab === "history" && (
+        <div style={{ padding: "20px 16px" }}>
+          <div style={{ fontSize: 16, fontWeight: 800, marginBottom: 16 }}>
+            📋 Historique
+          </div>
+          {MOCK.txns.map(t => (
+            <div key={t.id} style={{
+              background: C.card, border: `1px solid ${C.border}`,
+              borderRadius: 12, padding: "12px 14px", marginBottom: 10,
+              display: "flex", alignItems: "center", gap: 12,
+            }}>
+              <div style={{
+                width: 36, height: 36, borderRadius: 10,
+                background: t.type==="buy" ? `${C.green}22` : t.type==="stake" ? `${C.primary}22` : `${C.gold}22`,
+                display: "flex", alignItems: "center", justifyContent: "center",
+                fontSize: 16,
+              }}>
+                {t.type==="buy"?"💰":t.type==="stake"?"📈":"📤"}
+              </div>
+              <div style={{ flex: 1 }}>
+                <div style={{ fontSize: 13, fontWeight: 700 }}>
+                  {t.type==="buy"?"Achat SBC":t.type==="stake"?"Staking":"Envoi Pi"}
+                </div>
+                <div style={{ fontSize: 10, color: C.muted }}>{t.date} · {t.id}</div>
+              </div>
+              <div style={{ textAlign: "right" }}>
+                <div style={{
+                  fontSize: 14, fontWeight: 800,
+                  color: t.type==="send" ? C.red : C.green,
+                }}>
+                  {t.type==="send"?"-":"+"}{t.amount} {t.currency}
+                </div>
+                <div style={{
+                  fontSize: 9, fontWeight: 700,
+                  color: t.status==="ok" ? C.green : C.gold,
+                }}>
+                  {t.status==="ok"?"✓ Confirmé":"⏳ En attente"}
+                </div>
+              </div>
+            </div>
+          ))}
+        </div>
+      )}
+
+      {/* ── Bottom Nav ─────────────────────────────────────── */}
+      <div style={{
+        position: "fixed", bottom: 0, left: 0, right: 0,
+        background: C.card,
+        borderTop: `1px solid ${C.border}`,
+        display: "flex",
+      }}>
+        {tabs.map(t => (
+          <div key={t.id}
+            onClick={() => setTab(t.id)}
+            style={{
+              flex: 1, padding: "10px 0",
+              textAlign: "center", cursor: "pointer",
+              borderTop: tab===t.id ? `2px solid ${C.primary}` : "2px solid transparent",
+            }}>
+            <div style={{ fontSize: 16 }}>{t.icon}</div>
+            <div style={{
+              fontSize: 8, marginTop: 2,
+              color: tab===t.id ? C.primary : C.muted,
+              fontWeight: tab===t.id ? 700 : 400,
+            }}>{t.label}</div>
+          </div>
+        ))}
+      </div>
+
+    </div>
+  );
+}
