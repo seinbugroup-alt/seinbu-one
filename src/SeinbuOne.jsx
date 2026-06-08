@@ -1740,7 +1740,7 @@ export default function SeinbuOne() {
       </div>
       <ChatBtn/>
       <ChatWindow/>
-      <Nav/>
+      {!mod && <Nav/>}
     </div>
   );
 }
