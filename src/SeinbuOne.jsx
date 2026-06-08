@@ -564,6 +564,9 @@ export default function SeinbuOne() {
 
   // ── Navigation ─────────────────────────────────────────────────
   const openMod  = id => { setMod(id); window.scrollTo(0,0); };
+  // Redirection paiement → FINTECH depuis n'importe quel module
+  const openPayment = () => { setMod("fintech"); window.scrollTo(0,0); };
+  if (typeof window !== "undefined") window.seinbuOpenPayment = openPayment;
   const closeMod = ()  => setMod(null);
   const closeD   = ()  => { setShowC(false); setShowL(false); };
   const go       = url => window.open(url,"_blank");
