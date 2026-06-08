@@ -461,7 +461,12 @@ export default function SeinbuOne() {
   const [indTab, setIndTab] = useState("overview");
   // FAQ
   const [openFaq,setOpenFaq]= useState(null);
-  const [showPin,   setShowPin]   = useState(false);
+    const [bioAvailable, setBioAvailable] = useState(false);
+  const [bioRegistered, setBioRegistered] = useState(
+    () => localStorage.getItem("seinbu_bio") === "true"
+  );
+  const [bioError, setBioError] = useState("");
+const [showPin,   setShowPin]   = useState(false);
   const [pinInput,  setPinInput]  = useState("");
   const [pinStored, setPinStored] = useState(() => localStorage.getItem("seinbu_pin") || "");
   const [pinMode,   setPinMode]   = useState("verify"); // "set" | "verify"
@@ -501,6 +506,41 @@ export default function SeinbuOne() {
   },[]);
 
   // ── Chat auto-scroll ───────────────────────────────────────────
+  
+  // Détection biométrie WebAuthn
+  useEffect(() => {
+    if (typeof PublicKeyCredential !== "undefined" &&
+        PublicKeyCredential.isUserVerifyingPlatformAuthenticatorAvailable) {
+      PublicKeyCredential.isUserVerifyingPlatformAuthenticatorAvailable()
+        .then(ok => setBioAvailable(ok))
+        .catch(() => setBioAvailable(false));
+    }
+  }, []);
+  // ── Auth globale pour les modules ─────────────────────────────
+  // Appelée par FINTECH et tout autre module nécessitant une auth
+  useEffect(() => {
+    window.seinbuAuth = (onSuccess) => {
+      if (bioAvailable && bioRegistered) {
+        // Biométrie disponible — vérifier directement
+        verifyBiometric().then(ok => {
+          if (ok) onSuccess();
+        });
+      } else if (pinStored) {
+        // PIN — ouvrir le modal avec callback
+        window._seinbuAuthCallback = onSuccess;
+        setPinMode("verify");
+        setShowPin(true);
+      } else {
+        // Pas encore configuré — créer PIN
+        window._seinbuAuthCallback = onSuccess;
+        setPinMode("set");
+        setShowPin(true);
+      }
+    };
+    return () => { delete window.seinbuAuth; };
+  }, [bioAvailable, bioRegistered, pinStored]);
+
+
   useEffect(()=>{ chatEnd.current?.scrollIntoView({behavior:"smooth"}); },[msgs]);
 
   // ── Pi Connect ─────────────────────────────────────────────────
@@ -1757,35 +1797,130 @@ export default function SeinbuOne() {
   };
 
   
-  // ── Modal PIN sécurité ─────────────────────────────────────────
+
+  // ── WebAuthn : enregistrement biométrie ──────────────────────
+  const registerBiometric = async () => {
+    try {
+      const challenge = new Uint8Array(32);
+      crypto.getRandomValues(challenge);
+      const credential = await navigator.credentials.create({
+        publicKey: {
+          challenge,
+          rp: { name: "SEINBU ONE", id: window.location.hostname },
+          user: {
+            id: new TextEncoder().encode(piUser?.uid || "seinbu_user"),
+            name: piUser?.username || "pioneer",
+            displayName: piUser?.username || "SEINBU Pioneer",
+          },
+          pubKeyCredParams: [
+            { type: "public-key", alg: -7  },   // ES256
+            { type: "public-key", alg: -257 },   // RS256
+          ],
+          authenticatorSelection: {
+            authenticatorAttachment: "platform",  // empreinte / Face ID
+            userVerification: "required",
+            residentKey: "preferred",
+          },
+          timeout: 60000,
+        },
+      });
+      if (credential) {
+        localStorage.setItem("seinbu_bio", "true");
+        localStorage.setItem("seinbu_cred_id",
+          btoa(String.fromCharCode(...new Uint8Array(credential.rawId))));
+        setBioRegistered(true);
+        setBioError("");
+        return true;
+      }
+    } catch (err) {
+      setBioError(lang==="en"
+        ? "Biometric registration failed: " + err.message
+        : "Échec enregistrement biométrique : " + err.message);
+      return false;
+    }
+  };
+
+  // ── WebAuthn : vérification biométrie ─────────────────────────
+  const verifyBiometric = async () => {
+    try {
+      const challenge = new Uint8Array(32);
+      crypto.getRandomValues(challenge);
+      const storedId = localStorage.getItem("seinbu_cred_id");
+      const allowCreds = storedId ? [{
+        id: Uint8Array.from(atob(storedId), c => c.charCodeAt(0)),
+        type: "public-key",
+      }] : [];
+      const assertion = await navigator.credentials.get({
+        publicKey: {
+          challenge,
+          rpId: window.location.hostname,
+          allowCredentials: allowCreds,
+          userVerification: "required",
+          timeout: 60000,
+        },
+      });
+      return !!assertion;
+    } catch (err) {
+      setBioError(lang==="en"
+        ? "Biometric verification failed"
+        : "Vérification biométrique échouée");
+      return false;
+    }
+  };
+
+
+  // ── Modal Biométrie + PIN ──────────────────────────────────────
   const PinModal = () => {
     if (!showPin) return null;
     const isSet = pinMode === "set";
-    const title = isSet
-      ? (lang==="en" ? "Create your PIN" : "Créer votre PIN")
-      : (lang==="en" ? "Enter your PIN" : "Entrez votre PIN");
-    const subtitle = isSet
-      ? (lang==="en" ? "6-digit PIN to secure your Pi account" : "PIN 6 chiffres pour sécuriser votre compte Pi")
-      : (lang==="en" ? "Enter your PIN to connect" : "Entrez votre PIN pour vous connecter");
 
-    const handleDigit = (d) => {
-      if (pinInput.length < 6) setPinInput(p => p + d);
+    const handleBio = async () => {
+      setBioError("");
+      if (!bioRegistered) {
+        // Première fois : enregistrer
+        const ok = await registerBiometric();
+        if (ok) {
+          setShowPin(false);
+          setPinInput("");
+          if (window._seinbuAuthCallback) {
+            window._seinbuAuthCallback();
+            delete window._seinbuAuthCallback;
+          } else {
+            await connectPi();
+          }
+        }
+      } else {
+        // Vérifier
+        const ok = await verifyBiometric();
+        if (ok) {
+          await connectPi();
+          setShowPin(false);
+          setPinInput("");
+        }
+      }
     };
-    const handleDel = () => setPinInput(p => p.slice(0,-1));
-    const handleConfirm = async () => {
-      if (pinInput.length !== 6) { setPinError(lang==="en"?"PIN must be 6 digits":"PIN doit être 6 chiffres"); return; }
+
+    const handleDigit = d => { if (pinInput.length < 6) setPinInput(p => p+d); };
+    const handleDel   = () => setPinInput(p => p.slice(0,-1));
+    const handlePin   = async () => {
+      if (pinInput.length !== 6) {
+        setPinError(lang==="en"?"PIN must be 6 digits":"PIN doit être 6 chiffres");
+        return;
+      }
       if (isSet) {
         localStorage.setItem("seinbu_pin", pinInput);
         setPinStored(pinInput);
         setPinInput(""); setPinError("");
-        setPinMode("verify");
-        // Maintenant connecter Pi
-        await connectPi();
-        setShowPin(false);
+        await connectPi(); setShowPin(false);
       } else {
         if (pinInput === pinStored) {
           setPinInput(""); setPinError(""); setShowPin(false);
-          await connectPi();
+          if (window._seinbuAuthCallback) {
+            window._seinbuAuthCallback();
+            delete window._seinbuAuthCallback;
+          } else {
+            await connectPi();
+          }
         } else {
           setPinError(lang==="en"?"Incorrect PIN":"PIN incorrect");
           setPinInput("");
@@ -1794,50 +1929,117 @@ export default function SeinbuOne() {
     };
 
     return (
-      <div style={{position:"fixed",inset:0,background:"rgba(0,0,0,.85)",
+      <div style={{position:"fixed",inset:0,background:"rgba(0,0,0,.88)",
         display:"flex",alignItems:"center",justifyContent:"center",zIndex:9999}}>
         <div style={{background:"#0A0F1E",border:"1px solid #2D3A5A",
           borderRadius:20,padding:"28px 24px",width:300,textAlign:"center"}}>
-          <div style={{fontSize:32,marginBottom:12}}>🔐</div>
-          <div style={{fontSize:16,fontWeight:800,marginBottom:6}}>{title}</div>
-          <div style={{fontSize:11,color:"#6B7A9A",marginBottom:20}}>{subtitle}</div>
+
+          {/* Header */}
+          <div style={{fontSize:32,marginBottom:8}}>🔐</div>
+          <div style={{fontSize:16,fontWeight:800,marginBottom:4}}>
+            {lang==="en"?"Secure Connection":"Connexion Sécurisée"}
+          </div>
+          <div style={{fontSize:10,color:"#6B7A9A",marginBottom:20}}>
+            SEINBU ONE · Pi Network
+          </div>
+
+          {/* Option biométrie */}
+          {bioAvailable && (
+            <div onClick={handleBio}
+              style={{background:"linear-gradient(135deg,#1A3A2A,#0D2A1A)",
+                border:"1px solid #2D6B4A",borderRadius:14,
+                padding:"16px 0",marginBottom:14,cursor:"pointer",
+                display:"flex",flexDirection:"column",
+                alignItems:"center",gap:6}}>
+              <span style={{fontSize:28}}>
+                {bioRegistered ? "👆" : "✋"}
+              </span>
+              <div style={{fontSize:12,fontWeight:700,color:"#4ADE80"}}>
+                {bioRegistered
+                  ? (lang==="en"?"Use biometrics":"Utiliser la biométrie")
+                  : (lang==="en"?"Register biometrics":"Enregistrer biométrie")}
+              </div>
+              <div style={{fontSize:9,color:"#3A6B4A"}}>
+                {lang==="en"
+                  ? "Fingerprint · Face ID"
+                  : "Empreinte · Face ID"}
+              </div>
+            </div>
+          )}
+
+          {bioError && (
+            <div style={{color:"#EF4444",fontSize:10,marginBottom:10,
+              background:"#EF444411",borderRadius:8,padding:"6px 10px"}}>
+              {bioError}
+            </div>
+          )}
+
+          {/* Séparateur */}
+          <div style={{display:"flex",alignItems:"center",gap:8,marginBottom:14}}>
+            <div style={{flex:1,height:1,background:"#1A2A4A"}}/>
+            <span style={{fontSize:10,color:"#3A5A8A"}}>
+              {lang==="en"?"or PIN":"ou PIN"}
+            </span>
+            <div style={{flex:1,height:1,background:"#1A2A4A"}}/>
+          </div>
+
+          {/* PIN title */}
+          <div style={{fontSize:11,color:"#6B7A9A",marginBottom:12}}>
+            {isSet
+              ? (lang==="en"?"Create 6-digit PIN":"Créer un PIN 6 chiffres")
+              : (lang==="en"?"Enter your PIN":"Entrez votre PIN")}
+          </div>
 
           {/* Indicateurs PIN */}
-          <div style={{display:"flex",justifyContent:"center",gap:10,marginBottom:20}}>
+          <div style={{display:"flex",justifyContent:"center",gap:10,marginBottom:14}}>
             {[0,1,2,3,4,5].map(i=>(
-              <div key={i} style={{width:14,height:14,borderRadius:"50%",
+              <div key={i} style={{width:13,height:13,borderRadius:"50%",
                 background:pinInput.length>i?"#D4A827":"#1A2A4A",
                 border:"2px solid #2D3A5A",transition:"background .1s"}}/>
             ))}
           </div>
 
-          {pinError && <div style={{color:"#EF4444",fontSize:11,marginBottom:12}}>{pinError}</div>}
+          {pinError && (
+            <div style={{color:"#EF4444",fontSize:10,marginBottom:10}}>
+              {pinError}
+            </div>
+          )}
 
-          {/* Clavier */}
-          <div style={{display:"grid",gridTemplateColumns:"1fr 1fr 1fr",gap:8,marginBottom:16}}>
+          {/* Clavier numérique */}
+          <div style={{display:"grid",gridTemplateColumns:"1fr 1fr 1fr",gap:7,marginBottom:14}}>
             {[1,2,3,4,5,6,7,8,9,"",0,"⌫"].map((d,i)=>(
-              <div key={i} onClick={()=>d===""?null:d==="⌫"?handleDel():handleDigit(String(d))}
-                style={{padding:"14px 0",borderRadius:12,
+              <div key={i}
+                onClick={()=>d===""?null:d==="⌫"?handleDel():handleDigit(String(d))}
+                style={{padding:"13px 0",borderRadius:10,
                   background:d===""?"transparent":"#1A2A4A",
                   border:d===""?"none":"1px solid #2D3A5A",
-                  fontSize:d==="⌫"?18:20,fontWeight:700,cursor:d===""?"default":"pointer",
-                  color:d==="⌫"?"#D4A827":"#E0EAFF"}}>
+                  fontSize:d==="⌫"?16:18,fontWeight:700,
+                  cursor:d===""?"default":"pointer",
+                  color:d==="⌫"?"#D4A827":"#E0EAFF",
+                  userSelect:"none"}}>
                 {d}
               </div>
             ))}
           </div>
 
-          <div onClick={handleConfirm}
-            style={{background:pinInput.length===6?"linear-gradient(135deg,#D4A827,#8B6914)":"#1A2A4A",
-              borderRadius:12,padding:"13px 0",fontWeight:800,fontSize:13,cursor:"pointer",
-              color:pinInput.length===6?"#000":"#3A5A8A",transition:"background .2s"}}>
-            {lang==="en"?"Confirm":"Confirmer"}
+          {/* Confirmer PIN */}
+          <div onClick={handlePin}
+            style={{background:pinInput.length===6
+              ?"linear-gradient(135deg,#D4A827,#8B6914)":"#1A2A4A",
+              borderRadius:12,padding:"12px 0",fontWeight:800,
+              fontSize:13,cursor:"pointer",marginBottom:10,
+              color:pinInput.length===6?"#000":"#3A5A8A",
+              transition:"background .2s"}}>
+            {lang==="en"?"Confirm PIN":"Confirmer PIN"}
           </div>
 
-          <div onClick={()=>{setShowPin(false);setPinInput("");setPinError("");}}
-            style={{marginTop:12,fontSize:11,color:"#3A5A8A",cursor:"pointer"}}>
+          {/* Annuler */}
+          <div onClick={()=>{setShowPin(false);setPinInput("");
+            setPinError("");setBioError("");}}
+            style={{fontSize:11,color:"#3A5A8A",cursor:"pointer"}}>
             {lang==="en"?"Cancel":"Annuler"}
           </div>
+
         </div>
       </div>
     );

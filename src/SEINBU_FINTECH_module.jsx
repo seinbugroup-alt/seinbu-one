@@ -101,6 +101,7 @@ export default function SeinbuFintech({ lang = "fr" }) {
   const T = useT("fintech", lang);
   const [tab, setTab] = useState("dashboard");
   const [pendingAction, setPendingAction] = useState(null);
+  const [authPending,  setAuthPending]  = useState(null); // tx en attente d'auth
   const [convFrom, setConvFrom] = useState("pi");
   const [convAmount, setConvAmount] = useState("");
   const [mmMethod, setMmMethod] = useState("orange");
@@ -690,7 +691,9 @@ export default function SeinbuFintech({ lang = "fr" }) {
                   </div>
                   <div style={{padding:"6px 12px",borderRadius:8,fontSize:10,
                     fontWeight:700,background:"#7C3AED",cursor:"pointer"}}>
-                    {lang==="en"?"Approve":"Approuver"}
+                    {authPending===tx.id
+                    ? "⏳"
+                    : (lang==="en"?"Approve":"Approuver")}
                   </div>
                 </div>
               </div>
