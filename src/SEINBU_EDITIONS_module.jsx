@@ -1,3 +1,4 @@
+import { useT } from "./i18n";
 import { useState } from "react";
 
 const C = {
@@ -88,7 +89,8 @@ const ORDERS = [
   { id:"ED-2026-0028", title:"40 Jours pour briser...",   date:"18/05/2026", status:"en cours", color:"#F97316", format:"E-Book" },
 ];
 
-export default function SeinbuEditions() {
+export default function SeinbuEditions({ lang = "fr" }) {
+  const T = useT("editions", lang);
   const [tab, setTab]       = useState("librairie");
   const [selected, setSel]  = useState(null);
   const [filter, setFilter] = useState("tous");

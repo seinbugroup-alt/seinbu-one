@@ -1,3 +1,4 @@
+import { useT } from "./i18n";
 import { useState } from "react";
 
 const C = {
@@ -113,7 +114,8 @@ const ENERGY = [
   { label:"Dim", solar:16, consumed:6  },
 ];
 
-export default function SeinbuTech() {
+export default function SeinbuTech({ lang = "fr" }) {
+  const T = useT("tech", lang);
   const [tab, setTab]       = useState("rd");
   const [selected, setSel]  = useState(null);
 

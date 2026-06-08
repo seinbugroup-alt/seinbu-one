@@ -1,3 +1,4 @@
+import { useT } from "./i18n";
 import { useState } from "react";
 
 const C = {
@@ -51,7 +52,8 @@ const CERTS = [
 // eslint-disable-next-line no-unused-vars
 const fmt = n => new Intl.NumberFormat("fr-FR").format(n);
 
-export default function SeinbuSecurity() {
+export default function SeinbuSecurity({ lang = "fr" }) {
+  const T = useT("security", lang);
   const [tab, setTab] = useState("kyc");
   const [kycStarted, setKycStarted] = useState(false);
   const [currentStep] = useState(2);

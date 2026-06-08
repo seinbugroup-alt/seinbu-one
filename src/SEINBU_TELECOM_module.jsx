@@ -1,3 +1,4 @@
+import { useT } from "./i18n";
 import { useState } from "react";
 
 const C = {
@@ -48,7 +49,8 @@ const CALL_PACKS = [
 
 const fmt = (n, d=0) => new Intl.NumberFormat("fr-FR",{maximumFractionDigits:d}).format(n);
 
-export default function SeinbuTelecom() {
+export default function SeinbuTelecom({ lang = "fr" }) {
+  const T = useT("telecom", lang);
   const [tab, setTab]         = useState("recharge");
   const [operator, setOp]     = useState("orange");
   const [phone, setPhone]     = useState("");

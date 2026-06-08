@@ -1,3 +1,4 @@
+import { useT } from "./i18n";
 import { useState } from "react";
 
 const C = {
@@ -71,7 +72,8 @@ const ENERGY_PROJECTS = [
   { icon:"🔋", name:"SOLAR-PI ABIDJAN",     capacity:"5 MW",   status:"En cours",      color:"#D4A827", villages:15  },
 ];
 
-export default function SeinbuIndustrie() {
+export default function SeinbuIndustrie({ lang = "fr" }) {
+  const T = useT("industrie", lang);
   const [tab, setTab]     = useState("overview");
   const [selV, setSelV]   = useState(null);
 

@@ -1,3 +1,4 @@
+import { useT } from "./i18n";
 import { useState } from "react";
 
 // ── Couleurs SEINBU ANI ───────────────────────────────────────────
@@ -59,7 +60,8 @@ const MOCK = {
 const fmt = (n, d = 0) =>
   new Intl.NumberFormat("fr-FR", { maximumFractionDigits: d }).format(n);
 
-export default function SeinbuANI() {
+export default function SeinbuANI({ lang = "fr" }) {
+  const T = useT("ani", lang);
   const [tab, setTab]           = useState("dashboard");
   const [selectedPlt, setSelectedPlt] = useState(null);
 

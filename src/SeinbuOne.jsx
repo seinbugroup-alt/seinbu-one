@@ -1674,15 +1674,15 @@ export default function SeinbuOne() {
     if(mod==="capital")    return <Capital/>;
     if(mod==="express")    return <Express/>;
     if(mod==="immobilier") return <Immobilier/>;
-    if(mod==="havila")     return <HavilaFoundation/>;
-    if(mod==="industrie")  return <SeinbuIndustrie/>;
-    if(mod==="fintech")    return <SeinbuFintech/>;
-    if(mod==="telecom")    return <SeinbuTelecom/>;
-    if(mod==="security")   return <SeinbuSecurity/>;
-    if(mod==="tech")       return <SeinbuTech/>;
-    if(mod==="editions")   return <SeinbuEditions/>;
-    if(mod==="ani")        return <SeinbuANI/>;
-    if(mod==="nutritech")  return <SeinbuNutriTech/>;
+    if(mod==="havila")     return <HavilaFoundation lang={lang}/>;
+    if(mod==="industrie")  return <SeinbuIndustrie lang={lang}/>;
+    if(mod==="fintech")    return <SeinbuFintech lang={lang}/>;
+    if(mod==="telecom")    return <SeinbuTelecom lang={lang}/>;
+    if(mod==="security")   return <SeinbuSecurity lang={lang}/>;
+    if(mod==="tech")       return <SeinbuTech lang={lang}/>;
+    if(mod==="editions")   return <SeinbuEditions lang={lang}/>;
+    if(mod==="ani")        return <SeinbuANI lang={lang}/>;
+    if(mod==="nutritech")  return <SeinbuNutriTech lang={lang}/>;
     return <Generic m={m}/>;
   };
 

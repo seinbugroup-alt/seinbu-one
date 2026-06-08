@@ -1,3 +1,4 @@
+import { useT } from "./i18n";
 import { useState } from "react";
 
 // ── Couleurs HAVILA FOUNDATION ────────────────────────────────────
@@ -81,7 +82,8 @@ const MOCK = {
 const fmt = (n, d = 0) =>
   new Intl.NumberFormat("fr-FR", { maximumFractionDigits: d }).format(n);
 
-export default function HavilaFoundation() {
+export default function HavilaFoundation({ lang = "fr" }) {
+  const T = useT("havila", lang);
   const [tab, setTab]         = useState("dashboard");
   const [donAmount, setDonAmount] = useState("");
   const [donMethod, setDonMethod] = useState("pi");

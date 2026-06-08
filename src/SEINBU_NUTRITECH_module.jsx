@@ -1,3 +1,4 @@
+import { useT } from "./i18n";
 import { useState } from "react";
 
 // ── Couleurs SEINBU NUTRITECH ─────────────────────────────────────
@@ -71,7 +72,8 @@ const fmt = (n, d = 0) =>
 // Filtre boutique
 const MARQUES = ["Tout", "Vestige 🪷", "Longrich 🇨🇳", "Arvea 🇫🇷", "AFRICA 🌍"];
 
-export default function SeinbuNutriTech() {
+export default function SeinbuNutriTech({ lang = "fr" }) {
+  const T = useT("nutritech", lang);
   const [tab, setTab]       = useState("dashboard");
   const [filtre, setFiltre] = useState("Tout");
   const [panier, setPanier] = useState([]);
