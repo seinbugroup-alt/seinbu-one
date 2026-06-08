@@ -461,6 +461,12 @@ export default function SeinbuOne() {
   const [indTab, setIndTab] = useState("overview");
   // FAQ
   const [openFaq,setOpenFaq]= useState(null);
+  const [showPin,   setShowPin]   = useState(false);
+  const [pinInput,  setPinInput]  = useState("");
+  const [pinStored, setPinStored] = useState(() => localStorage.getItem("seinbu_pin") || "");
+  const [pinMode,   setPinMode]   = useState("verify"); // "set" | "verify"
+  const [pinError,  setPinError]  = useState("");
+
   // Chat
   const [chatOpen,setChatOpen] = useState(false);
   const [msgs,  setMsgs]    = useState([]);
@@ -634,6 +640,7 @@ export default function SeinbuOne() {
         borderBottom:`1px solid ${C.border}`,padding:"10px 14px",
         position:"sticky",top:0,zIndex:50,
         display:"flex",justifyContent:"space-between",alignItems:"center"}}>
+      {showPin && <PinModal/>}
         <div style={{display:"flex",alignItems:"center",gap:9}}>
           {mod&&<div className="tap" onClick={closeMod}
             style={{width:32,height:32,borderRadius:8,background:C.card,
@@ -1146,8 +1153,8 @@ export default function SeinbuOne() {
           background:"linear-gradient(135deg,#1B6B40,#4ADE80)",
           margin:"0 auto 10px",display:"flex",alignItems:"center",
           justifyContent:"center",fontSize:26,fontWeight:900,color:"white",
-          boxShadow:"0 0 30px rgba(42,157,96,.3)"}}>A</div>
-        <div style={{fontSize:16,fontWeight:900}}>{piUser?.username || "Pioneer"}</div>
+          boxShadow:"0 0 30px rgba(42,157,96,.3)"}}>{piUser ? piUser.username[0].toUpperCase() : "π"}</div>
+        <div style={{fontSize:16,fontWeight:900}}>{piUser?.username || piUser ? piUser.username : "Pioneer"}</div>
         <div style={{fontSize:9,color:C.sub,marginTop:2}}>
                 {piUser ? `Fondateur & PDG · @${piUser.username}` : "Fondateur & PDG · SEINBU GROUP"}
         </div>
@@ -1747,6 +1754,93 @@ export default function SeinbuOne() {
     if(tab==="support")  return <Support/>;
     if(tab==="profile")  return <Profile/>;
     return <Home/>;
+  };
+
+  
+  // ── Modal PIN sécurité ─────────────────────────────────────────
+  const PinModal = () => {
+    if (!showPin) return null;
+    const isSet = pinMode === "set";
+    const title = isSet
+      ? (lang==="en" ? "Create your PIN" : "Créer votre PIN")
+      : (lang==="en" ? "Enter your PIN" : "Entrez votre PIN");
+    const subtitle = isSet
+      ? (lang==="en" ? "6-digit PIN to secure your Pi account" : "PIN 6 chiffres pour sécuriser votre compte Pi")
+      : (lang==="en" ? "Enter your PIN to connect" : "Entrez votre PIN pour vous connecter");
+
+    const handleDigit = (d) => {
+      if (pinInput.length < 6) setPinInput(p => p + d);
+    };
+    const handleDel = () => setPinInput(p => p.slice(0,-1));
+    const handleConfirm = async () => {
+      if (pinInput.length !== 6) { setPinError(lang==="en"?"PIN must be 6 digits":"PIN doit être 6 chiffres"); return; }
+      if (isSet) {
+        localStorage.setItem("seinbu_pin", pinInput);
+        setPinStored(pinInput);
+        setPinInput(""); setPinError("");
+        setPinMode("verify");
+        // Maintenant connecter Pi
+        await connectPi();
+        setShowPin(false);
+      } else {
+        if (pinInput === pinStored) {
+          setPinInput(""); setPinError(""); setShowPin(false);
+          await connectPi();
+        } else {
+          setPinError(lang==="en"?"Incorrect PIN":"PIN incorrect");
+          setPinInput("");
+        }
+      }
+    };
+
+    return (
+      <div style={{position:"fixed",inset:0,background:"rgba(0,0,0,.85)",
+        display:"flex",alignItems:"center",justifyContent:"center",zIndex:9999}}>
+        <div style={{background:"#0A0F1E",border:"1px solid #2D3A5A",
+          borderRadius:20,padding:"28px 24px",width:300,textAlign:"center"}}>
+          <div style={{fontSize:32,marginBottom:12}}>🔐</div>
+          <div style={{fontSize:16,fontWeight:800,marginBottom:6}}>{title}</div>
+          <div style={{fontSize:11,color:"#6B7A9A",marginBottom:20}}>{subtitle}</div>
+
+          {/* Indicateurs PIN */}
+          <div style={{display:"flex",justifyContent:"center",gap:10,marginBottom:20}}>
+            {[0,1,2,3,4,5].map(i=>(
+              <div key={i} style={{width:14,height:14,borderRadius:"50%",
+                background:pinInput.length>i?"#D4A827":"#1A2A4A",
+                border:"2px solid #2D3A5A",transition:"background .1s"}}/>
+            ))}
+          </div>
+
+          {pinError && <div style={{color:"#EF4444",fontSize:11,marginBottom:12}}>{pinError}</div>}
+
+          {/* Clavier */}
+          <div style={{display:"grid",gridTemplateColumns:"1fr 1fr 1fr",gap:8,marginBottom:16}}>
+            {[1,2,3,4,5,6,7,8,9,"",0,"⌫"].map((d,i)=>(
+              <div key={i} onClick={()=>d===""?null:d==="⌫"?handleDel():handleDigit(String(d))}
+                style={{padding:"14px 0",borderRadius:12,
+                  background:d===""?"transparent":"#1A2A4A",
+                  border:d===""?"none":"1px solid #2D3A5A",
+                  fontSize:d==="⌫"?18:20,fontWeight:700,cursor:d===""?"default":"pointer",
+                  color:d==="⌫"?"#D4A827":"#E0EAFF"}}>
+                {d}
+              </div>
+            ))}
+          </div>
+
+          <div onClick={handleConfirm}
+            style={{background:pinInput.length===6?"linear-gradient(135deg,#D4A827,#8B6914)":"#1A2A4A",
+              borderRadius:12,padding:"13px 0",fontWeight:800,fontSize:13,cursor:"pointer",
+              color:pinInput.length===6?"#000":"#3A5A8A",transition:"background .2s"}}>
+            {lang==="en"?"Confirm":"Confirmer"}
+          </div>
+
+          <div onClick={()=>{setShowPin(false);setPinInput("");setPinError("");}}
+            style={{marginTop:12,fontSize:11,color:"#3A5A8A",cursor:"pointer"}}>
+            {lang==="en"?"Cancel":"Annuler"}
+          </div>
+        </div>
+      </div>
+    );
   };
 
   return (
