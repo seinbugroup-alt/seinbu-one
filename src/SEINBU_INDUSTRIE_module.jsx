@@ -75,7 +75,8 @@ export default function SeinbuIndustrie() {
   const [tab, setTab]     = useState("overview");
   const [selV, setSelV]   = useState(null);
 
-  const fmt = n => new Intl.NumberFormat("fr-FR").format(n);
+  // eslint-disable-next-line no-unused-vars
+const fmt = n => new Intl.NumberFormat("fr-FR").format(n);
 
   if (selV) {
     const v = DRIVE_VEHICLES.find(x => x.id === selV);

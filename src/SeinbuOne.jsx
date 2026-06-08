@@ -1458,6 +1458,7 @@ export default function SeinbuOne() {
   );
 
   // ── HAVILA ─────────────────────────────────────────────────────
+  // eslint-disable-next-line no-unused-vars
   const Havila = () => (
     <div className="fade" style={{padding:"14px 16px"}}>
       <TB tabs={[[i.havMain,"foundation"],[i.debtRelief,"debt"]]}
@@ -1566,6 +1567,7 @@ export default function SeinbuOne() {
   );
 
   // ── INDUSTRIE ──────────────────────────────────────────────────
+  // eslint-disable-next-line no-unused-vars
   const Industrie = () => {
     const divs = {
       drive:{emoji:"🚗",name:"SEINBU DRIVE",color:"#22C55E",

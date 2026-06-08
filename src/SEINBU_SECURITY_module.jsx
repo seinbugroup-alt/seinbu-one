@@ -48,12 +48,13 @@ const CERTS = [
   { id:"SEC-2025-089", label:"Audit Sécurité Web",    date:"10/11/2025", valid:"10/11/2026", status:"warning", color:"#F97316" },
 ];
 
+// eslint-disable-next-line no-unused-vars
 const fmt = n => new Intl.NumberFormat("fr-FR").format(n);
 
 export default function SeinbuSecurity() {
   const [tab, setTab] = useState("kyc");
   const [kycStarted, setKycStarted] = useState(false);
-  const [currentStep, setCurrentStep] = useState(2);
+  const [currentStep] = useState(2);
 
   return (
     <div style={{
