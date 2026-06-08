@@ -69,11 +69,11 @@ export default function SeinbuANI({ lang = "fr" }) {
   const pct = Math.round((MOCK.hectares / MOCK.targetHa) * 100);
 
   const tabs = [
-    { id:"dashboard", label:"Dashboard", icon:"📊" },
+    { id:"dashboard", label:(lang==="en"?"Dashboard":"Dashboard"), icon:"📊" },
     { id:"planteurs", label:"Planteurs", icon:"👨‍🌾" },
     { id:"biourin",   label:"BioUrin™",  icon:"♻️"  },
     { id:"marche",    label:"Marché Pi", icon:"🛒"  },
-    { id:"projets",   label:"Projets",   icon:"🌱"  },
+    { id:"projets",   label:(lang==="en"?"Projects":"Projets"),   icon:"🌱"  },
   ];
 
   return (

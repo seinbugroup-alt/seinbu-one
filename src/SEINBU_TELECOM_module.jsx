@@ -65,7 +65,7 @@ export default function SeinbuTelecom({ lang = "fr" }) {
     { id:"recharge", label:"Crédit", icon:"📱" },
     { id:"data",     label:"Internet", icon:"📶" },
     { id:"calls",    label:"Appels", icon:"📞" },
-    { id:"history",  label:"Historique", icon:"📋" },
+    { id:"history",  label:(lang==="en"?"History":"Historique"), icon:"📋" },
   ];
 
   if (confirmed) return (

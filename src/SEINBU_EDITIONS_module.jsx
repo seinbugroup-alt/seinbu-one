@@ -18,7 +18,7 @@ const TABS = [
   { id:"librairie", label:"Librairie",  icon:"📚" },
   { id:"ebooks",    label:"E-Books",    icon:"📱" },
   { id:"edtech",    label:"EdTech",     icon:"🎓" },
-  { id:"commandes", label:"Commandes",  icon:"📦" },
+  { id:"commandes", label:(lang==="en"?"Orders":"Commandes"),  icon:"📦" },
 ];
 
 const BOOKS = [

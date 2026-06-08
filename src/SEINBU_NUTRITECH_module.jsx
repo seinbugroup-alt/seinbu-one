@@ -131,7 +131,7 @@ Réponds toujours en français, de façon chaleureuse, concise (5 lignes max), e
   const pctDist = Math.round((MOCK.distributeurs / MOCK.targetDist) * 100);
 
   const tabs = [
-    { id:"dashboard",   label:"Dashboard",  icon:"📊" },
+    { id:"dashboard",   label:(lang==="en"?"Dashboard":"Dashboard"),  icon:"📊" },
     { id:"boutique",    label:"Boutique",   icon:"🛒" },
     { id:"distributeurs",label:"Réseau",   icon:"🤝" },
     { id:"africa",      label:"AFRICA",     icon:"🌍" },
