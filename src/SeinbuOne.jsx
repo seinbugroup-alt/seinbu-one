@@ -1181,7 +1181,7 @@ export default function SeinbuOne() {
             </div>
         <div style={{fontSize:10,color:C.sub,lineHeight:1.6,marginBottom:10}}>
           {lang==="fr"
-            ?"Conglomérat ivoirien à vocation mondiale fondé par {piUser?.username || "Pioneer"} Désiré Alley et KOUAMÉ Yao Yéboua. Ancré dans la foi biblique, inspiré par les valeurs de famille, de souveraineté africaine et d'innovation technologique."
+            ?"Conglomérat ivoirien à vocation mondiale fondé par KOUASSI Alexandre Désiré Alley et KOUAMÉ Yao Yéboua. Ancré dans la foi biblique, inspiré par les valeurs de famille, de souveraineté africaine et d'innovation technologique."
             :"Ivorian conglomerate with global ambition, founded by KOUASSI Alexandre Désiré Alley and KOUAMÉ Yao Yéboua. Rooted in biblical faith, inspired by family values, African sovereignty and technological innovation."}
         </div>
         <div style={{fontSize:9,color:"#5DD490",fontStyle:"italic"}}>
