@@ -1,5 +1,6 @@
 import { useState } from "react";
 
+// eslint-disable-next-line no-unused-vars
 const C = {
   bg:      "#030D05",
   card:    "#081A0A",

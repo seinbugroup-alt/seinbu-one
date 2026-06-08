@@ -16,6 +16,7 @@ const C = {
 
 const GCV = 188_495_400;
 const fmt = (n,d=0) => new Intl.NumberFormat("fr-FR",{maximumFractionDigits:d}).format(n);
+// eslint-disable-next-line no-unused-vars
 const toPi = (fcfa,d=6) => (fcfa/GCV).toFixed(d);
 
 const T = {
