@@ -197,7 +197,7 @@ export default function SeinbuFintech({ lang = "fr" }) {
             <div style={{
               display: "flex", gap: 8, marginTop: 16,
             }}>
-              {[{T.send||"Envoyer"},{T.receive||"Recevoir"},{T.exchange||"Échanger"}].map(a => (
+              {["Envoyer","Recevoir","Échanger"].map(a => (
                 <div key={a} style={{
                   flex: 1, background: "rgba(255,255,255,.15)",
                   borderRadius: 8, padding: "6px 4px",
@@ -262,7 +262,7 @@ export default function SeinbuFintech({ lang = "fr" }) {
       {tab === "convert" && (
         <div style={{ padding: "20px 16px" }}>
           <div style={{ fontSize: 16, fontWeight: 800, marginBottom: 16 }}>
-            🔄 {T.convertTitle||"Convertir"}
+            🔄 "Convertir"
           </div>
 
           {/* Bannière Pioneer Exchange Pool */}
@@ -367,7 +367,7 @@ export default function SeinbuFintech({ lang = "fr" }) {
       {tab === "staking" && (
         <div style={{ padding: "20px 16px" }}>
           <div style={{ fontSize: 16, fontWeight: 800, marginBottom: 4 }}>
-            📈 {T.stakingTitle||"Staking SBC"}
+            📈 Staking SBC
           </div>
           <div style={{ fontSize: 11, color: C.muted, marginBottom: 16 }}>
             Stakez vos SBC et gagnez des rendements jusqu'à 25%/an
