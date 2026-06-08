@@ -1,4 +1,3 @@
-import { useT } from "./i18n";
 import { useState } from "react";
 
 // ── Couleurs HAVILA FOUNDATION ────────────────────────────────────
@@ -18,12 +17,12 @@ const C = {
 
 // ── Données mock ──────────────────────────────────────────────────
 const MOCK = {
-  piGCV: 188495400,
+  piGCV:       314159,
   sbcRate:     10,
 
   ressources2026: 70,   // M FCFA
   beneficiaires:  1240,
-  donsPi:         "0.3714 π",
+  donsPi:         "4 850 π",
   walletPi:       "GBXHK…7M4Q",
 
   repartition: [
@@ -82,9 +81,7 @@ const MOCK = {
 const fmt = (n, d = 0) =>
   new Intl.NumberFormat("fr-FR", { maximumFractionDigits: d }).format(n);
 
-export default function HavilaFoundation({ lang = "fr" }) {
-  // eslint-disable-next-line no-unused-vars
-  const T = useT("havila", lang);
+export default function HavilaFoundation() {
   const [tab, setTab]         = useState("dashboard");
   const [donAmount, setDonAmount] = useState("");
   const [donMethod, setDonMethod] = useState("pi");

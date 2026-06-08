@@ -1,4 +1,3 @@
-import { useT } from "./i18n";
 import { useState } from "react";
 
 const C = {
@@ -70,10 +69,10 @@ const AI_SERVICES = [
 ];
 
 const STARTUPS = [
-  { name:"AgroTech CI",     sector:"AgriTech",    stage:"Seed",     funding:"5M FCFA",  pi:"0.0265", flag:"🌱" },
-  { name:"PayPi Africa",    sector:"FinTech",     stage:"Series A", funding:"50M FCFA", pi:"0.2653", flag:"💳" },
-  { name:"EduPi",           sector:"EdTech",      stage:"Seed",     funding:"8M FCFA",  pi:"0.0424", flag:"📚" },
-  { name:"HealthPi CI",     sector:"HealthTech",  stage:"Idée",     funding:"2M FCFA",  pi:"0.0106", flag:"🏥" },
+  { name:"AgroTech CI",     sector:"AgriTech",    stage:"Seed",     funding:"5M FCFA",  pi:"0.00027", flag:"🌱" },
+  { name:"PayPi Africa",    sector:"FinTech",     stage:"Series A", funding:"50M FCFA", pi:"0.00265", flag:"💳" },
+  { name:"EduPi",           sector:"EdTech",      stage:"Seed",     funding:"8M FCFA",  pi:"0.00042", flag:"📚" },
+  { name:"HealthPi CI",     sector:"HealthTech",  stage:"Idée",     funding:"2M FCFA",  pi:"0.00011", flag:"🏥" },
 ];
 
 const SOLUTIONS = [
@@ -114,14 +113,11 @@ const ENERGY = [
   { label:"Dim", solar:16, consumed:6  },
 ];
 
-export default function SeinbuTech({ lang = "fr" }) {
-  // eslint-disable-next-line no-unused-vars
-  const T = useT("tech", lang);
+export default function SeinbuTech() {
   const [tab, setTab]       = useState("rd");
   const [selected, setSel]  = useState(null);
 
-  // eslint-disable-next-line no-unused-vars
-const fmt = n => new Intl.NumberFormat("fr-FR").format(n);
+  const fmt = n => new Intl.NumberFormat("fr-FR").format(n);
 
   if (selected) {
     const p = PROJECTS.find(x => x.id === selected);

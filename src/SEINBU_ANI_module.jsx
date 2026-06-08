@@ -1,4 +1,3 @@
-import { useT } from "./i18n";
 import { useState } from "react";
 
 // ── Couleurs SEINBU ANI ───────────────────────────────────────────
@@ -22,7 +21,7 @@ const MOCK = {
   hectares:    2310,
   targetHa:    3000,
   biourinL:    124500,
-  piGCV: 188495400,
+  piGCV:       314159,
   productions: [
     { culture:"Riz Paddy",       emoji:"🍚", ha:820,  rendement:"4,8 t/ha", stock:"3 936 t", ca:"708 M FCFA",  color:"#D4A827" },
     { culture:"Manioc",          emoji:"🌿", ha:790,  rendement:"19,5 t/ha",stock:"15 405 t",ca:"847 M FCFA",  color:"#4ADE60" },
@@ -41,11 +40,11 @@ const MOCK = {
     { label:"Ventes externes",    value:"8,1 M FCFA", icon:"📦", color:"#FB923C" },
   ],
   marche: [
-    { produit:"Riz ANI — 25kg",        emoji:"🍚", prix:"1 250 FCFA",  piPrice:"6.6e-06 π", stock:"disponible" },
-    { produit:"Manioc frais — 10kg",   emoji:"🌿", prix:"400 FCFA",    piPrice:"2.1e-06 π",stock:"disponible" },
-    { produit:"Banane Plantain — 5kg", emoji:"🍌", prix:"550 FCFA",    piPrice:"2.9e-06 π",stock:"disponible" },
-    { produit:"BioUrin™ — Bidon 20L",  emoji:"♻️", prix:"2 000 FCFA",  piPrice:"1.06e-05 π",stock:"limité"     },
-    { produit:"Huile de palme — 5L",   emoji:"🌴", prix:"3 500 FCFA",  piPrice:"1.86e-05 π",stock:"disponible" },
+    { produit:"Riz ANI — 25kg",        emoji:"🍚", prix:"1 250 FCFA",  piPrice:"0.000004 π", stock:"disponible" },
+    { produit:"Manioc frais — 10kg",   emoji:"🌿", prix:"400 FCFA",    piPrice:"0.0000013 π",stock:"disponible" },
+    { produit:"Banane Plantain — 5kg", emoji:"🍌", prix:"550 FCFA",    piPrice:"0.0000017 π",stock:"disponible" },
+    { produit:"BioUrin™ — Bidon 20L",  emoji:"♻️", prix:"2 000 FCFA",  piPrice:"0.0000064 π",stock:"limité"     },
+    { produit:"Huile de palme — 5L",   emoji:"🌴", prix:"3 500 FCFA",  piPrice:"0.0000111 π",stock:"disponible" },
   ],
   projets: [
     { nom:"Pilote Riz",            phase:"Phase 3 — Suivi",      avancement:72, couleur:"#D4A827" },
@@ -60,20 +59,18 @@ const MOCK = {
 const fmt = (n, d = 0) =>
   new Intl.NumberFormat("fr-FR", { maximumFractionDigits: d }).format(n);
 
-export default function SeinbuANI({ lang = "fr" }) {
-  // eslint-disable-next-line no-unused-vars
-  const T = useT("ani", lang);
+export default function SeinbuANI() {
   const [tab, setTab]           = useState("dashboard");
   const [selectedPlt, setSelectedPlt] = useState(null);
 
   const pct = Math.round((MOCK.hectares / MOCK.targetHa) * 100);
 
   const tabs = [
-    { id:"dashboard", label:(lang==="en"?"Dashboard":"Dashboard"), icon:"📊" },
+    { id:"dashboard", label:"Dashboard", icon:"📊" },
     { id:"planteurs", label:"Planteurs", icon:"👨‍🌾" },
     { id:"biourin",   label:"BioUrin™",  icon:"♻️"  },
     { id:"marche",    label:"Marché Pi", icon:"🛒"  },
-    { id:"projets",   label:(lang==="en"?"Projects":"Projets"),   icon:"🌱"  },
+    { id:"projets",   label:"Projets",   icon:"🌱"  },
   ];
 
   return (
