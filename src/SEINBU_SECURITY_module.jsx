@@ -18,7 +18,7 @@ const tabs = [
   { id:"kyc",    label:"KYC Pi",   icon:"🪪" },
   { id:"audit",  label:"Audit",    icon:"🔍" },
   { id:"cert",   label:"CERT CI",  icon:"🛡️" },
-  { id:"certs",  label:lang==="en"?"Certificates":"Certificats", icon:"📜" },
+  { id:"certs",  label:"Certificats", icon:"📜" },
 ];
 
 const KYC_STEPS = [
