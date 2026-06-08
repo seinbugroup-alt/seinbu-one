@@ -901,7 +901,7 @@ const [showPin,   setShowPin]   = useState(false);
               <div style={{textAlign:"right"}}>
                 <div style={{fontSize:8,color:C.sub,marginBottom:4}}>{i.sbcBalance}</div>
                 <div style={{fontSize:14,fontWeight:900,color:"#9F7AEA"}}>25 000 000 SBC</div>
-                <div style={{fontSize:9,color:C.sub}}>≈ {fc(4500)}</div>
+                <div style={{fontSize:9,color:C.sub}}>≈ {fc(250000000)}</div>
               </div>
             </div>
             <div style={{marginTop:12,display:"flex",gap:6}}>
@@ -1080,7 +1080,7 @@ const [showPin,   setShowPin]   = useState(false);
           <div style={{fontSize:9,color:C.sub}}>
             {lang==="fr"?"Valeur estimée":"Estimated value"}
           </div>
-          <div style={{fontSize:13,fontWeight:700}}>{fc(4500)}</div>
+          <div style={{fontSize:13,fontWeight:700}}>{fc(250000000)}</div>
         </div>
       </>}/>
       <Cd s={{padding:15,marginBottom:18}} ch={<>
@@ -1231,11 +1231,7 @@ const [showPin,   setShowPin]   = useState(false);
               </div>
               <span style={{ color:C.sub, fontSize:14 }}>›</span>
             </div>
-        <div style={{fontSize:10,color:C.sub,lineHeight:1.6,marginBottom:10}}>
-          {lang==="fr"
-            ?"Conglomérat ivoirien à vocation mondiale fondé par KOUASSI Alexandre Désiré Alley et KOUAMÉ Yao Yéboua. Ancré dans la foi biblique, inspiré par les valeurs de famille, de souveraineté africaine et d'innovation technologique."
-            :"Ivorian conglomerate with global ambition, founded by KOUASSI Alexandre Désiré Alley and KOUAMÉ Yao Yéboua. Rooted in biblical faith, inspired by family values, African sovereignty and technological innovation."}
-        </div>
+        
         <div style={{fontSize:9,color:"#5DD490",fontStyle:"italic"}}>
           {lang==="fr"
             ?"\"David a reçu la vision. Salomon a bâti le Temple. SEINBU construit pour l'Afrique et pour l'Éternité.\""

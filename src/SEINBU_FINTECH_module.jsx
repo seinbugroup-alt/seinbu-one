@@ -102,6 +102,7 @@ export default function SeinbuFintech({ lang = "fr" }) {
   const [tab, setTab] = useState("dashboard");
   const [pendingAction, setPendingAction] = useState(null);
   // eslint-disable-next-line no-unused-vars
+  // eslint-disable-next-line no-unused-vars
   const [authPending,  setAuthPending]  = useState(null); // tx en attente d'auth
   const [convFrom, setConvFrom] = useState("pi");
   const [convAmount, setConvAmount] = useState("");
@@ -690,7 +691,7 @@ export default function SeinbuFintech({ lang = "fr" }) {
                     color:"#EF4444",cursor:"pointer"}}>
                     {lang==="en"?"Reject":"Refuser"}
                   </div>
-                  <div style={{padding:"6px 12px",borderRadius:8,fontSize:10,
+                  <div onClick={()=>{ if(window.seinbuAuth){ setAuthPending(tx.id); window.seinbuAuth(()=>{ setAuthPending(null); }); } }} style={{padding:"6px 12px",borderRadius:8,fontSize:10,
                     fontWeight:700,background:"#7C3AED",cursor:"pointer"}}>
                     {authPending===tx.id
                     ? "⏳"

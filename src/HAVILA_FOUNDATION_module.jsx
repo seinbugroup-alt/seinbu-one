@@ -273,7 +273,7 @@ export default function HavilaFoundation({ lang = "fr" }) {
                 display:"flex",justifyContent:"space-between"}}>
                 <div>
                   <div style={{fontSize:22,fontWeight:900,color:C.gold}}>
-                    {donAmount} π
+                    {method==="sbc" ? fmt(donFCFA/10)+" SBC" : donAmount+" π"}
                   </div>
                   <div style={{fontSize:9,color:C.sub}}>{t.equiv}</div>
                 </div>
@@ -282,7 +282,7 @@ export default function HavilaFoundation({ lang = "fr" }) {
                     {fmt(donFCFA)} FCFA
                   </div>
                   <div style={{fontSize:9,color:C.sub}}>
-                    {fmt(donFCFA/10)} SBC
+                    {method==="sbc" ? donAmount+" π" : fmt(donFCFA/10)+" SBC"}
                   </div>
                 </div>
               </div>
