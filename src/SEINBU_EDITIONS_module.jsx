@@ -14,12 +14,7 @@ const C = {
   sub:     "#92450A",
 };
 
-const TABS = [
-  { id:"librairie", label:"Librairie",  icon:"📚" },
-  { id:"ebooks",    label:"E-Books",    icon:"📱" },
-  { id:"edtech",    label:"EdTech",     icon:"🎓" },
-  { id:"commandes", label:(lang==="en"?"Orders":"Commandes"),  icon:"📦" },
-];
+
 
 const BOOKS = [
   {
@@ -90,6 +85,12 @@ const ORDERS = [
 ];
 
 export default function SeinbuEditions({ lang = "fr" }) {
+  const TABS = [
+  { id:"librairie", label:"Librairie",  icon:"📚" },
+  { id:"ebooks",    label:"E-Books",    icon:"📱" },
+  { id:"edtech",    label:"EdTech",     icon:"🎓" },
+  { id:"commandes", label:(lang==="en"?"Orders":"Commandes"),  icon:"📦" },
+];
   // eslint-disable-next-line no-unused-vars
   const T = useT("editions", lang);
   const [tab, setTab]       = useState("librairie");
