@@ -1251,7 +1251,6 @@ const [showPin,   setShowPin]   = useState(false);
           <span style={{fontSize:11,color:C.gold,fontWeight:700}}>{val}</span>
         </>}/>
       ))}
-    </div>
               {/* Liens officiels */}
               <div style={{marginTop:8}}>
                 <div style={{fontSize:10,color:"#6B7A9A",fontWeight:700,
