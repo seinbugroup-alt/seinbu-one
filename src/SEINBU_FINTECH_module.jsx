@@ -203,7 +203,11 @@ export default function SeinbuFintech({ lang = "fr" }) {
             <div style={{
               display: "flex", gap: 8, marginTop: 16,
             }}>
-              {[...[["Envoyer","send","payments"],["Recevoir","receive","payments"],["Échanger","exchange","convert"]]].map(a => (
+              {[
+                {label:lang==="en"?"Send":"Envoyer",      tab:"payments", action:"send"},
+                {label:lang==="en"?"Receive":"Recevoir",  tab:"payments", action:"receive"},
+                {label:lang==="en"?"Exchange":"Échanger", tab:"convert",  action:null},
+              ].map((btn) => (
                 <div key={a} style={{
                   flex: 1, background: "rgba(255,255,255,.15)",
                   borderRadius: 8, padding: "6px 4px",

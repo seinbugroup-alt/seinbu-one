@@ -1252,6 +1252,36 @@ const [showPin,   setShowPin]   = useState(false);
         </>}/>
       ))}
     </div>
+              {/* Liens officiels */}
+              <div style={{marginTop:8}}>
+                <div style={{fontSize:10,color:"#6B7A9A",fontWeight:700,
+                  letterSpacing:1,marginBottom:10}}>
+                  {lang==="en"?"OFFICIAL LINKS":"LIENS OFFICIELS"}
+                </div>
+                <div style={{display:"grid",gridTemplateColumns:"1fr 1fr",gap:8}}>
+                  {[
+                    {icon:"🌐",name:"Site Web", nameen:"Website",
+                      url:"https://seinbugroup.com"},
+                    {icon:"📧",name:"Email",    nameen:"Email",
+                      url:"mailto:e.seinbugroup@gmail.com"},
+                    {icon:"💬",name:"WhatsApp", nameen:"WhatsApp",
+                      url:"https://wa.me/2250747913099"},
+                    {icon:"📱",name:"SEINBU ONE",nameen:"SEINBU ONE",url:"#"},
+                  ].map(l=>(
+                    <div key={l.name}
+                      onClick={()=>l.url!=="#"&&window.open(l.url,"_blank")}
+                      style={{background:"rgba(255,255,255,.04)",
+                        border:"1px solid rgba(255,255,255,.08)",
+                        borderRadius:12,padding:"12px 8px",
+                        textAlign:"center",cursor:"pointer"}}>
+                      <div style={{fontSize:22,marginBottom:4}}>{l.icon}</div>
+                      <div style={{fontSize:9,fontWeight:700,color:C.sub}}>
+                        {lang==="en"?l.nameen:l.name}
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </div>
   );
 
   // ── CAPITAL ────────────────────────────────────────────────────
