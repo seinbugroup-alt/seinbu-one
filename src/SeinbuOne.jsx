@@ -1281,6 +1281,7 @@ const [showPin,   setShowPin]   = useState(false);
                   ))}
                 </div>
               </div>
+    </div>
   );
 
   // ── CAPITAL ────────────────────────────────────────────────────
