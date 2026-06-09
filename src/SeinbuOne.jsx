@@ -1199,7 +1199,7 @@ const [showPin,   setShowPin]   = useState(false);
           boxShadow:"0 0 30px rgba(42,157,96,.3)"}}>{piUser ? piUser.username[0].toUpperCase() : "π"}</div>
         <div style={{fontSize:16,fontWeight:900}}>{piUser?.username || piUser ? piUser.username : "Pioneer"}</div>
         <div style={{fontSize:9,color:C.sub,marginTop:2}}>
-                {piUser ? `piUser ? `π @${piUser.username}` : "π Pioneer SEINBU ONE"` : ""}
+                {piUser ? `π @${piUser.username}` : "π Pioneer · SEINBU ONE"}
         </div>
         {piOn&&<div style={{marginTop:8,display:"inline-flex",alignItems:"center",gap:4,
           background:"rgba(42,157,96,.12)",border:"1px solid rgba(42,157,96,.3)",
