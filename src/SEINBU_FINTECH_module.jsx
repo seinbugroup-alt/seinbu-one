@@ -152,7 +152,9 @@ export default function SeinbuFintech({ lang = "fr" }) {
   const [copied,       setCopied]      = useState(false);
   const STELLAR_ADDR = "GDMRBR5TVMJLTQLGU3ZD4SBZY57Q2EZASCJQVV5YLPJSA26QCPQLGUOE";
   const PI_USER      = "pioneer_seinbu";
-  const qrUrl = `https://api.qrserver.com/v1/create-qr-code/?size=170x170&data=${encodeURIComponent("seinbu:"+STELLAR_ADDR)}&bgcolor=110228&color=D4A827&margin=8`;
+  const qrUrl = `https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=${encodeURIComponent(STELLAR_ADDR)}&margin=10`;
+  // Fallback Google Charts
+  const qrFallback = `https://chart.googleapis.com/chart?cht=qr&chs=200x200&chl=${encodeURIComponent(STELLAR_ADDR)}&choe=UTF-8`;
 
   // Convertir
   const [cvType,       setCvType]      = useState("pi");
@@ -376,9 +378,13 @@ export default function SeinbuFintech({ lang = "fr" }) {
 
             <Card style={{textAlign:"center",padding:20}}>
               <img src={qrUrl} alt="QR SEINBU"
-                style={{width:170,height:170,borderRadius:12,
-                  margin:"0 auto 12px",display:"block"}}
-                onError={e=>{e.target.style.display="none";}}/>
+                style={{width:200,height:200,borderRadius:12,
+                  margin:"0 auto 12px",display:"block",
+                  background:"#fff",padding:4}}
+                onError={e=>{
+                  if(e.target.src!==qrFallback) e.target.src=qrFallback;
+                  else e.target.style.display="none";
+                }}/>
               <div style={{fontSize:9,color:C.sub}}>
                 {lang==="en"?"Scan to send SBC":"Scanner pour recevoir SBC"}
               </div>
