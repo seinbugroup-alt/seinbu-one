@@ -399,6 +399,7 @@ const PARTNERS = [
   {name:"Amazon",    url:"https://amazon.com",emoji:"📦",
    df:"Commerce mondial B2C",de:"Global B2C commerce",color:"#FF9900"},
 ];
+// eslint-disable-next-line no-unused-vars
 const SOCIALS = [
   {name:"Site Web",  nameen:"Website",  url:"https://seinbugroup.com",        emoji:"🌐"},
   {name:"Email",     nameen:"Email",    url:"mailto:e.seinbugroup@gmail.com", emoji:"📧"},
