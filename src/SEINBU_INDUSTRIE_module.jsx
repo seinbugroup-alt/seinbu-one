@@ -30,6 +30,7 @@ export default function SeinbuIndustrie({lang="fr"}){
   const t=T[lang]||T.fr;
   const[tab,setTab]=useState("overview");
   const[selRoute,setSelRoute]=useState(null);
+// eslint-disable-next-line no-unused-vars
   const[selEV,setSelEV]=useState(null);
   const[confirmed,setConfirmed]=useState(false);
   const TABS=[{id:"overview",label:t.tabs[0],icon:"📊"},{id:"drive",label:t.tabs[1],icon:"🚗"},{id:"marine",label:t.tabs[2],icon:"⚓"},{id:"energy",label:t.tabs[3],icon:"⚡"}];

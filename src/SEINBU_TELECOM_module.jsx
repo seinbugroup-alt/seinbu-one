@@ -1,5 +1,6 @@
 import { useState } from "react";
 const C={bg:"#020C1B",card:"#061626",border:"#0A2A4A",primary:"#0891B2",light:"#22D3EE",gold:"#D4A827",green:"#4ADE80",text:"#E0F2FE",sub:"#2A6A8A",muted:"#0A3A5A"};
+// eslint-disable-next-line no-unused-vars
 const GCV=188_495_400,SBC=10;
 const fmt=(n,d=0)=>new Intl.NumberFormat("fr-FR",{maximumFractionDigits:d}).format(n);
 const toPi=(f)=>(f/GCV).toFixed(6);

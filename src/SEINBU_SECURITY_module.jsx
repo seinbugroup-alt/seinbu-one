@@ -19,6 +19,7 @@ export default function SeinbuSecurity({lang="fr"}){
   const[tab,setTab]=useState("kyc");
   const[kycStarted,setKycStarted]=useState(false);
   const[kycStep,setKycStep]=useState(0);
+// eslint-disable-next-line no-unused-vars
   const[selAudit,setSelAudit]=useState(null);
   const[confirmed,setConfirmed]=useState(false);
   const TABS=[{id:"kyc",label:t.tabs[0],icon:"🪪"},{id:"audit",label:t.tabs[1],icon:"🔍"},{id:"cert",label:t.tabs[2],icon:"🛡️"},{id:"certs",label:t.tabs[3],icon:"📜"}];
