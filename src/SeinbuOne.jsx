@@ -1097,17 +1097,7 @@ const [showPin,   setShowPin]   = useState(false);
           </div>
         ))}
       </>}/>
-      <div style={{fontSize:11,fontWeight:800,marginBottom:10}}>{i.officialLinks}</div>
-      <div style={{display:"flex",gap:8}}>
-        {SOCIALS.map(s=>(
-          <div key={s.name} className="tap" onClick={()=>go(s.url)}
-            style={{flex:1,background:C.card,border:`1px solid ${C.border}`,
-              borderRadius:12,padding:"10px 6px",textAlign:"center"}}>
-            <div style={{fontSize:18,marginBottom:4}}>{s.emoji}</div>
-            <div style={{fontSize:8,fontWeight:700,color:C.text}}>
-              {lang==="fr"?s.name:s.nameen}
-            </div>
-          </div>
+      <div style={{fontSize:11,fontWeight:800,marginBottom:10}}>
         ))}
       </div>
     </div>
