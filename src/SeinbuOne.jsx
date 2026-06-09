@@ -166,7 +166,6 @@ const I18N = {
     notFound:"Introuvable", statsTitle:"Chiffres clés",
     // Modules screen
     modulesSub:"12 modules · SEINBU GROUP",
-    modulesQuote:"\"David a reçu la vision. Salomon a bâti le Temple. SEINBU construit pour l'Afrique et pour l'Éternité.\"",
     capital_fcfa:"Capital FCFA", horizon:"Horizon",
     // Capital
     myBonds:"Mes Pi Bonds", invest:"Investir", portfolio:"Portfolio",
@@ -247,7 +246,6 @@ const I18N = {
     trackBtn:"Track", trackResult:"Result",
     notFound:"Not found", statsTitle:"Key figures",
     modulesSub:"12 modules · SEINBU GROUP",
-    modulesQuote:"\"David received the vision. Solomon built the Temple. SEINBU builds for Africa and for Eternity.\"",
     capital_fcfa:"Capital FCFA", horizon:"Horizon",
     myBonds:"My Pi Bonds", invest:"Invest", portfolio:"Portfolio",
     capitalDesc:"Primary financing entity. At GCV ($314,159/Pi), Pi Bonds cover the group's 63.6 billion FCFA needs with no external financing required.",
@@ -1201,7 +1199,7 @@ const [showPin,   setShowPin]   = useState(false);
           boxShadow:"0 0 30px rgba(42,157,96,.3)"}}>{piUser ? piUser.username[0].toUpperCase() : "π"}</div>
         <div style={{fontSize:16,fontWeight:900}}>{piUser?.username || piUser ? piUser.username : "Pioneer"}</div>
         <div style={{fontSize:9,color:C.sub,marginTop:2}}>
-                {piUser ? `Fondateur & PDG · @${piUser.username}` : "Fondateur & PDG · SEINBU GROUP"}
+                {piUser ? `piUser ? `π @${piUser.username}` : "π Pioneer SEINBU ONE"` : ""}
         </div>
         {piOn&&<div style={{marginTop:8,display:"inline-flex",alignItems:"center",gap:4,
           background:"rgba(42,157,96,.12)",border:"1px solid rgba(42,157,96,.3)",
