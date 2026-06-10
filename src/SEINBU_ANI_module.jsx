@@ -247,7 +247,9 @@ export default function SeinbuANI({ lang = "fr" }) {
                       <span style={{fontSize:14,fontWeight:900,color:"#D4A827"}}>
                         {fmt(p.prix)} FCFA
                       </span>
-                      <span style={{fontSize:9,color:"#6B9B70"}}>{toPi(p.prix)} π</div><div style={{fontSize:7,color:"#A855F7"}}>{fmt(p.prix/10,0)} SBC</div><div style={{fontSize:7,color:"#A855F7"}}>{fmt(p.prix/10,0)} SBC</span>
+                      <span style={{fontSize:9,color:"#6B9B70"}}>{toPi(p.prix)} π</span>
+                      <span style={{fontSize:9,color:"#4ADE60"}}>{fmt(p.prix/10,0)} SBC</span>
+                      <span style={{fontSize:9,color:"#A855F7"}}>{fmt(p.prix/10,0)} SBC</span>
                     </div>
                     <div style={{fontSize:8,marginTop:2,
                       color:p.stock==="limité"?"#D4A827":"#6B9B70"}}>
