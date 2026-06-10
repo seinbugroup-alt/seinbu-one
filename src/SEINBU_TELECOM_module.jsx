@@ -115,7 +115,7 @@ export default function SeinbuTelecom({lang="fr"}){
         {DATA.map(p=>(<div key={p.id} onClick={()=>setSelPlan(selPlan===p.id?null:p.id)} style={{background:selPlan===p.id?`${C.primary}22`:C.card,border:`1px solid ${selPlan===p.id?C.primary:C.border}`,borderRadius:14,padding:14,marginBottom:8,cursor:"pointer"}}>
           <div style={{display:"flex",justifyContent:"space-between",alignItems:"center"}}>
             <div><div style={{fontSize:14,fontWeight:800,color:C.light}}>{p.name}</div><div style={{fontSize:11,color:C.sub}}>{p.data} · {p.days}{lang==="en"?"d":"j"}</div></div>
-            <div style={{textAlign:"right"}}><div style={{fontSize:14,fontWeight:900,color:C.gold}}>{fmt(p.price)} FCFA</div><div style={{fontSize:9,color:C.sub}}>{toPi(p.price)} π</div><div style={{fontSize:7,color:"#A855F7"}}>{fmt(p.price/10,0)} SBC<div style={{fontSize:7,color:"#A855F7"}}>{fmt(p.price/10,0)} SBC</div>
+            <div style={{textAlign:"right"}}><div style={{fontSize:14,fontWeight:900,color:C.gold}}>{fmt(p.price)} FCFA</div><div style={{fontSize:9,color:C.sub}}>{toPi(p.price)} π</div><div style={{fontSize:7,color:"#A855F7"}}>{fmt(p.price/10,0)} SBC</div></div>
           </div>
           {selPlan===p.id&&<div onClick={e=>{e.stopPropagation();if(window.seinbuAuth)window.seinbuAuth(()=>setSelPlan(null));else setSelPlan(null);}} style={{marginTop:10,background:C.primary,borderRadius:8,padding:"9px 0",textAlign:"center",fontSize:11,fontWeight:800,cursor:"pointer"}}>🔐 {lang==="en"?"Subscribe":"Souscrire"}</div>}
         </div>))}
@@ -125,7 +125,7 @@ export default function SeinbuTelecom({lang="fr"}){
         {CALLS_DATA.map(p=>(<Card key={p.id}>
           <div style={{display:"flex",justifyContent:"space-between",alignItems:"center"}}>
             <div><div style={{fontSize:13,fontWeight:800}}>{p.min===-1?lang==="en"?"Unlimited":"Illimité":`${p.min} min`}</div><div style={{fontSize:10,color:C.sub}}>{lang==="en"?p.destEn:p.dest} · {p.days}{lang==="en"?"d":"j"}</div></div>
-            <div style={{textAlign:"right"}}><div style={{fontSize:13,fontWeight:900,color:C.gold}}>{fmt(p.price)} FCFA</div><div style={{fontSize:9,color:C.sub}}>{toPi(p.price)} π</div><div style={{fontSize:7,color:"#A855F7"}}>{fmt(p.price/10,0)} SBC<div style={{fontSize:7,color:"#A855F7"}}>{fmt(p.price/10,0)} SBC</div>
+            <div style={{textAlign:"right"}}><div style={{fontSize:13,fontWeight:900,color:C.gold}}>{fmt(p.price)} FCFA</div><div style={{fontSize:9,color:C.sub}}>{toPi(p.price)} π</div><div style={{fontSize:7,color:"#A855F7"}}>{fmt(p.price/10,0)} SBC</div></div>
           </div>
           <div onClick={()=>{if(window.seinbuAuth)window.seinbuAuth(()=>{});}} style={{marginTop:8,background:C.primary,borderRadius:8,padding:"7px 0",textAlign:"center",fontSize:10,fontWeight:800,cursor:"pointer"}}>🔐 {lang==="en"?"Subscribe":"Souscrire"}</div>
         </Card>))}
