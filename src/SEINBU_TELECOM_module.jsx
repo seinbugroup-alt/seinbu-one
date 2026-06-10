@@ -71,6 +71,13 @@ export default function SeinbuTelecom({lang="fr"}){
             <div style={{display:"flex",gap:8,marginBottom:16}}>
               {[{id:"pi",lbl:"π Pi",c:C.gold},{id:"sbc",lbl:<><SBCIcon/>SBC</>,c:C.light}].map(m=>(<div key={m.id} onClick={()=>setMethod(m.id)} style={{flex:1,padding:"11px 0",textAlign:"center",borderRadius:12,border:`1px solid ${method===m.id?m.c:C.border}`,background:method===m.id?`${m.c}22`:C.card,cursor:"pointer",fontWeight:800,color:m.c}}>{m.lbl}</div>))}
             </div>
+            {amt&&<div style={{background:"rgba(255,255,255,.04)",borderRadius:10,padding:"10px 14px",marginBottom:12,display:"flex",justifyContent:"space-between",alignItems:"center"}}>
+              <span style={{fontSize:10,color:C.sub}}>{lang==="en"?"You pay":"Vous payez"}</span>
+              <div style={{textAlign:"right"}}>
+                <div style={{fontSize:13,fontWeight:900,color:C.gold}}>{(amt/188495400).toFixed(6)} π</div>
+                <div style={{fontSize:10,color:C.light}}>{new Intl.NumberFormat("fr-FR").format(Math.round(amt/10))} SBC</div>
+              </div>
+            </div>}
             <div onClick={()=>{if(phone&&amt){if(window.seinbuAuth)window.seinbuAuth(()=>setDone(true));else setDone(true);}}} style={{background:phone&&amt?C.primary:C.muted,borderRadius:12,padding:"13px 0",textAlign:"center",fontWeight:800,fontSize:13,cursor:"pointer"}}>🔐 {t.topup}</div>
           </>
         )}
