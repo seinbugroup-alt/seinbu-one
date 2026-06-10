@@ -69,7 +69,7 @@ export default function SeinbuTelecom({lang="fr"}){
             <input value={phone} onChange={e=>setPhone(e.target.value)} placeholder={OPS.find(x=>x.id===op)?.ph||"+225 07 07 XX XX XX"} style={{width:"100%",background:C.card,border:`1px solid ${C.border}`,borderRadius:10,padding:"10px 14px",color:C.text,fontSize:12,boxSizing:"border-box",marginBottom:14,outline:"none"}}/>
             <Lbl>{t.amount}</Lbl>
             <div style={{display:"grid",gridTemplateColumns:"1fr 1fr 1fr",gap:6,marginBottom:14}}>
-              {RECHARGES.map(a=>(<div key={a} onClick={()=>setAmt(a)} style={{background:amt===a?`${C.primary}22`:C.card,border:`1px solid ${amt===a?C.primary:C.border}`,borderRadius:10,padding:"10px 4px",textAlign:"center",cursor:"pointer"}}><div style={{fontSize:12,fontWeight:800}}>{fmt(a)}</div><div style={{fontSize:8,color:C.sub}}>FCFA</div><div style={{fontSize:8,color:C.gold}}>{toPi(a)} π</div><div style={{fontSize:7,color:"#A855F7"}}>{fmt(a/10,0)} SBC</div>))}
+              {RECHARGES.map(a=>(<div key={a} onClick={()=>setAmt(a)} style={{background:amt===a?`${C.primary}22`:C.card,border:`1px solid ${amt===a?C.primary:C.border}`,borderRadius:10,padding:"10px 4px",textAlign:"center",cursor:"pointer"}}><div style={{fontSize:12,fontWeight:800}}>{fmt(a)}</div><div style={{fontSize:8,color:C.sub}}>FCFA</div><div style={{fontSize:8,color:C.gold}}>{toPi(a)} π</div><div style={{fontSize:7,color:"#A855F7"}}>{fmt(a/10,0)} SBC</div></div>))}
             </div>
             <Lbl>{t.payWith}</Lbl>
             <div style={{display:"flex",gap:8,marginBottom:16}}>
