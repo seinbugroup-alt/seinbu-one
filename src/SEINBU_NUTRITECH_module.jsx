@@ -42,6 +42,7 @@ const MOCK_ORDERS=[
   {id:"NTR-2026-001",product:"NutriCell Boost × 2",status:"transit",date:"05/06"},
   {id:"NTR-2026-002",product:"Détox Ayurveda × 1",status:"livré",date:"02/06"},
 ];
+// eslint-disable-next-line no-unused-vars
 const AI_RESPONSES={
   fr:{"énergie":"Les aliments riches en énergie naturelle : bananes, dattes, noix, œufs, patates douces et légumineuses. Associez-les à NutriCell Boost pour un effet optimal. 🌿","protéines":"Sources de protéines en Côte d'Ivoire : poisson (thiof, chinchard), viandes maigres, œufs, haricots, arachides. Cibles : 0,8g/kg de poids corporel par jour. 💪","default":"Je suis NutriCell-AI, votre assistant nutrition SEINBU. Je peux vous aider sur l'alimentation équilibrée, les compléments naturels et les habitudes santé adaptées à l'Afrique. 🌱"},
   en:{"energy":"Energy-rich foods: bananas, dates, nuts, eggs, sweet potatoes and legumes. Combine with NutriCell Boost for optimal effect. 🌿","protein":"Protein sources in Côte d'Ivoire: fish (thiof, horse mackerel), lean meats, eggs, beans, peanuts. Target: 0.8g/kg body weight per day. 💪","default":"I am NutriCell-AI, your SEINBU nutrition assistant. I can help you with balanced nutrition, natural supplements and healthy habits adapted to Africa. 🌱"},
