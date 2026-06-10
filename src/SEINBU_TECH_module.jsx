@@ -218,7 +218,7 @@ export default function SeinbuTech({ lang = "fr" }) {
                   </div>
                   <div style={{textAlign:"right"}}>
                     <div style={{fontSize:14,fontWeight:900,color:C.gold}}>
-                      {toPi(selServ.prix)} π</div><div style={{fontSize:9,color:"#4ADE60"}}>{fmt(selServ.prix/10,0)} SBC</div></div>
+                      {toPi(selServ.prix)} π</div><div style={{fontSize:9,color:"#4ADE60"}}>{fmt(selServ.prix/10,0)} SBC</div>
                     <div style={{fontSize:9,color:C.sub}}>{fmt(selServ.prix)} FCFA</div>
                   </div>
                 </div>
