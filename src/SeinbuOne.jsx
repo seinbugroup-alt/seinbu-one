@@ -550,11 +550,14 @@ const [showPin,   setShowPin]   = useState(false);
   // ── Pi Connect ─────────────────────────────────────────────────
   const handlePiConnect = async () => {
     if(piOn){ setPiOn(false); setPiUser(null); return; }
-    window.seinbuAuth(async()=>{ try {
+    if(window.seinbuAuth){ window.seinbuAuth(async()=>{ try {
       const auth = await PiSDK.authenticate(["username","payments"]);
       setPiUser(auth.user);
       setPiOn(true);
-    } catch(e){ setPiOn(true); }
+    } catch(e){ setPiOn(true); } }); } else { try {
+      const auth = await PiSDK.authenticate(["username","payments"]);
+      setPiUser(auth.user); setPiOn(true);
+    } catch(e){ setPiOn(true); } }
   };
 
   // ── Pi Payment ─────────────────────────────────────────────────
