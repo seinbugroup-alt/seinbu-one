@@ -1966,9 +1966,11 @@ const [showPin,   setShowPin]   = useState(false);
     };
 
     return (
-      <div style={{position:"fixed",inset:0,background:"rgba(0,0,0,.88)",
-        display:"flex",alignItems:"flex-start",justifyContent:"center",
-        paddingTop:"8vh",overflowY:"auto",zIndex:9999}}>
+      <div style={{position:"fixed",top:0,left:0,right:0,bottom:0,
+        background:"rgba(0,0,0,.92)",
+        display:"flex",flexDirection:"column",
+        alignItems:"center",justifyContent:"flex-start",
+        paddingTop:"5vh",overflowY:"auto",zIndex:9998}}>
         <div style={{background:"#0A0F1E",border:"1px solid #2D3A5A",
           borderRadius:20,padding:"28px 24px",width:300,textAlign:"center"}}>
 
@@ -2074,8 +2076,11 @@ const [showPin,   setShowPin]   = useState(false);
           {/* Annuler */}
           <div onClick={()=>{setShowPin(false);setPinInput("");
             setPinError("");setBioError("");}}
-            style={{fontSize:11,color:"#3A5A8A",cursor:"pointer"}}>
-            {lang==="en"?"Cancel":"Annuler"}
+            style={{fontSize:12,color:"#60A5FA",cursor:"pointer",
+              marginTop:8,padding:"10px 40px",
+              background:"rgba(255,255,255,.08)",borderRadius:10,
+              fontWeight:700}}>
+            {lang==="en"?"✕ Cancel":"✕ Annuler"}
           </div>
 
         </div>
