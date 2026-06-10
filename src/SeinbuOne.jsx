@@ -873,7 +873,7 @@ const [showPin,   setShowPin]   = useState(false);
               <div style={{width:34,height:34,borderRadius:10,background:"rgba(212,168,39,.1)",
                 display:"flex",alignItems:"center",justifyContent:"center",fontSize:20}}>π</div>
               <div>
-                <div style={{fontSize:11,fontWeight:700,color:C.gold}}>{i.connectPrompt}</div>
+                <div style={{fontSize:11,fontWeight:700,color:C.gold}} onClick={()=>{if(window.seinbuAuth)window.seinbuAuth(()=>{if(window.Pi)window.Pi.authenticate([],()=>{},{});});}}>{i.connectPrompt}</div>
                 <div style={{fontSize:9,color:C.sub}}>{i.connectSub}</div>
                 {piDemo&&<div style={{fontSize:8,color:C.sub,marginTop:2}}>({i.piDemoMode})</div>}
               </div>
@@ -904,9 +904,9 @@ const [showPin,   setShowPin]   = useState(false);
             </div>
             <div style={{marginTop:12,display:"flex",gap:6}}>
               {[i.send,i.receive,i.exchange].map(a=>(
-                <div key={a} className="tap" style={{flex:1,background:"rgba(255,255,255,.04)",
+                <div key={a} className="tap" onClick={()=>{if(window.seinbuOpenPayment)window.seinbuOpenPayment();}} style={{flex:1,background:"rgba(255,255,255,.04)",
                   border:`1px solid ${C.border}`,borderRadius:8,padding:"7px 4px",
-                  textAlign:"center",fontSize:9,fontWeight:700}}>{a}</div>
+                  textAlign:"center",fontSize:9,fontWeight:700,cursor:"pointer"}}>{a}</div>
               ))}
             </div>
           </div>
