@@ -453,7 +453,7 @@ const qrUrl = `https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=${e
                   width:44,height:44,display:"flex",
                   alignItems:"center",justifyContent:"center",
                   boxShadow:"0 0 0 3px #fff"}}>
-                  <SBCIcon/>
+                  <svg width="28" height="28" viewBox="0 0 500 500"><defs><linearGradient id="sg2" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stopColor="#d4a017"/><stop offset="100%" stopColor="#f0c040"/></linearGradient></defs><circle cx="250" cy="250" r="245" fill="#1a1a2e" stroke="url(#sg2)" strokeWidth="18"/><text x="250" y="310" textAnchor="middle" fontSize="200" fontWeight="900" fill="url(#sg2)" fontFamily="system-ui">S</text></svg>
                 </div>
               </div>
               <div style={{fontSize:9,color:C.sub}}>
