@@ -684,7 +684,6 @@ const [showPin,   setShowPin]   = useState(false);
         borderBottom:`1px solid ${C.border}`,padding:"10px 14px",
         position:"sticky",top:0,zIndex:50,
         display:"flex",justifyContent:"space-between",alignItems:"center"}}>
-      {showPin && <PinModal/>}
         <div style={{display:"flex",alignItems:"center",gap:9}}>
           {mod&&<div className="tap" onClick={closeMod}
             style={{width:32,height:32,borderRadius:8,background:C.card,
@@ -2092,8 +2091,9 @@ const [showPin,   setShowPin]   = useState(false);
     <div onClick={closeD} style={{fontFamily:"'Sora',sans-serif",
       background:C.bg,color:C.text,minHeight:"100dvh",
       maxWidth:430,margin:"0 auto",position:"relative",overflow:"hidden"}}>
+      {showPin && <PinModal/>}
       <style>{CSS}</style>
-      <TopBar/>
+            <TopBar/>
       <PayToast/>
       <div style={{height:"calc(100dvh - 56px - 60px)",overflowY:"auto"}}>
         {view()}
