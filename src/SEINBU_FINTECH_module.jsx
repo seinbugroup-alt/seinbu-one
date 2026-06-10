@@ -132,7 +132,7 @@ const SBCLogo = ({size=40}) => (
 );
 
 // ══ COMPOSANT PRINCIPAL ═══════════════════════════════════════
-export default function SeinbuFintech({ lang = "fr" }) {
+export default function SeinbuFintech({ lang = "fr", piUser = null }) {
   const t = T[lang] || T.fr;
 
   const [tab,          setTab]         = useState("dashboard");
@@ -152,9 +152,10 @@ export default function SeinbuFintech({ lang = "fr" }) {
   const [copied,       setCopied]      = useState(false);
   const STELLAR_ADDR = "GDMRBR5TVMJLTQLGU3ZD4SBZY57Q2EZASCJQVV5YLPJSA26QCPQLGUOE";
   const PI_USER      = "pioneer_seinbu";
-  const qrUrl = `https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=${encodeURIComponent(STELLAR_ADDR)}&margin=10`;
+  const qrData = piUser ? `seinbu://pay?to=@${piUser.username}&token=SBC&network=pi` : STELLAR_ADDR;
+const qrUrl = `https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=${encodeURIComponent(qrData)}&margin=10`;
   // Fallback Google Charts
-  const qrFallback = `https://chart.googleapis.com/chart?cht=qr&chs=200x200&chl=${encodeURIComponent(STELLAR_ADDR)}&choe=UTF-8`;
+  const qrFallback = `https://chart.googleapis.com/chart?cht=qr&chs=200x200&chl=${encodeURIComponent(qrData)}&choe=UTF-8`;
 
   // Convertir
   const [cvType,       setCvType]      = useState("pi");
@@ -377,14 +378,23 @@ export default function SeinbuFintech({ lang = "fr" }) {
             <div style={{fontSize:10,color:C.sub,marginBottom:20}}>{t.receiveSub}</div>
 
             <Card style={{textAlign:"center",padding:20}}>
-              <img src={qrUrl} alt="QR SEINBU"
-                style={{width:200,height:200,borderRadius:12,
-                  margin:"0 auto 12px",display:"block",
-                  background:"#fff",padding:4}}
-                onError={e=>{
-                  if(e.target.src!==qrFallback) e.target.src=qrFallback;
-                  else e.target.style.display="none";
-                }}/>
+              <div style={{position:"relative",width:200,height:200,margin:"0 auto 12px"}}>
+                <img src={qrUrl} alt="QR SEINBU"
+                  style={{width:200,height:200,borderRadius:12,display:"block",
+                    background:"#fff",padding:4}}
+                  onError={e=>{
+                    if(e.target.src!==qrFallback) e.target.src=qrFallback;
+                    else e.target.style.display="none";
+                  }}/>
+                <div style={{position:"absolute",top:"50%",left:"50%",
+                  transform:"translate(-50%,-50%)",
+                  background:"#fff",borderRadius:"50%",
+                  width:44,height:44,display:"flex",
+                  alignItems:"center",justifyContent:"center",
+                  boxShadow:"0 0 0 3px #fff"}}>
+                  <SBCIcon/>
+                </div>
+              </div>
               <div style={{fontSize:9,color:C.sub}}>
                 {lang==="en"?"Scan to send SBC":"Scanner pour recevoir SBC"}
               </div>

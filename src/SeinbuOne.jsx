@@ -1777,7 +1777,7 @@ const [showPin,   setShowPin]   = useState(false);
     if(mod==="immobilier") return <Immobilier/>;
     if(mod==="havila")     return <HavilaFoundation lang={lang}/>;
     if(mod==="industrie")  return <SeinbuIndustrie lang={lang}/>;
-    if(mod==="fintech")    return <SeinbuFintech lang={lang}/>;
+    if(mod==="fintech")    return <SeinbuFintech lang={lang} piUser={piUser}/>;
     if(mod==="telecom")    return <SeinbuTelecom lang={lang}/>;
     if(mod==="security")   return <SeinbuSecurity lang={lang}/>;
     if(mod==="tech")       return <SeinbuTech lang={lang}/>;
