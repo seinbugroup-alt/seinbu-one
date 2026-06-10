@@ -457,6 +457,8 @@ export default function SeinbuOne() {
   const [capTab, setCapTab] = useState("bonds");
   const [investTier, setInvestTier] = useState(null);
   const [investAmt,  setInvestAmt]  = useState("");
+  const [showContract, setShowContract] = useState(false);
+  const [contractOk,   setContractOk]   = useState(false);
   const [expTab, setExpTab] = useState("parcels");
   const [immTab, setImmTab] = useState("main");
   const [havTab, setHavTab] = useState("foundation");
@@ -1382,6 +1384,92 @@ const [showPin,   setShowPin]   = useState(false);
           ))}
         </div>
       </>}/>}
+    {showContract&&investTier&&(
+      <div style={{position:"fixed",inset:0,background:"rgba(0,0,0,.92)",zIndex:1000,
+        display:"flex",alignItems:"center",justifyContent:"center",padding:16,overflowY:"auto"}}>
+        <div style={{background:"#0D1F12",border:`1px solid ${investTier.color}`,
+          borderRadius:20,padding:24,width:"100%",maxWidth:400}}>
+          <div style={{fontSize:13,fontWeight:900,color:investTier.color,marginBottom:2}}>
+            📋 {lang==="fr"?"Contrat Pi Bond":"Pi Bond Contract"}
+          </div>
+          <div style={{fontSize:9,color:C.sub,marginBottom:16}}>
+            {lang==="fr"?"SEINBU CAPITAL · Contrat d'investissement":"SEINBU CAPITAL · Investment Agreement"}
+          </div>
+          <div style={{background:"#081A0A",borderRadius:12,padding:14,marginBottom:14,
+            fontSize:10,lineHeight:1.8,color:"#E8F5E9"}}>
+            <div style={{marginBottom:6}}>
+              <span style={{color:C.sub}}>{lang==="fr"?"Investisseur :":"Investor:"}</span>{" "}
+              <span style={{color:C.gold,fontWeight:700}}>π @{piUser?.username||"pioneer"}</span>
+            </div>
+            <div style={{marginBottom:6}}>
+              <span style={{color:C.sub}}>{lang==="fr"?"Palier :":"Tier:"}</span>{" "}
+              <span style={{color:investTier.color,fontWeight:700}}>Pi Bond {investTier.tier}</span>
+            </div>
+            <div style={{marginBottom:6}}>
+              <span style={{color:C.sub}}>{lang==="fr"?"Montant :":"Amount:"}</span>{" "}
+              <span style={{fontWeight:700}}>{investAmt} π</span>
+              {" "}≈ {fc(parseFloat(investAmt)*PI_GCV_FCFA)}
+            </div>
+            <div style={{marginBottom:6}}>
+              <span style={{color:C.sub}}>{lang==="fr"?"Taux annuel :":"Annual rate:"}</span>{" "}
+              <span style={{color:C.gold,fontWeight:700}}>{investTier.rate}%</span>
+            </div>
+            <div style={{marginBottom:6}}>
+              <span style={{color:C.sub}}>{lang==="fr"?"Intérêts (1 an) :":"Interest (1 year):"}</span>{" "}
+              <span style={{color:"#4ADE60",fontWeight:700}}>
+                +{(parseFloat(investAmt)*investTier.rate/100).toFixed(4)} π
+              </span>
+            </div>
+            <div>
+              <span style={{color:C.sub}}>{lang==="fr"?"Montant à terme :":"Maturity amount:"}</span>{" "}
+              <span style={{color:"#4ADE60",fontWeight:700}}>
+                {(parseFloat(investAmt)*(1+investTier.rate/100)).toFixed(4)} π
+              </span>
+            </div>
+          </div>
+          <div style={{fontSize:9,color:C.sub,marginBottom:14,lineHeight:1.6}}>
+            {lang==="fr"
+              ?"Les fonds sont bloqués pour une durée minimale de 12 mois. SEINBU CAPITAL se réserve le droit de prolonger la durée en cas de force majeure. Les rendements sont versés en Pi Network à l'adresse du pionnier investisseur. Ce contrat est régi par le droit ivoirien."
+              :"Funds are locked for a minimum of 12 months. SEINBU CAPITAL reserves the right to extend the term in case of force majeure. Returns are paid in Pi Network to the pioneer investor's address. This contract is governed by Ivorian law."}
+          </div>
+          <div onClick={()=>setContractOk(!contractOk)}
+            style={{display:"flex",alignItems:"center",gap:10,marginBottom:16,cursor:"pointer"}}>
+            <div style={{width:20,height:20,borderRadius:5,flexShrink:0,
+              border:`2px solid ${contractOk?investTier.color:C.sub}`,
+              background:contractOk?investTier.color:"transparent",
+              display:"flex",alignItems:"center",justifyContent:"center"}}>
+              {contractOk&&<span style={{color:"#000",fontSize:12,fontWeight:900}}>✓</span>}
+            </div>
+            <div style={{fontSize:10,color:contractOk?"#E8F5E9":C.sub}}>
+              {lang==="fr"
+                ?"J'ai lu et j'accepte les termes du contrat Pi Bond SEINBU CAPITAL"
+                :"I have read and accept the Pi Bond SEINBU CAPITAL contract terms"}
+            </div>
+          </div>
+          <div style={{display:"flex",gap:8}}>
+            <div onClick={()=>setShowContract(false)}
+              style={{flex:1,background:"#1A2A1A",borderRadius:10,padding:"10px 0",
+                textAlign:"center",fontSize:11,fontWeight:700,cursor:"pointer",color:C.sub}}>
+              {lang==="fr"?"Retour":"Back"}
+            </div>
+            <div onClick={()=>{
+              if(!contractOk) return;
+              handlePiPay(parseFloat(investAmt),
+                `Pi Bond ${investTier.tier} - SEINBU CAPITAL`,{bondType:investTier.tier});
+              setShowContract(false);
+              setInvestTier(null);
+            }}
+              style={{flex:2,background:contractOk?investTier.color:"#1A2A1A",
+                borderRadius:10,padding:"10px 0",textAlign:"center",
+                fontSize:11,fontWeight:800,cursor:contractOk?"pointer":"not-allowed",
+                color:contractOk?"#000":C.sub,
+                transition:"all .2s"}}>
+              🔐 {lang==="fr"?"Signer & Investir":"Sign & Invest"}
+            </div>
+          </div>
+        </div>
+      </div>
+    )}
     {investTier&&(
       <div style={{position:"fixed",inset:0,background:"rgba(0,0,0,.85)",zIndex:999,
         display:"flex",alignItems:"center",justifyContent:"center",padding:20}}>
@@ -1430,13 +1518,12 @@ const [showPin,   setShowPin]   = useState(false);
             </div>
             <div onClick={()=>{
               if(!investAmt||parseFloat(investAmt)<investTier.min) return;
-              handlePiPay(parseFloat(investAmt),
-                `Pi Bond ${investTier.tier} - SEINBU CAPITAL`,{bondType:investTier.tier});
-              setInvestTier(null);
+              setContractOk(false);
+              setShowContract(true);
             }}
               style={{flex:2,background:investTier.color,borderRadius:10,padding:"10px 0",
                 textAlign:"center",fontSize:11,fontWeight:800,cursor:"pointer",color:"#000"}}>
-              🔐 {lang==="fr"?"Confirmer l'investissement":"Confirm investment"}
+              📄 {lang==="fr"?"Voir le contrat":"View contract"}
             </div>
           </div>
         </div>
