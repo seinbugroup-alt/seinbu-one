@@ -1970,7 +1970,7 @@ const [showPin,   setShowPin]   = useState(false);
         background:"rgba(0,0,0,.92)",
         display:"flex",flexDirection:"column",
         alignItems:"center",justifyContent:"flex-start",
-        paddingTop:"5vh",overflowY:"auto",zIndex:9998}}>
+        paddingTop:"5vh",overflowY:"auto",zIndex:10000}}>
         <div style={{background:"#0A0F1E",border:"1px solid #2D3A5A",
           borderRadius:20,padding:"28px 24px",width:300,textAlign:"center"}}>
 
