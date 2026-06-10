@@ -1,6 +1,24 @@
 import { useState } from "react";
 const C={bg:"#080C14",card:"#0E1624",border:"#1A2A44",primary:"#3B82F6",light:"#93C5FD",gold:"#D4A827",green:"#4ADE80",orange:"#F97316",text:"#EFF6FF",sub:"#3A5A8A",muted:"#0E2040"};
 const GCV=188_495_400;
+const SBCIcon = () => (
+  <svg width="18" height="18" viewBox="0 0 500 500" style={{display:"inline-block",verticalAlign:"middle",marginRight:4}}>
+    <defs>
+      <radialGradient id="si1" cx="33%" cy="28%" r="72%"><stop offset="0%" stopColor="#ffe8a0"/><stop offset="100%" stopColor="#3a2000"/></radialGradient>
+      <radialGradient id="si2" cx="38%" cy="32%" r="68%"><stop offset="0%" stopColor="#1e0840"/><stop offset="100%" stopColor="#06011a"/></radialGradient>
+      <radialGradient id="si3" cx="38%" cy="32%" r="65%"><stop offset="0%" stopColor="#c8920a"/><stop offset="100%" stopColor="#2e1e00"/></radialGradient>
+      <linearGradient id="sig" x1="0%" y1="0%" x2="0%" y2="100%"><stop offset="0%" stopColor="#ffe880"/><stop offset="100%" stopColor="#c8920a"/></linearGradient>
+    </defs>
+    <circle cx="250" cy="250" r="196" fill="url(#si1)"/>
+    <circle cx="250" cy="250" r="182" fill="url(#si2)"/>
+    <circle cx="250" cy="250" r="158" fill="none" stroke="#d4a017" strokeWidth="1.8" opacity=".65"/>
+    <circle cx="250" cy="250" r="46" fill="url(#si3)"/>
+    <circle cx="250" cy="250" r="46" fill="none" stroke="#ffe066" strokeWidth="1.5" opacity=".7"/>
+    <text x="250" y="258" textAnchor="middle" fontFamily="'Trebuchet MS',sans-serif" fontSize="20" fontWeight="900" fill="url(#sig)">SBC</text>
+    <circle cx="250" cy="250" r="182" fill="none" stroke="#d4a017" strokeWidth="2.5" opacity=".75"/>
+  </svg>
+);
+
 const fmt=(n,d=0)=>new Intl.NumberFormat("fr-FR",{maximumFractionDigits:d}).format(n);
 const toPi=(f,d=6)=>(f/GCV).toFixed(d);
 const T={

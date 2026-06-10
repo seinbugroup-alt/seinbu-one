@@ -716,7 +716,7 @@ export default function SeinbuFintech({ lang = "fr" }) {
 
           <Lbl>{t.payWith}</Lbl>
           <div style={{display:"flex",gap:8,marginBottom:16}}>
-            {[{id:"pi",lbl:"π Pi",c:C.gold},{id:"sbc",lbl:"S SBC",c:C.light}].map(m=>(
+            {[{id:"pi",lbl:"π Pi",c:C.gold},{id:"sbc",lbl:<><SBCLogo size={16}/>SBC</>,c:C.light}].map(m=>(
               <div key={m.id} onClick={()=>setMmMethod(m.id)}
                 style={{flex:1,padding:"11px 0",textAlign:"center",borderRadius:12,
                   border:`1px solid ${mmMethod===m.id?m.c:C.border}`,
