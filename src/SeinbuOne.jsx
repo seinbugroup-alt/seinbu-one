@@ -1238,7 +1238,7 @@ const [showPin,   setShowPin]   = useState(false);
           <div style={{display:"flex",alignItems:"center",gap:8}}>
             <span style={{fontSize:14}}>{ico}</span>
             <span style={{fontSize:11,fontWeight:600}}>{lbl}</span>
-          </div><div style={{fontSize:8,color:"#3A5A8A",marginTop:2}}>{lang==="en"?"Updated: June 8, 2026":"Mis à jour : 08 juin 2026"}</div>
+          </div>{lbl.includes("Version")&&<div style={{fontSize:8,color:"#3A5A8A",marginTop:2}}>{lang==="en"?"Updated: June 8, 2026":"Mis à jour : 08 juin 2026"}</div>}
           <span style={{fontSize:11,color:C.gold,fontWeight:700}}>{val}</span>
         </>}/>
       ))}
