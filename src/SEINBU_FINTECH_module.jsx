@@ -381,8 +381,7 @@ const qrUrl = `https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=${e
                       {lang==="en"?"Point camera at QR code":"Pointez la caméra vers le QR code"}
                     </div>
                     <video ref={videoRef} autoPlay playsInline muted
-                      style={{width:280,height:280,borderRadius:16,border:"3px solid #4ADE60",objectFit:"cover"}}
-                      
+                      style={{width:280,height:280,borderRadius:16,border:"3px solid #4ADE60",objectFit:"cover"}}/>
                     <div onClick={()=>{
                       if(streamRef.current) streamRef.current.getTracks().forEach(t=>t.stop());
                       setScanning(false);
