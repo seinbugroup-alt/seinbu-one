@@ -26,7 +26,7 @@ const T={
   fr:{tabs:["Crédit","Internet","Appels","Historique"],title:"SEINBU TELECOM",sub:"Recharge · Internet · Appels · 5G CI",phase:"Bêta",operator:"OPÉRATEUR",amount:"MONTANT",payWith:"PAYER AVEC",topup:"Recharger",phone:"NUMÉRO À RECHARGER",phonePh:"Ex: +225 07 12 34 56",popular:"POPULAIRE",plans:"FORFAITS DATA",calls:"FORFAITS APPELS",history:"Historique",dest:"Destination",duration:"Durée",confirmed:"Recharge confirmée !",confirmedSub:"Votre crédit a été envoyé.",newTx:"Nouvelle recharge",cancel:"Annuler"},
   en:{tabs:["Credit","Internet","Calls","History"],title:"SEINBU TELECOM",sub:"Top-up · Internet · Calls · 5G CI",phase:"Beta",operator:"OPERATOR",amount:"AMOUNT",payWith:"PAY WITH",topup:"Top-up",phone:"NUMBER TO TOP-UP",phonePh:"E.g. +225 07 12 34 56",popular:"POPULAR",plans:"DATA PLANS",calls:"CALL PLANS",history:"History",dest:"Destination",duration:"Duration",confirmed:"Top-up confirmed!",confirmedSub:"Your credit has been sent.",newTx:"New top-up",cancel:"Cancel"},
 };
-const OPS=[{id:"orange",name:"Orange CI",color:"#FF6B00",icon:"🟠"},{id:"mtn",name:"MTN CI",color:"#FFCB05",icon:"🟡"},{id:"moov",name:"Moov Africa",color:"#00A651",icon:"🟢"}];
+const OPS=[{id:"orange",name:"Orange CI",color:"#FF6B00",icon:"🟠",prefix:"07",ph:"+225 07 XX XX XX XX"},{id:"mtn",name:"MTN CI",color:"#FFCB05",icon:"🟡"},{id:"moov",name:"Moov Africa",color:"#00A651",icon:"🟢"}];
 const RECHARGES=[500,1000,2000,5000,10000,20000];
 const DATA=[{id:"d1",name:"Starter",data:"500 Mo",days:1,price:500},{id:"d2",name:"Daily",data:"1 Go",days:1,price:1000},{id:"d3",name:"Weekly",data:"5 Go",days:7,price:3000},{id:"d4",name:"Monthly",data:"20 Go",days:30,price:8000},{id:"d5",name:"Pro",data:"50 Go",days:30,price:15000},{id:"d6",name:"Infinity",data:"∞",days:30,price:25000}];
 const CALLS_DATA=[{id:"c1",dest:"Tous réseaux CI",destEn:"All CI networks",min:100,days:30,price:2000},{id:"c2",dest:"Tous réseaux CI",destEn:"All CI networks",min:300,days:30,price:5000},{id:"c3",dest:"Réseau SEINBU",destEn:"SEINBU Network",min:-1,days:30,price:3000},{id:"c4",dest:"UEMOA + France",destEn:"UEMOA + France",min:30,days:30,price:10000}];
@@ -59,10 +59,10 @@ export default function SeinbuTelecom({lang="fr"}){
           <>
             <Lbl>{t.operator}</Lbl>
             <div style={{display:"grid",gridTemplateColumns:"1fr 1fr 1fr",gap:8,marginBottom:14}}>
-              {OPS.map(o=>(<div key={o.id} onClick={()=>setOp(o.id)} style={{background:op===o.id?`${o.color}22`:C.card,border:`2px solid ${op===o.id?o.color:C.border}`,borderRadius:12,padding:"10px 6px",textAlign:"center",cursor:"pointer"}}><div style={{fontSize:20}}>{o.icon}</div><div style={{fontSize:10,fontWeight:700,marginTop:4}}>{o.name}</div></div>))}
+              {OPS.map((o,oi)=>(<div key={o.id} onClick={()=>{setOp(o.id);setPhone(o.prefix ? "+225 "+o.prefix+" " : "");}} style={{background:op===o.id?`${o.color}22`:C.card,border:`2px solid ${op===o.id?o.color:C.border}`,borderRadius:12,padding:"10px 6px",textAlign:"center",cursor:"pointer"}}><div style={{fontSize:20}}>{o.icon}</div><div style={{fontSize:10,fontWeight:700,marginTop:4}}>{o.name}</div></div>))}
             </div>
             <Lbl>{t.phone}</Lbl>
-            <input value={phone} onChange={e=>setPhone(e.target.value)} placeholder={t.phonePh} style={{width:"100%",background:C.card,border:`1px solid ${C.border}`,borderRadius:10,padding:"10px 14px",color:C.text,fontSize:12,boxSizing:"border-box",marginBottom:14,outline:"none"}}/>
+            <input value={phone} onChange={e=>setPhone(e.target.value)} placeholder={OPS.find(o=>o.id===op)?.ph || t.phonePh} style={{width:"100%",background:C.card,border:`1px solid ${C.border}`,borderRadius:10,padding:"10px 14px",color:C.text,fontSize:12,boxSizing:"border-box",marginBottom:14,outline:"none"}}/>
             <Lbl>{t.amount}</Lbl>
             <div style={{display:"grid",gridTemplateColumns:"1fr 1fr 1fr",gap:6,marginBottom:14}}>
               {RECHARGES.map(a=>(<div key={a} onClick={()=>setAmt(a)} style={{background:amt===a?`${C.primary}22`:C.card,border:`1px solid ${amt===a?C.primary:C.border}`,borderRadius:10,padding:"10px 4px",textAlign:"center",cursor:"pointer"}}><div style={{fontSize:12,fontWeight:800}}>{fmt(a)}</div><div style={{fontSize:8,color:C.sub}}>FCFA</div><div style={{fontSize:8,color:C.gold}}>{toPi(a)} π</div></div>))}
@@ -78,6 +78,30 @@ export default function SeinbuTelecom({lang="fr"}){
                 <div style={{fontSize:10,color:C.light}}>{new Intl.NumberFormat("fr-FR").format(Math.round(amt/10))} SBC</div>
               </div>
             </div>}
+            {amt&&(
+              <div style={{background:"rgba(255,255,255,.04)",borderRadius:10,
+                padding:"10px 14px",marginBottom:12,
+                display:"flex",justifyContent:"space-between",alignItems:"center"}}>
+                <span style={{fontSize:10,color:C.sub}}>
+                  {lang==="en"?"You pay":"Vous payez"}
+                </span>
+                <div style={{textAlign:"right"}}>
+                  {method==="pi"&&(
+                    <div style={{fontSize:13,fontWeight:900,color:C.gold}}>
+                      {(amt/188495400).toFixed(6)} π
+                    </div>
+                  )}
+                  {method==="sbc"&&(
+                    <div style={{fontSize:13,fontWeight:900,color:C.light}}>
+                      {new Intl.NumberFormat("fr-FR").format(Math.round(amt/10))} SBC
+                    </div>
+                  )}
+                  <div style={{fontSize:9,color:C.sub}}>
+                    ≈ {new Intl.NumberFormat("fr-FR").format(amt)} FCFA
+                  </div>
+                </div>
+              </div>
+            )}
             <div onClick={()=>{if(phone&&amt){if(window.seinbuAuth)window.seinbuAuth(()=>setDone(true));else setDone(true);}}} style={{background:phone&&amt?C.primary:C.muted,borderRadius:12,padding:"13px 0",textAlign:"center",fontWeight:800,fontSize:13,cursor:"pointer"}}>🔐 {t.topup}</div>
           </>
         )}
