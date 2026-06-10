@@ -2,6 +2,7 @@ import { useState } from "react";
 const C={bg:"#1A0E00",card:"#261500",border:"#4A2800",primary:"#D97706",light:"#FBD38D",gold:"#D4A827",green:"#4ADE80",text:"#FFFBEB",sub:"#8A5A00",muted:"#3A2000"};
 // eslint-disable-next-line no-unused-vars
 const GCV=188_495_400,SBC=10;
+// eslint-disable-next-line no-unused-vars
 const SBCIcon = () => (
   <svg width="18" height="18" viewBox="0 0 500 500" style={{display:"inline-block",verticalAlign:"middle",marginRight:4}}>
     <defs>

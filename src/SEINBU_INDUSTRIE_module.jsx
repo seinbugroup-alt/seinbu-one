@@ -1,6 +1,7 @@
 import { useState } from "react";
 const C={bg:"#080C14",card:"#0E1624",border:"#1A2A44",primary:"#3B82F6",light:"#93C5FD",gold:"#D4A827",green:"#4ADE80",orange:"#F97316",text:"#EFF6FF",sub:"#3A5A8A",muted:"#0E2040"};
 const GCV=188_495_400;
+// eslint-disable-next-line no-unused-vars
 const SBCIcon = () => (
   <svg width="18" height="18" viewBox="0 0 500 500" style={{display:"inline-block",verticalAlign:"middle",marginRight:4}}>
     <defs>
