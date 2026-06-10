@@ -1276,7 +1276,8 @@ const [showPin,   setShowPin]   = useState(false);
                       url:"mailto:e.seinbugroup@gmail.com"},
                     {icon:"💬",name:"WhatsApp", nameen:"WhatsApp",
                       url:"https://wa.me/2250747913099"},
-                    {icon:"📱",name:"SEINBU ONE",nameen:"SEINBU ONE",url:"#"},
+                    {icon:"👥",name:"Facebook",nameen:"Facebook",url:"https://www.facebook.com/share/19P4V3FrqY/"},
+                    {icon:"💼",name:"LinkedIn",nameen:"LinkedIn",url:"https://www.linkedin.com/company/seinbu-group"},
                   ].map(l=>(
                     <div key={l.name}
                       onClick={()=>l.url!=="#"&&window.open(l.url,"_blank")}
