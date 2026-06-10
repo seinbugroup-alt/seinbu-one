@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef } from "react";
+import { useState, useRef } from "react";
 
 const C = {
   bg:"#0A0118", card:"#110228", card2:"#1a0840",
@@ -147,6 +147,7 @@ export default function SeinbuFintech({ lang = "fr", piUser = null }) {
   const [showNewCtact, setShowNewCtact]= useState(false);
   const [newCtName,    setNewCtName]   = useState("");
   const [sendDone,     setSendDone]    = useState(false);
+  // eslint-disable-next-line no-unused-vars
   const [scanning,     setScanning]    = useState(false);
   const [scanError,    setScanError]   = useState("");
   const scanFileRef = useRef(null);
