@@ -149,54 +149,45 @@ export default function SeinbuFintech({ lang = "fr", piUser = null }) {
   const [sendDone,     setSendDone]    = useState(false);
   const [scanning,     setScanning]    = useState(false);
   const [scanError,    setScanError]   = useState("");
-  const videoRef = useRef(null);
-  const streamRef = useRef(null);
+  const scanFileRef = useRef(null);
 
-  useEffect(()=>{
-    if(!scanning) return;
-    let active = true;
-    const startScan = async () => {
-      try {
-        const stream = await navigator.mediaDevices.getUserMedia({video:{facingMode:"environment"}});
-        streamRef.current = stream;
-        if(videoRef.current) videoRef.current.srcObject = stream;
-        if(!window.jsQR) {
-          await new Promise((res,rej)=>{
-            const s=document.createElement("script");
-            s.src="https://cdnjs.cloudflare.com/ajax/libs/jsQR/1.4.0/jsQR.min.js";
-            s.onload=res; s.onerror=rej;
-            document.head.appendChild(s);
-          });
-        }
-        const canvas = document.createElement("canvas");
-        const ctx = canvas.getContext("2d");
-        const tick = () => {
-          if(!active) return;
-          const el = videoRef.current;
-          if(!el||el.readyState!==el.HAVE_ENOUGH_DATA){requestAnimationFrame(tick);return;}
-          canvas.width=el.videoWidth; canvas.height=el.videoHeight;
-          ctx.drawImage(el,0,0);
-          const img=ctx.getImageData(0,0,canvas.width,canvas.height);
-          const code=window.jsQR(img.data,img.width,img.height);
-          if(code){
-            const match=code.data.match(/seinbu:\/\/pay\?to=@([^&]+)/);
-            setSendTo(match?match[1]:code.data);
-            stream.getTracks().forEach(t=>t.stop());
-            setScanning(false);
-          } else requestAnimationFrame(tick);
-        };
-        requestAnimationFrame(tick);
-      } catch(e){
-        setScanError(e.name==="NotAllowedError"?"Accès caméra refusé":"Caméra non disponible");
-        setScanning(false);
+  const handleScanFile = async (e) => {
+    const file = e.target.files?.[0];
+    if(!file) return;
+    setScanError("");
+    try {
+      if(!window.jsQR) {
+        await new Promise((res,rej)=>{
+          const s=document.createElement("script");
+          s.src="https://cdnjs.cloudflare.com/ajax/libs/jsQR/1.4.0/jsQR.min.js";
+          s.onload=res; s.onerror=rej;
+          document.head.appendChild(s);
+        });
       }
-    };
-    startScan();
-    return ()=>{
-      active=false;
-      if(streamRef.current) streamRef.current.getTracks().forEach(t=>t.stop());
-    };
-  },[scanning]);
+      const img = new Image();
+      const url = URL.createObjectURL(file);
+      img.onload = () => {
+        const canvas = document.createElement("canvas");
+        canvas.width = img.width; canvas.height = img.height;
+        const ctx = canvas.getContext("2d");
+        ctx.drawImage(img,0,0);
+        const data = ctx.getImageData(0,0,canvas.width,canvas.height);
+        const code = window.jsQR(data.data,data.width,data.height);
+        URL.revokeObjectURL(url);
+        if(code){
+          const match = code.data.match(/seinbu:\/\/pay\?to=@([^&]+)/);
+          setSendTo(match?match[1]:code.data);
+          setScanning(false);
+        } else {
+          setScanError(lang==="en"?"No QR code found in image":"Aucun QR code trouvé dans l'image");
+        }
+      };
+      img.src = url;
+    } catch(e){
+      setScanError(lang==="en"?"Scan error":"Erreur de scan");
+    }
+    setScanning(false);
+  };
 
   // Recevoir
   const [copied,       setCopied]      = useState(false);
@@ -358,14 +349,7 @@ const qrUrl = `https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=${e
                 <div style={{position:"relative",marginBottom:4}}>
                   <Input value={sendTo} onChange={e=>setSendTo(e.target.value)}
                     placeholder={t.recipientPh} style={{marginBottom:0,paddingRight:80}}/>
-                  <div onClick={()=>{
-                      setScanError("");
-                      if(!navigator.mediaDevices?.getUserMedia){
-                        setScanError(lang==="en"?"Camera not supported":"Caméra non supportée");
-                        return;
-                      }
-                      setScanning(true);
-                    }}
+                  <div onClick={()=>{ setScanError(""); if(scanFileRef.current) scanFileRef.current.click(); }}
                     style={{position:"absolute",right:8,top:"50%",transform:"translateY(-50%)",
                       background:C.primary,borderRadius:6,padding:"4px 8px",
                       fontSize:10,fontWeight:700,cursor:"pointer",whiteSpace:"nowrap"}}>
@@ -374,23 +358,8 @@ const qrUrl = `https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=${e
                 </div>
                 <div style={{fontSize:9,color:C.muted,marginBottom:12}}>{t.orScanQR}</div>
                 {scanError&&<div style={{fontSize:9,color:"#F87171",marginBottom:8}}>{scanError}</div>}
-                {scanning&&(
-                  <div style={{position:"fixed",inset:0,background:"rgba(0,0,0,.92)",zIndex:999,
-                    display:"flex",flexDirection:"column",alignItems:"center",justifyContent:"center",gap:16}}>
-                    <div style={{fontSize:13,fontWeight:800,color:"#fff"}}>
-                      {lang==="en"?"Point camera at QR code":"Pointez la caméra vers le QR code"}
-                    </div>
-                    <video ref={videoRef} autoPlay playsInline muted
-                      style={{width:280,height:280,borderRadius:16,border:"3px solid #4ADE60",objectFit:"cover"}}/>
-                    <div onClick={()=>{
-                      if(streamRef.current) streamRef.current.getTracks().forEach(t=>t.stop());
-                      setScanning(false);
-                    }} style={{background:"#F87171",borderRadius:10,padding:"10px 28px",
-                      fontSize:12,fontWeight:800,cursor:"pointer",color:"#fff"}}>
-                      {lang==="en"?"Cancel":"Annuler"}
-                    </div>
-                  </div>
-                )}
+                <input ref={scanFileRef} type="file" accept="image/*" capture="environment"
+                  style={{display:"none"}} onChange={handleScanFile}/>
 
                 {sendTo&&(
                   <div onClick={()=>setShowNewCtact(!showNewCtact)}
