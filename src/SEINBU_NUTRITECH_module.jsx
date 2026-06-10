@@ -90,7 +90,7 @@ export default function SeinbuNutriTech({lang="fr"}){
                 <div style={{fontSize:9,color:C.sub}}>{lang==="en"?p.descE:p.descF}</div>
                 <div style={{display:"flex",gap:6,marginTop:4,alignItems:"baseline"}}>
                   <span style={{fontSize:13,fontWeight:900,color:C.gold}}>{fmt(p.price)} FCFA</span>
-                  <span style={{fontSize:8,color:C.sub}}>{toPi(p.price)} π<div style={{fontSize:7,color:"#A855F7"}}>{fmt(p.price/10,0)} SBC</div><div style={{fontSize:7,color:"#A855F7"}}>{fmt(p.price/10,0)} SBC</span>
+                  <span style={{fontSize:8,color:C.sub}}>{toPi(p.price)} π</span><span style={{fontSize:9,color:"#4ADE60"}}>{fmt(p.price/10,0)} SBC</span>
                 </div>
                 <div style={{fontSize:8,color:C.muted}}>{p.unit}</div>
               </div>

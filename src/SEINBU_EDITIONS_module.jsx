@@ -79,7 +79,7 @@ export default function SeinbuEditions({lang="fr"}){
               <div style={{display:"flex",justifyContent:"space-between",alignItems:"center",marginTop:8}}>
                 <div>
                   {b.free?<span style={{color:C.green,fontWeight:800,fontSize:12}}>{t.free}</span>:<span style={{color:C.gold,fontWeight:900,fontSize:13}}>{fmt(b.priceFCFA)} FCFA</span>}
-                  {!b.free&&<div style={{fontSize:8,color:C.sub}}>{toPi(b.priceFCFA)} π</div><div style={{fontSize:7,color:"#A855F7"}}>{fmt(b.priceFCFA/10,0)} SBC<div style={{fontSize:7,color:"#A855F7"}}>{fmt(b.priceFCFA/10,0)} SBC</div>}
+                  {!b.free&&<><div style={{fontSize:8,color:C.sub}}>{toPi(b.priceFCFA)} π</div><div style={{fontSize:9,color:"#4ADE60"}}>{fmt(b.priceFCFA/10,0)} SBC</div></>}
                 </div>
                 <div onClick={()=>{if(!b.free)add(b.id);}} style={{background:b.free?C.green:C.primary,borderRadius:8,padding:"6px 12px",fontSize:10,fontWeight:700,cursor:"pointer",color:b.free?"#000":"#fff"}}>{b.free?lang==="en"?"Download":"Télécharger":t.addCart}</div>
               </div>

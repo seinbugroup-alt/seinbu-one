@@ -166,7 +166,7 @@ export default function SeinbuTech({ lang = "fr" }) {
                   <div style={{fontSize:14,fontWeight:900,color:C.gold}}>
                     {fmt(s.prix)} FCFA
                   </div>
-                  <div style={{fontSize:9,color:C.sub}}>{toPi(s.prix)} π</div><div style={{fontSize:7,color:"#A855F7"}}>{fmt(s.prix/10,0)} SBC<div style={{fontSize:7,color:"#A855F7"}}>{fmt(s.prix/10,0)} SBC</div>
+                  <div style={{fontSize:9,color:C.sub}}>{toPi(s.prix)} π</div><div style={{fontSize:7,color:"#A855F7"}}>{fmt(s.prix/10,0)} SBC</div><div style={{fontSize:9,color:"#4ADE60"}}>{fmt(s.prix/10,0)} SBC</div>
                 </div>
               </div>
               <div style={{fontSize:10,color:C.sub,lineHeight:1.5,marginBottom:12}}>

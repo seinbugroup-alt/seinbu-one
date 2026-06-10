@@ -94,7 +94,7 @@ export default function SeinbuSecurity({lang="fr"}){
                 <span style={{fontSize:22}}>{s.icon}</span>
                 <div><div style={{fontSize:12,fontWeight:800}}>{lang==="en"?s.nameE:s.nameF}</div><div style={{fontSize:9,color:C.sub}}>{lang==="en"?s.descE:s.descF}</div></div>
               </div>
-              <div style={{textAlign:"right"}}><div style={{fontSize:12,fontWeight:900,color:C.gold}}>{fmt(s.price)} FCFA</div><div style={{fontSize:9,color:C.sub}}>{toPi(s.price)} π</div><div style={{fontSize:7,color:"#A855F7"}}>{fmt(s.price/10,0)} SBC<div style={{fontSize:7,color:"#A855F7"}}>{fmt(s.price/10,0)} SBC</div>
+              <div style={{textAlign:"right"}}><div style={{fontSize:12,fontWeight:900,color:C.gold}}>{fmt(s.price)} FCFA</div><div style={{fontSize:9,color:C.sub}}>{toPi(s.price)} π</div><div style={{fontSize:7,color:"#A855F7"}}>{fmt(s.price/10,0)} SBC</div><div style={{fontSize:9,color:"#4ADE60"}}>{fmt(s.price/10,0)} SBC</div>
             </div>
             <div onClick={()=>{if(window.seinbuAuth)window.seinbuAuth(()=>setConfirmed(true));else setConfirmed(true);}} style={{background:C.primary,borderRadius:8,padding:"8px 0",textAlign:"center",fontSize:10,fontWeight:800,cursor:"pointer"}}>🔐 {t.request}</div>
           </Card>))

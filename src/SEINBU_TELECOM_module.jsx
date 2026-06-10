@@ -63,7 +63,7 @@ export default function SeinbuTelecom({lang="fr"}){
           <>
             <Lbl>{t.operator}</Lbl>
             <div style={{display:"grid",gridTemplateColumns:"1fr 1fr 1fr",gap:8,marginBottom:14}}>
-              {OPS.map((o,oi)=>(<div key={o.id} onClick={()=>{setOp(o.id);setPhone(o.prefix||"").trimEnd()+" " : "");}} style={{background:op===o.id?`${o.color}22`:C.card,border:`2px solid ${op===o.id?o.color:C.border}`,borderRadius:12,padding:"10px 6px",textAlign:"center",cursor:"pointer"}}><div style={{fontSize:20}}>{o.icon}</div><div style={{fontSize:10,fontWeight:700,marginTop:4}}>{o.name}</div></div>))}
+              {OPS.map((o,oi)=>(<div key={o.id} onClick={()=>{setOp(o.id);setPhone((o.prefix||"").trimEnd()+" ");}} style={{background:op===o.id?`${o.color}22`:C.card,border:`2px solid ${op===o.id?o.color:C.border}`,borderRadius:12,padding:"10px 6px",textAlign:"center",cursor:"pointer"}}><div style={{fontSize:20}}>{o.icon}</div><div style={{fontSize:10,fontWeight:700,marginTop:4}}>{o.name}</div></div>))}
             </div>
             <Lbl>{t.phone}</Lbl>
             <input value={phone} onChange={e=>setPhone(e.target.value)} placeholder={OPS.find(x=>x.id===op)?.ph||"+225 07 07 XX XX XX"} style={{width:"100%",background:C.card,border:`1px solid ${C.border}`,borderRadius:10,padding:"10px 14px",color:C.text,fontSize:12,boxSizing:"border-box",marginBottom:14,outline:"none"}}/>
