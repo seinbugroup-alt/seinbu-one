@@ -636,7 +636,7 @@ const [showPin,   setShowPin]   = useState(false);
       borderRadius:20,padding:"2px 9px",fontSize:9,fontWeight:700,letterSpacing:.4}}>{ch}</span>
   );
   const Bar = ({pct,color}) => (
-    <div style={{background:"rgba(255,255,255,.05)",borderRadius:4,height:4,overflow:"hidden"}}>
+    <div style={{background:"rgba(255,255,255,.05)",borderRadius:4,height:4}}>
       <div style={{width:`${pct}%`,height:"100%",background:color||C.gold,
         borderRadius:4,transition:"width .7s"}}/>
     </div>
@@ -1013,10 +1013,7 @@ const [showPin,   setShowPin]   = useState(false);
     <div className="fade" style={{padding:"18px 16px"}}>
       <div style={{fontSize:20,fontWeight:900,marginBottom:2}}>Modules</div>
       <div style={{fontSize:10,color:C.sub,marginBottom:4}}>{i.modulesSub}</div>
-      <div style={{fontSize:9,color:"#5DD490",marginBottom:16,fontWeight:600,
-        lineHeight:1.4,fontStyle:"italic"}}>
-        {i.modulesQuote}
-      </div>
+      
       <div style={{display:"grid",gridTemplateColumns:"1fr 1fr",gap:10}}>
         {MODS.map(m=>(
           <div key={m.id} className="tap" onClick={()=>openMod(m.id)}
@@ -2090,7 +2087,7 @@ const [showPin,   setShowPin]   = useState(false);
   return (
     <div onClick={closeD} style={{fontFamily:"'Sora',sans-serif",
       background:C.bg,color:C.text,minHeight:"100dvh",
-      maxWidth:430,margin:"0 auto",position:"relative",overflow:"hidden"}}>
+      maxWidth:430,margin:"0 auto",position:"relative"}}>
       {showPin && <PinModal/>}
       <style>{CSS}</style>
             <TopBar/>
