@@ -550,7 +550,7 @@ const [showPin,   setShowPin]   = useState(false);
   // ── Pi Connect ─────────────────────────────────────────────────
   const handlePiConnect = async () => {
     if(piOn){ setPiOn(false); setPiUser(null); return; }
-    try {
+    window.seinbuAuth(async()=>{ try {
       const auth = await PiSDK.authenticate(["username","payments"]);
       setPiUser(auth.user);
       setPiOn(true);
@@ -873,7 +873,7 @@ const [showPin,   setShowPin]   = useState(false);
               <div style={{width:34,height:34,borderRadius:10,background:"rgba(212,168,39,.1)",
                 display:"flex",alignItems:"center",justifyContent:"center",fontSize:20}}>π</div>
               <div>
-                <div style={{fontSize:11,fontWeight:700,color:C.gold}} onClick={()=>{if(window.seinbuAuth)window.seinbuAuth(()=>{if(window.Pi)window.Pi.authenticate([],()=>{},{});});}}>{i.connectPrompt}</div>
+                <div style={{fontSize:11,fontWeight:700,color:C.gold}}>{i.connectPrompt}</div>
                 <div style={{fontSize:9,color:C.sub}}>{i.connectSub}</div>
                 {piDemo&&<div style={{fontSize:8,color:C.sub,marginTop:2}}>({i.piDemoMode})</div>}
               </div>
