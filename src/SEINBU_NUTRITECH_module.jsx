@@ -65,22 +65,13 @@ export default function SeinbuNutriTech({lang="fr"}){
     setAiLoading(true);
     setAiResponse("");
     try{
-      const res=await fetch("https://api.anthropic.com/v1/messages",{
+      const res=await fetch("/api/nutricell",{
         method:"POST",
         headers:{"Content-Type":"application/json"},
-        body:JSON.stringify({
-          model:"claude-sonnet-4-20250514",
-          max_tokens:1000,
-          system:`Tu es NutriCell-AI, l'assistant nutrition et santé de SEINBU NUTRITECH, filiale de SEINBU GROUP SA (Abidjan, Côte d'Ivoire).
-Ton rôle : conseiller sur la nutrition, la santé, les compléments alimentaires naturels et les habitudes saines adaptées à l'Afrique de l'Ouest.
-Produits SEINBU NUTRITECH : NutriCell Boost (vitamines & minéraux, énergie naturelle), NutriCell Protect (immunité, antioxydants), NutriCell Grow (croissance enfants), NutriCell Slim (gestion du poids), NutriCell Senior (vitalité 50+), Huile de Palme Bio (5L).
-Règles : Réponds toujours en ${lang==="en"?"anglais":"français"}. Sois bienveillant, précis et ancré dans le contexte africain. Recommande les produits SEINBU quand pertinent. Ne pose jamais de diagnostic médical. Limite les réponses à 150 mots maximum.`,
-          messages:[{role:"user",content:aiQuery}]
-        })
+        body:JSON.stringify({query:aiQuery, lang})
       });
       const data=await res.json();
-      const text=data.content?.find(b=>b.type==="text")?.text||"";
-      setAiResponse(text||( lang==="en"?"No response received.":"Aucune réponse reçue."));
+      setAiResponse(data.response||(lang==="en"?"No response received.":"Aucune réponse reçue."));
     }catch(e){
       setAiResponse(lang==="en"?"Connection error. Please try again.":"Erreur de connexion. Veuillez réessayer.");
     }
