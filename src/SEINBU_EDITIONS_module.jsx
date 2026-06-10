@@ -110,7 +110,7 @@ export default function SeinbuEditions({lang="fr"}){
               <span style={{fontSize:24}}>{c.icon}</span>
               <div><div style={{fontSize:12,fontWeight:800}}>{lang==="en"?c.titleE:c.titleF}</div><div style={{fontSize:9,color:C.sub}}>{c.level} · {c.hours} · {fmt(c.students)} {lang==="en"?"students":"étudiants"}</div></div>
             </div>
-            <div style={{textAlign:"right",flexShrink:0,marginLeft:8}}><div style={{fontSize:13,fontWeight:900,color:C.gold}}>{fmt(c.price)} FCFA</div><div style={{fontSize:8,color:C.sub}}>{toPi(c.price)} π</div><div style={{fontSize:7,color:"#A855F7"}}>{fmt(c.price*188495400/10,0)} SBC<div style={{fontSize:7,color:"#A855F7"}}>{fmt(c.price*188495400/10,0)} SBC</div></div></div>
+            <div style={{textAlign:"right",flexShrink:0,marginLeft:8}}><div style={{fontSize:13,fontWeight:900,color:C.gold}}>{fmt(c.price)} FCFA</div><div style={{fontSize:8,color:C.sub}}>{toPi(c.price)} π</div><div style={{fontSize:7,color:"#A855F7"}}>{fmt(c.price*188495400/10,0)} SBC<div style={{fontSize:7,color:"#A855F7"}}>{fmt(c.price*188495400/10,0)} SBC</div></div>
           </div>
           <div onClick={()=>{if(window.seinbuAuth)window.seinbuAuth(()=>{});}} style={{background:C.primary,borderRadius:8,padding:"8px 0",textAlign:"center",fontSize:10,fontWeight:800,cursor:"pointer"}}>🔐 {t.enroll}</div>
         </Card>))}
