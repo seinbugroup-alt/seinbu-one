@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect, useRef } from "react";
 
 const C = {
   bg:"#0A0118", card:"#110228", card2:"#1a0840",
@@ -149,6 +149,54 @@ export default function SeinbuFintech({ lang = "fr", piUser = null }) {
   const [sendDone,     setSendDone]    = useState(false);
   const [scanning,     setScanning]    = useState(false);
   const [scanError,    setScanError]   = useState("");
+  const videoRef = useRef(null);
+  const streamRef = useRef(null);
+
+  useEffect(()=>{
+    if(!scanning) return;
+    let active = true;
+    const startScan = async () => {
+      try {
+        const stream = await navigator.mediaDevices.getUserMedia({video:{facingMode:"environment"}});
+        streamRef.current = stream;
+        if(videoRef.current) videoRef.current.srcObject = stream;
+        if(!window.jsQR) {
+          await new Promise((res,rej)=>{
+            const s=document.createElement("script");
+            s.src="https://cdnjs.cloudflare.com/ajax/libs/jsQR/1.4.0/jsQR.min.js";
+            s.onload=res; s.onerror=rej;
+            document.head.appendChild(s);
+          });
+        }
+        const canvas = document.createElement("canvas");
+        const ctx = canvas.getContext("2d");
+        const tick = () => {
+          if(!active) return;
+          const el = videoRef.current;
+          if(!el||el.readyState!==el.HAVE_ENOUGH_DATA){requestAnimationFrame(tick);return;}
+          canvas.width=el.videoWidth; canvas.height=el.videoHeight;
+          ctx.drawImage(el,0,0);
+          const img=ctx.getImageData(0,0,canvas.width,canvas.height);
+          const code=window.jsQR(img.data,img.width,img.height);
+          if(code){
+            const match=code.data.match(/seinbu:\/\/pay\?to=@([^&]+)/);
+            setSendTo(match?match[1]:code.data);
+            stream.getTracks().forEach(t=>t.stop());
+            setScanning(false);
+          } else requestAnimationFrame(tick);
+        };
+        requestAnimationFrame(tick);
+      } catch(e){
+        setScanError(e.name==="NotAllowedError"?"Accès caméra refusé":"Caméra non disponible");
+        setScanning(false);
+      }
+    };
+    startScan();
+    return ()=>{
+      active=false;
+      if(streamRef.current) streamRef.current.getTracks().forEach(t=>t.stop());
+    };
+  },[scanning]);
 
   // Recevoir
   const [copied,       setCopied]      = useState(false);
@@ -332,45 +380,11 @@ const qrUrl = `https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=${e
                     <div style={{fontSize:13,fontWeight:800,color:"#fff"}}>
                       {lang==="en"?"Point camera at QR code":"Pointez la caméra vers le QR code"}
                     </div>
-                    <video id="seinbu-qr-video" autoPlay playsInline
+                    <video ref={videoRef} autoPlay playsInline muted
                       style={{width:280,height:280,borderRadius:16,border:"3px solid #4ADE60",objectFit:"cover"}}
-                      ref={el=>{
-                        if(el&&scanning){
-                          navigator.mediaDevices.getUserMedia({video:{facingMode:"environment"}})
-                            .then(stream=>{
-                              el.srcObject=stream;
-                              const script=document.createElement("script");
-                              script.src="https://cdnjs.cloudflare.com/ajax/libs/jsQR/1.4.0/jsQR.min.js";
-                              script.onload=()=>{
-                                const canvas=document.createElement("canvas");
-                                const ctx=canvas.getContext("2d");
-                                const tick=()=>{
-                                  if(!el||el.readyState!==el.HAVE_ENOUGH_DATA){requestAnimationFrame(tick);return;}
-                                  canvas.width=el.videoWidth; canvas.height=el.videoHeight;
-                                  ctx.drawImage(el,0,0);
-                                  const img=ctx.getImageData(0,0,canvas.width,canvas.height);
-                                  const code=window.jsQR(img.data,img.width,img.height);
-                                  if(code){
-                                    const data=code.data;
-                                    const match=data.match(/seinbu:\/\/pay\?to=@([^&]+)/);
-                                    setSendTo(match?match[1]:data);
-                                    stream.getTracks().forEach(t=>t.stop());
-                                    setScanning(false);
-                                  } else requestAnimationFrame(tick);
-                                };
-                                tick();
-                              };
-                              document.head.appendChild(script);
-                            })
-                            .catch(()=>{
-                              setScanError(lang==="en"?"Camera access denied":"Accès caméra refusé");
-                              setScanning(false);
-                            });
-                        }
-                      }}/>
+                      
                     <div onClick={()=>{
-                      const v=document.getElementById("seinbu-qr-video");
-                      if(v?.srcObject) v.srcObject.getTracks().forEach(t=>t.stop());
+                      if(streamRef.current) streamRef.current.getTracks().forEach(t=>t.stop());
                       setScanning(false);
                     }} style={{background:"#F87171",borderRadius:10,padding:"10px 28px",
                       fontSize:12,fontWeight:800,cursor:"pointer",color:"#fff"}}>
