@@ -455,6 +455,8 @@ export default function SeinbuOne() {
   const [liveFx, setLiveFx] = useState(false);
   // Module sub-tabs
   const [capTab, setCapTab] = useState("bonds");
+  const [investTier, setInvestTier] = useState(null);
+  const [investAmt,  setInvestAmt]  = useState("");
   const [expTab, setExpTab] = useState("parcels");
   const [immTab, setImmTab] = useState("main");
   const [havTab, setHavTab] = useState("foundation");
@@ -1355,8 +1357,7 @@ const [showPin,   setShowPin]   = useState(false);
                   </span>
                 </div>
               </div>
-              <Btn ch={i.invest} sm onClick={()=>handlePiPay(b.min,
-                `Pi Bond ${b.tier} - SEINBU CAPITAL`,{bondType:b.tier})}
+              <Btn ch={i.invest} sm onClick={()=>{ setInvestTier(b); setInvestAmt(String(b.min)); }}
                 s={{background:`${b.color}18`,color:b.color,
                   border:`1px solid ${b.color}40`}}/>
             </div>
@@ -1381,6 +1382,66 @@ const [showPin,   setShowPin]   = useState(false);
           ))}
         </div>
       </>}/>}
+    {investTier&&(
+      <div style={{position:"fixed",inset:0,background:"rgba(0,0,0,.85)",zIndex:999,
+        display:"flex",alignItems:"center",justifyContent:"center",padding:20}}>
+        <div style={{background:"#0D1F12",border:`1px solid ${investTier.color}`,
+          borderRadius:20,padding:24,width:"100%",maxWidth:380}}>
+          <div style={{fontSize:14,fontWeight:900,color:investTier.color,marginBottom:4}}>
+            Pi Bond {investTier.tier}
+          </div>
+          <div style={{fontSize:10,color:C.sub,marginBottom:16}}>
+            {investTier.min}π{investTier.max?` – ${investTier.max}π`:"+"} · {investTier.rate}% {i.perYear}
+          </div>
+          <div style={{fontSize:9,color:C.sub,marginBottom:6}}>
+            {lang==="fr"?"Montant à investir (π)":"Amount to invest (π)"}
+          </div>
+          <input type="number" value={investAmt}
+            onChange={e=>setInvestAmt(e.target.value)}
+            min={investTier.min} max={investTier.max||10000}
+            style={{width:"100%",background:"#081A0A",border:`1px solid ${investTier.color}44`,
+              borderRadius:10,padding:"10px 14px",color:"#E8F5E9",fontSize:16,
+              boxSizing:"border-box",marginBottom:12,outline:"none"}}/>
+          {investAmt&&parseFloat(investAmt)>=investTier.min&&(
+            <div style={{background:`${investTier.color}11`,borderRadius:10,
+              padding:12,marginBottom:16}}>
+              <div style={{fontSize:9,color:C.sub,marginBottom:4}}>
+                {lang==="fr"?"Aperçu des intérêts (1 an)":"Interest preview (1 year)"}
+              </div>
+              <div style={{fontSize:18,fontWeight:900,color:investTier.color}}>
+                +{(parseFloat(investAmt)*investTier.rate/100).toFixed(4)} π
+              </div>
+              <div style={{fontSize:10,color:C.sub}}>
+                ≈ {fc((parseFloat(investAmt)*investTier.rate/100)*PI_GCV_FCFA)} FCFA
+              </div>
+              <div style={{fontSize:9,color:C.sub,marginTop:6}}>
+                {lang==="fr"?"Montant à terme :":"Maturity amount:"}{" "}
+                <span style={{color:"#4ADE60",fontWeight:800}}>
+                  {(parseFloat(investAmt)*(1+investTier.rate/100)).toFixed(4)} π
+                </span>
+              </div>
+            </div>
+          )}
+          <div style={{display:"flex",gap:8}}>
+            <div onClick={()=>setInvestTier(null)}
+              style={{flex:1,background:"#1A2A1A",borderRadius:10,padding:"10px 0",
+                textAlign:"center",fontSize:11,fontWeight:700,cursor:"pointer",color:C.sub}}>
+              {lang==="fr"?"Annuler":"Cancel"}
+            </div>
+            <div onClick={()=>{
+              if(!investAmt||parseFloat(investAmt)<investTier.min) return;
+              handlePiPay(parseFloat(investAmt),
+                `Pi Bond ${investTier.tier} - SEINBU CAPITAL`,{bondType:investTier.tier});
+              setInvestTier(null);
+            }}
+              style={{flex:2,background:investTier.color,borderRadius:10,padding:"10px 0",
+                textAlign:"center",fontSize:11,fontWeight:800,cursor:"pointer",color:"#000"}}>
+              🔐 {lang==="fr"?"Confirmer l'investissement":"Confirm investment"}
+            </div>
+          </div>
+        </div>
+      </div>
+    )}
     </div>
   );
 
