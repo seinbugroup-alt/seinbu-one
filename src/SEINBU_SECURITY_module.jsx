@@ -105,7 +105,7 @@ export default function SeinbuSecurity({lang="fr"}){
         <div style={{fontSize:10,color:C.sub,marginBottom:14}}>{t.certSub}</div>
         <Card style={{background:"linear-gradient(135deg,#1a0808,#2a0a0a)",border:"1px solid #DC262644"}}>
           <div style={{display:"flex",justifyContent:"space-between",alignItems:"center",marginBottom:12}}>
-            <div><div style={{fontSize:14,fontWeight:800,color:C.light}}>CERT CI</div><div style={{fontSize:10,color:C.sub}}>200 000 FCFA / {lang==="en"?"month":"mois"}</div><div style={{fontSize:9,color:C.sub}}>{toPi(200000)} π</div><div style={{fontSize:9,color:"#4ADE60"}}>{fmt(200000/10,0)} SBC</div>
+            <div><div style={{fontSize:14,fontWeight:800,color:C.light}}>CERT CI</div><div style={{fontSize:10,color:C.sub}}>200 000 FCFA / {lang==="en"?"month":"mois"}</div><div style={{fontSize:9,color:C.sub}}>{toPi(200000)} π</div><div style={{fontSize:9,color:"#4ADE60"}}>{fmt(200000/10,0)} SBC</div></div>
             <div style={{fontSize:36}}>🛡️</div>
           </div>
           {["Surveillance réseau temps réel","Alertes incidents de sécurité","Rapports mensuels","Support prioritaire 24h/7j"].map((f,i)=>(<div key={i} style={{fontSize:10,marginBottom:4}}>✅ {lang==="en"?["Real-time network monitoring","Security incident alerts","Monthly reports","Priority support 24/7"][i]:f}</div>))}
