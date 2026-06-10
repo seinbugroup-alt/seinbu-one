@@ -147,6 +147,8 @@ export default function SeinbuFintech({ lang = "fr", piUser = null }) {
   const [showNewCtact, setShowNewCtact]= useState(false);
   const [newCtName,    setNewCtName]   = useState("");
   const [sendDone,     setSendDone]    = useState(false);
+  const [scanning,     setScanning]    = useState(false);
+  const [scanError,    setScanError]   = useState("");
 
   // Recevoir
   const [copied,       setCopied]      = useState(false);
@@ -308,8 +310,14 @@ const qrUrl = `https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=${e
                 <div style={{position:"relative",marginBottom:4}}>
                   <Input value={sendTo} onChange={e=>setSendTo(e.target.value)}
                     placeholder={t.recipientPh} style={{marginBottom:0,paddingRight:80}}/>
-                  <div onClick={()=>alert(lang==="en"
-                    ?"QR scanner opens Pi Browser camera":"Le scanner QR ouvre la caméra Pi Browser")}
+                  <div onClick={()=>{
+                      setScanError("");
+                      if(!navigator.mediaDevices?.getUserMedia){
+                        setScanError(lang==="en"?"Camera not supported":"Caméra non supportée");
+                        return;
+                      }
+                      setScanning(true);
+                    }}
                     style={{position:"absolute",right:8,top:"50%",transform:"translateY(-50%)",
                       background:C.primary,borderRadius:6,padding:"4px 8px",
                       fontSize:10,fontWeight:700,cursor:"pointer",whiteSpace:"nowrap"}}>
@@ -317,6 +325,59 @@ const qrUrl = `https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=${e
                   </div>
                 </div>
                 <div style={{fontSize:9,color:C.muted,marginBottom:12}}>{t.orScanQR}</div>
+                {scanError&&<div style={{fontSize:9,color:"#F87171",marginBottom:8}}>{scanError}</div>}
+                {scanning&&(
+                  <div style={{position:"fixed",inset:0,background:"rgba(0,0,0,.92)",zIndex:999,
+                    display:"flex",flexDirection:"column",alignItems:"center",justifyContent:"center",gap:16}}>
+                    <div style={{fontSize:13,fontWeight:800,color:"#fff"}}>
+                      {lang==="en"?"Point camera at QR code":"Pointez la caméra vers le QR code"}
+                    </div>
+                    <video id="seinbu-qr-video" autoPlay playsInline
+                      style={{width:280,height:280,borderRadius:16,border:"3px solid #4ADE60",objectFit:"cover"}}
+                      ref={el=>{
+                        if(el&&scanning){
+                          navigator.mediaDevices.getUserMedia({video:{facingMode:"environment"}})
+                            .then(stream=>{
+                              el.srcObject=stream;
+                              const script=document.createElement("script");
+                              script.src="https://cdnjs.cloudflare.com/ajax/libs/jsQR/1.4.0/jsQR.min.js";
+                              script.onload=()=>{
+                                const canvas=document.createElement("canvas");
+                                const ctx=canvas.getContext("2d");
+                                const tick=()=>{
+                                  if(!el||el.readyState!==el.HAVE_ENOUGH_DATA){requestAnimationFrame(tick);return;}
+                                  canvas.width=el.videoWidth; canvas.height=el.videoHeight;
+                                  ctx.drawImage(el,0,0);
+                                  const img=ctx.getImageData(0,0,canvas.width,canvas.height);
+                                  const code=window.jsQR(img.data,img.width,img.height);
+                                  if(code){
+                                    const data=code.data;
+                                    const match=data.match(/seinbu:\/\/pay\?to=@([^&]+)/);
+                                    setSendTo(match?match[1]:data);
+                                    stream.getTracks().forEach(t=>t.stop());
+                                    setScanning(false);
+                                  } else requestAnimationFrame(tick);
+                                };
+                                tick();
+                              };
+                              document.head.appendChild(script);
+                            })
+                            .catch(()=>{
+                              setScanError(lang==="en"?"Camera access denied":"Accès caméra refusé");
+                              setScanning(false);
+                            });
+                        }
+                      }}/>
+                    <div onClick={()=>{
+                      const v=document.getElementById("seinbu-qr-video");
+                      if(v?.srcObject) v.srcObject.getTracks().forEach(t=>t.stop());
+                      setScanning(false);
+                    }} style={{background:"#F87171",borderRadius:10,padding:"10px 28px",
+                      fontSize:12,fontWeight:800,cursor:"pointer",color:"#fff"}}>
+                      {lang==="en"?"Cancel":"Annuler"}
+                    </div>
+                  </div>
+                )}
 
                 {sendTo&&(
                   <div onClick={()=>setShowNewCtact(!showNewCtact)}
