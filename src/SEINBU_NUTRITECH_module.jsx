@@ -60,15 +60,31 @@ export default function SeinbuNutriTech({lang="fr"}){
   const add=id=>setCart(c=>({...c,[id]:(c[id]||0)+1}));
   const sColor=s=>s==="transit"?"#D4A827":s==="livré"?"#4ADE80":"#6B7A9A";
   const sLabel=s=>s==="transit"?t.inTransit:s==="livré"?t.delivered:lang==="en"?"Pending":"En attente";
-  const askAI=()=>{
-    if(!aiQuery)return;
+  const askAI=async()=>{
+    if(!aiQuery.trim())return;
     setAiLoading(true);
-    setTimeout(()=>{
-      const responses=AI_RESPONSES[lang]||AI_RESPONSES.fr;
-      const key=Object.keys(responses).find(k=>aiQuery.toLowerCase().includes(k))||"default";
-      setAiResponse(responses[key]);
-      setAiLoading(false);
-    },1000);
+    setAiResponse("");
+    try{
+      const res=await fetch("https://api.anthropic.com/v1/messages",{
+        method:"POST",
+        headers:{"Content-Type":"application/json"},
+        body:JSON.stringify({
+          model:"claude-sonnet-4-20250514",
+          max_tokens:1000,
+          system:`Tu es NutriCell-AI, l'assistant nutrition et santé de SEINBU NUTRITECH, filiale de SEINBU GROUP SA (Abidjan, Côte d'Ivoire).
+Ton rôle : conseiller sur la nutrition, la santé, les compléments alimentaires naturels et les habitudes saines adaptées à l'Afrique de l'Ouest.
+Produits SEINBU NUTRITECH : NutriCell Boost (vitamines & minéraux, énergie naturelle), NutriCell Protect (immunité, antioxydants), NutriCell Grow (croissance enfants), NutriCell Slim (gestion du poids), NutriCell Senior (vitalité 50+), Huile de Palme Bio (5L).
+Règles : Réponds toujours en ${lang==="en"?"anglais":"français"}. Sois bienveillant, précis et ancré dans le contexte africain. Recommande les produits SEINBU quand pertinent. Ne pose jamais de diagnostic médical. Limite les réponses à 150 mots maximum.`,
+          messages:[{role:"user",content:aiQuery}]
+        })
+      });
+      const data=await res.json();
+      const text=data.content?.find(b=>b.type==="text")?.text||"";
+      setAiResponse(text||( lang==="en"?"No response received.":"Aucune réponse reçue."));
+    }catch(e){
+      setAiResponse(lang==="en"?"Connection error. Please try again.":"Erreur de connexion. Veuillez réessayer.");
+    }
+    setAiLoading(false);
   };
   const Card=({children,style={}})=>(<div style={{background:C.card,border:`1px solid ${C.border}`,borderRadius:14,padding:14,marginBottom:10,...style}}>{children}</div>);
   return(
