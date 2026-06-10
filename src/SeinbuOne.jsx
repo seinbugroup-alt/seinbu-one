@@ -713,7 +713,7 @@ const [showPin,   setShowPin]   = useState(false);
               display:"flex",alignItems:"center",gap:3}}>
             {lang.toUpperCase()}<span style={{fontSize:7}}>▾</span>
           </div>
-          <div className="tap" onClick={handlePiConnect}
+          <div className="tap" onClick={()=>{ if(!piOn){ if(pinStored){ setPinMode("verify"); } else { setPinMode("set"); } setShowPin(true); } else { setPiUser(null); setPiOn(false); setPiDemo(false); } }}
             style={{background:piOn?"rgba(42,157,96,.15)":C.goldDim,
               border:`1px solid ${piOn?"rgba(42,157,96,.4)":"rgba(212,168,39,.3)"}`,
               borderRadius:8,padding:"5px 8px",fontSize:9,fontWeight:800,
@@ -1242,6 +1242,23 @@ const [showPin,   setShowPin]   = useState(false);
           <span style={{fontSize:11,color:C.gold,fontWeight:700}}>{val}</span>
         </>}/>
       ))}
+              
+              {/* Sécurité */}
+              <div onClick={()=>{setPinMode(pinStored?"verify":"set");setShowPin(true);}}
+                style={{background:C.card,border:`1px solid ${C.border}`,
+                  borderRadius:12,padding:"11px 14px",marginBottom:7,
+                  display:"flex",justifyContent:"space-between",alignItems:"center",
+                  cursor:"pointer"}}>
+                <div style={{display:"flex",alignItems:"center",gap:8}}>
+                  <span style={{fontSize:14}}>🔐</span>
+                  <span style={{fontSize:11,fontWeight:600}}>
+                    {lang==="en"?"Security & PIN":"Sécurité & PIN"}
+                  </span>
+                </div>
+                <span style={{fontSize:11,color:pinStored?C.green:"#F59E0B",fontWeight:700}}>
+                  {pinStored?(lang==="en"?"PIN set ✓":"PIN défini ✓"):(lang==="en"?"Set up →":"Configurer →")}
+                </span>
+              </div>
               {/* Liens officiels */}
               <div style={{marginTop:8}}>
                 <div style={{fontSize:10,color:"#6B7A9A",fontWeight:700,
@@ -1950,7 +1967,8 @@ const [showPin,   setShowPin]   = useState(false);
 
     return (
       <div style={{position:"fixed",inset:0,background:"rgba(0,0,0,.88)",
-        display:"flex",alignItems:"center",justifyContent:"center",zIndex:9999}}>
+        display:"flex",alignItems:"flex-start",justifyContent:"center",
+        paddingTop:"8vh",overflowY:"auto",zIndex:9999}}>
         <div style={{background:"#0A0F1E",border:"1px solid #2D3A5A",
           borderRadius:20,padding:"28px 24px",width:300,textAlign:"center"}}>
 

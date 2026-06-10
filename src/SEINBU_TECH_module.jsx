@@ -250,7 +250,7 @@ export default function SeinbuTech({ lang = "fr" }) {
                   borderRadius:10,padding:"10px 14px",color:C.text,fontSize:12,
                   boxSizing:"border-box",marginBottom:20,outline:"none"}}/>
 
-              <div onClick={()=>selServ&&describe&&contact&&setConfirmed(true)}
+              <div onClick={()=>selServ&&describe&&contact&&(window.seinbuOpenPayment&&window.seinbuOpenPayment(),setConfirmed(true))}
                 style={{background:selServ&&describe&&contact
                   ?`linear-gradient(135deg,${C.primary},#1D4ED8)`:C.muted,
                   borderRadius:12,padding:"14px 0",textAlign:"center",

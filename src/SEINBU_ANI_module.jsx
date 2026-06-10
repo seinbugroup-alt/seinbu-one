@@ -373,7 +373,7 @@ export default function SeinbuANI({ lang = "fr" }) {
               <div style={{fontSize:9,color:"#6B9B70",marginBottom:16}}>
                 📦 {t.delivery}
               </div>
-              <div onClick={()=>cartItems.length>0&&address&&setOrdered(true)}
+              <div onClick={()=>cartItems.length>0&&address&&(window.seinbuOpenPayment&&window.seinbuOpenPayment(),setOrdered(true))}
                 style={{background:cartItems.length>0&&address?"#2D8B3A":"#1A4A20",
                   borderRadius:12,padding:"14px 0",textAlign:"center",
                   fontWeight:800,fontSize:13,cursor:"pointer"}}>
