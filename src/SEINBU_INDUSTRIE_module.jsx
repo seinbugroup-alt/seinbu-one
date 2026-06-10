@@ -84,7 +84,7 @@ export default function SeinbuIndustrie({lang="fr"}){
           EV_MODELS.map(v=>(<Card key={v.id}>
             <div style={{display:"flex",justifyContent:"space-between",alignItems:"center",marginBottom:8}}>
               <div style={{display:"flex",alignItems:"center",gap:10}}><span style={{fontSize:28}}>{v.emoji}</span><div><div style={{fontSize:13,fontWeight:800}}>{lang==="en"?v.nameE:v.nameF}</div><div style={{fontSize:10,color:C.sub}}>{lang==="en"?"Range":"Autonomie"} : {v.range}</div><div style={{fontSize:8,color:stockColor(v.stock)}}>{stockLabel(v.stock)}</div></div></div>
-              <div style={{textAlign:"right"}}><div style={{fontSize:13,fontWeight:900,color:C.gold}}>{fmt(v.price)} FCFA</div><div style={{fontSize:9,color:C.sub}}>{toPi(v.price,4)} π</div><div style={{fontSize:7,color:"#A855F7"}}>{fmt(v.price*188495400/10,0)} SBC<div style={{fontSize:7,color:"#A855F7"}}>{fmt(v.price,4*188495400/10,0)} SBC</div></div>
+              <div style={{textAlign:"right"}}><div style={{fontSize:13,fontWeight:900,color:C.gold}}>{fmt(v.price)} FCFA</div><div style={{fontSize:9,color:C.sub}}>{toPi(v.price,4)} π</div><div style={{fontSize:7,color:"#A855F7"}}>{fmt(v.price/10,0)} SBC<div style={{fontSize:7,color:"#A855F7"}}>{fmt(v.price,4/10,0)} SBC</div>
             </div>
             <div onClick={()=>{if(window.seinbuAuth)window.seinbuAuth(()=>setConfirmed(true));else setConfirmed(true);}} style={{background:C.primary,borderRadius:8,padding:"8px 0",textAlign:"center",fontSize:10,fontWeight:800,cursor:"pointer"}}>🔐 {t.reserve}</div>
           </Card>))
@@ -96,7 +96,7 @@ export default function SeinbuIndustrie({lang="fr"}){
         {MARINE_ROUTES.map(r=>(<Card key={r.id} style={{background:selRoute===r.id?`${C.primary}22`:C.card,border:`1px solid ${selRoute===r.id?C.primary:C.border}`,cursor:"pointer"}} onClick={()=>setSelRoute(selRoute===r.id?null:r.id)}>
           <div style={{display:"flex",justifyContent:"space-between",alignItems:"center"}}>
             <div><div style={{fontSize:12,fontWeight:800}}>🚢 {r.from} → {r.to}</div><div style={{fontSize:9,color:C.sub}}>{t.duration} : {r.dur} · <span style={{color:stockColor(r.stock)}}>{stockLabel(r.stock)}</span></div></div>
-            <div style={{textAlign:"right"}}><div style={{fontSize:13,fontWeight:900,color:C.gold}}>{fmt(r.price)} FCFA</div><div style={{fontSize:9,color:C.sub}}>{toPi(r.price)} π</div><div style={{fontSize:7,color:"#A855F7"}}>{fmt(r.price*188495400/10,0)} SBC<div style={{fontSize:7,color:"#A855F7"}}>{fmt(r.price*188495400/10,0)} SBC</div></div>
+            <div style={{textAlign:"right"}}><div style={{fontSize:13,fontWeight:900,color:C.gold}}>{fmt(r.price)} FCFA</div><div style={{fontSize:9,color:C.sub}}>{toPi(r.price)} π</div><div style={{fontSize:7,color:"#A855F7"}}>{fmt(r.price/10,0)} SBC<div style={{fontSize:7,color:"#A855F7"}}>{fmt(r.price/10,0)} SBC</div>
           </div>
           {selRoute===r.id&&<div onClick={e=>{e.stopPropagation();if(window.seinbuAuth)window.seinbuAuth(()=>setSelRoute(null));else setSelRoute(null);}} style={{marginTop:10,background:C.primary,borderRadius:8,padding:"8px 0",textAlign:"center",fontSize:10,fontWeight:800,cursor:"pointer"}}>🔐 {t.bookTicket}</div>}
         </Card>))}

@@ -90,7 +90,7 @@ export default function SeinbuNutriTech({lang="fr"}){
                 <div style={{fontSize:9,color:C.sub}}>{lang==="en"?p.descE:p.descF}</div>
                 <div style={{display:"flex",gap:6,marginTop:4,alignItems:"baseline"}}>
                   <span style={{fontSize:13,fontWeight:900,color:C.gold}}>{fmt(p.price)} FCFA</span>
-                  <span style={{fontSize:8,color:C.sub}}>{toPi(p.price)} π<div style={{fontSize:7,color:"#A855F7"}}>{fmt(p.price/10,0)} SBC</div></div><div style={{fontSize:7,color:"#A855F7"}}>{fmt(p.price*188495400/10,0)} SBC</span>
+                  <span style={{fontSize:8,color:C.sub}}>{toPi(p.price)} π<div style={{fontSize:7,color:"#A855F7"}}>{fmt(p.price/10,0)} SBC</div><div style={{fontSize:7,color:"#A855F7"}}>{fmt(p.price/10,0)} SBC</span>
                 </div>
                 <div style={{fontSize:8,color:C.muted}}>{p.unit}</div>
               </div>
@@ -127,7 +127,7 @@ export default function SeinbuNutriTech({lang="fr"}){
           {s.pop&&<div style={{fontSize:9,background:s.color,color:"#000",borderRadius:4,padding:"2px 8px",display:"inline-block",marginBottom:8,fontWeight:700}}>★ {lang==="en"?"RECOMMENDED":"RECOMMANDÉ"}</div>}
           <div style={{display:"flex",justifyContent:"space-between",alignItems:"center",marginBottom:10}}>
             <div style={{fontSize:16,fontWeight:900,color:s.color}}>{s.name}</div>
-            <div style={{textAlign:"right"}}><div style={{fontSize:16,fontWeight:900,color:C.gold}}>{fmt(s.price)} FCFA</div><div style={{fontSize:8,color:C.sub}}>{toPi(s.price)} π<div style={{fontSize:7,color:"#A855F7"}}>{fmt(s.price/10,0)} SBC</div></div><div style={{fontSize:7,color:"#A855F7"}}>{fmt(s.price*188495400/10,0)} SBC{t.monthly}</div></div>
+            <div style={{textAlign:"right"}}><div style={{fontSize:16,fontWeight:900,color:C.gold}}>{fmt(s.price)} FCFA</div><div style={{fontSize:8,color:C.sub}}>{toPi(s.price)} π<div style={{fontSize:7,color:"#A855F7"}}>{fmt(s.price/10,0)} SBC</div><div style={{fontSize:7,color:"#A855F7"}}>{fmt(s.price/10,0)} SBC{t.monthly}</div></div>
           </div>
           {s.perks.map((p,i)=>(<div key={i} style={{fontSize:10,marginBottom:4,color:C.text}}>✅ {lang==="en"?["Basic products access","Nutritional tracking","Email support","All products","NutriCell-AI unlimited","Free delivery","Priority support","Monthly full pack","Nutritionist consultation","Advanced NutriCell-AI","Express delivery"][SUBS.indexOf(s)*4+i]||p:p}</div>))}
           <div onClick={()=>{if(window.seinbuAuth)window.seinbuAuth(()=>{});}} style={{marginTop:10,background:s.color,borderRadius:8,padding:"9px 0",textAlign:"center",fontWeight:800,fontSize:11,cursor:"pointer",color:"#000"}}>🔐 {t.subscribe}</div>

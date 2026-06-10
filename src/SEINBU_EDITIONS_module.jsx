@@ -79,7 +79,7 @@ export default function SeinbuEditions({lang="fr"}){
               <div style={{display:"flex",justifyContent:"space-between",alignItems:"center",marginTop:8}}>
                 <div>
                   {b.free?<span style={{color:C.green,fontWeight:800,fontSize:12}}>{t.free}</span>:<span style={{color:C.gold,fontWeight:900,fontSize:13}}>{fmt(b.priceFCFA)} FCFA</span>}
-                  {!b.free&&<div style={{fontSize:8,color:C.sub}}>{toPi(b.priceFCFA)} π</div><div style={{fontSize:7,color:"#A855F7"}}>{fmt(b.priceFCFA*188495400/10,0)} SBC<div style={{fontSize:7,color:"#A855F7"}}>{fmt(b.priceFCFA*188495400/10,0)} SBC</div></div>}
+                  {!b.free&&<div style={{fontSize:8,color:C.sub}}>{toPi(b.priceFCFA)} π</div><div style={{fontSize:7,color:"#A855F7"}}>{fmt(b.priceFCFA/10,0)} SBC<div style={{fontSize:7,color:"#A855F7"}}>{fmt(b.priceFCFA/10,0)} SBC</div>}
                 </div>
                 <div onClick={()=>{if(!b.free)add(b.id);}} style={{background:b.free?C.green:C.primary,borderRadius:8,padding:"6px 12px",fontSize:10,fontWeight:700,cursor:"pointer",color:b.free?"#000":"#fff"}}>{b.free?lang==="en"?"Download":"Télécharger":t.addCart}</div>
               </div>
@@ -110,7 +110,7 @@ export default function SeinbuEditions({lang="fr"}){
               <span style={{fontSize:24}}>{c.icon}</span>
               <div><div style={{fontSize:12,fontWeight:800}}>{lang==="en"?c.titleE:c.titleF}</div><div style={{fontSize:9,color:C.sub}}>{c.level} · {c.hours} · {fmt(c.students)} {lang==="en"?"students":"étudiants"}</div></div>
             </div>
-            <div style={{textAlign:"right",flexShrink:0,marginLeft:8}}><div style={{fontSize:13,fontWeight:900,color:C.gold}}>{fmt(c.price)} FCFA</div><div style={{fontSize:8,color:C.sub}}>{toPi(c.price)} π</div><div style={{fontSize:7,color:"#A855F7"}}>{fmt(c.price*188495400/10,0)} SBC<div style={{fontSize:7,color:"#A855F7"}}>{fmt(c.price*188495400/10,0)} SBC</div></div>
+            <div style={{textAlign:"right",flexShrink:0,marginLeft:8}}><div style={{fontSize:13,fontWeight:900,color:C.gold}}>{fmt(c.price)} FCFA</div><div style={{fontSize:8,color:C.sub}}>{toPi(c.price)} π</div><div style={{fontSize:7,color:"#A855F7"}}>{fmt(c.price/10,0)} SBC<div style={{fontSize:7,color:"#A855F7"}}>{fmt(c.price/10,0)} SBC</div>
           </div>
           <div onClick={()=>{if(window.seinbuAuth)window.seinbuAuth(()=>{});}} style={{background:C.primary,borderRadius:8,padding:"8px 0",textAlign:"center",fontSize:10,fontWeight:800,cursor:"pointer"}}>🔐 {t.enroll}</div>
         </Card>))}
