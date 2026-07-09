@@ -61,8 +61,22 @@ const PiSDK = {
     await new Promise(r => setTimeout(r, 1200));
     const paymentId = "demo_pay_" + Date.now();
     callbacks?.onReadyForServerApproval?.(paymentId);
+    try {
+      await fetch('/api/pi-approve', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ paymentId })
+      });
+    } catch(e) { console.error('Approve error:', e); }
     await new Promise(r => setTimeout(r, 800));
     callbacks?.onReadyForServerCompletion?.(paymentId, "demo_tx_" + Date.now());
+    try {
+      await fetch('/api/pi-complete', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ paymentId, txid: "demo_tx_" + Date.now() })
+      });
+    } catch(e) { console.error('Complete error:', e); }
     return { identifier: paymentId, status: { developer_approved: true } };
   }
 };
