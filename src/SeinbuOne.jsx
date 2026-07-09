@@ -584,8 +584,26 @@ const [showPin,   setShowPin]   = useState(false);
     setPayMsg(i.piPayment);
     try {
       await PiSDK.createPayment({ amount, memo, metadata: meta }, {
-        onReadyForServerApproval: pid => setPayMsg(`Approbation... (${pid.slice(0,8)})`),
-        onReadyForServerCompletion: (pid,txid) => setPayMsg(`${i.piSuccess} ✓`),
+        onReadyForServerApproval: async pid => {
+          setPayMsg(`Approbation... (${pid.slice(0,8)})`);
+          try {
+            await fetch('/api/pi-approve', {
+              method: 'POST',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify({ paymentId: pid })
+            });
+          } catch(e) { console.error('Approve error:', e); }
+        },
+        onReadyForServerCompletion: async (pid, txid) => {
+          try {
+            await fetch('/api/pi-complete', {
+              method: 'POST',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify({ paymentId: pid, txid })
+            });
+          } catch(e) { console.error('Complete error:', e); }
+          setPayMsg(`${i.piSuccess} ✓`);
+        },
         onCancel: () => setPayMsg(i.piError),
         onError: () => setPayMsg(i.piError),
       });
