@@ -1,18 +1,63 @@
 {
   "builds": [
-    { "src": "api/*.js", "use": "@vercel/node" },
-    { "src": "package.json", "use": "@vercel/static-build", "config": { "distDir": "build" } }
+    {
+      "src": "api/nutricell.js",
+      "use": "@vercel/node"
+    },
+    {
+      "src": "api/pi-approve.js",
+      "use": "@vercel/node"
+    },
+    {
+      "src": "api/pi-complete.js",
+      "use": "@vercel/node"
+    },
+    {
+      "src": "package.json",
+      "use": "@vercel/static-build",
+      "config": {
+        "distDir": "build"
+      }
+    }
   ],
   "routes": [
-    { "src": "/api/(.*)", "dest": "/api/$1" },
-    { "handle": "filesystem" },
-    { "src": "/(.*)", "dest": "/index.html" }
+    {
+      "src": "/api/nutricell",
+      "dest": "/api/nutricell.js"
+    },
+    {
+      "src": "/api/pi-approve",
+      "dest": "/api/pi-approve.js"
+    },
+    {
+      "src": "/api/pi-complete",
+      "dest": "/api/pi-complete.js"
+    },
+    {
+      "handle": "filesystem"
+    },
+    {
+      "src": "/(.*)",
+      "dest": "/index.html"
+    }
   ],
   "headers": [
-    { "source": "/(.*)", "headers": [
-      { "key": "X-Content-Type-Options", "value": "nosniff" },
-      { "key": "X-Frame-Options", "value": "DENY" },
-      { "key": "X-XSS-Protection", "value": "1; mode=block" }
-    ]}
+    {
+      "source": "/(.*)",
+      "headers": [
+        {
+          "key": "X-Content-Type-Options",
+          "value": "nosniff"
+        },
+        {
+          "key": "X-Frame-Options",
+          "value": "DENY"
+        },
+        {
+          "key": "X-XSS-Protection",
+          "value": "1; mode=block"
+        }
+      ]
+    }
   ]
 }
